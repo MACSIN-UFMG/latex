@@ -1,0 +1,312 @@
+%Tese de Doutorado
+%PPGEE - UFMG
+%-------------------------------------------------------------------
+%Definições gerais do documento
+\documentclass[12pt,a4paper,titlepage,brazil,portugues]{book}
+%--------------------------------------------------------------------
+%Pacotes usados
+\usepackage[brazil]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage[dvips]{graphicx}
+\thispagestyle{empty}
+\usepackage{times}
+\usepackage{epsfig,latexsym}
+\usepackage{float}
+%\usepackage{natbib}
+\usepackage{color}
+\usepackage{indentfirst}
+\usepackage{psfrag}
+\usepackage{amssymb}
+\usepackage{epsfig}
+%\usepackage{rotating}
+\usepackage{fancyhdr}
+\usepackage{makeidx}
+\usepackage{setspace}
+%\usepackage[hang,small]{caption}
+\usepackage{ae}
+%\usepackage{hyperref}
+
+\usepackage[below]{placeins}
+\usepackage{flafter}
+\usepackage{txfonts}
+\usepackage{pxfonts}
+\usepackage{natbib}
+\usepackage{icomma}
+\usepackage{subfigure}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+%Modificações em legenda
+\setlength{\belowcaptionskip}{10pt}
+
+%--------------------------------------------------------------------
+%Modificações em legenda (quando ocorre quebra das palavras indesejadas)
+\hyphenation{na-tu-ra-is}
+\hyphenation{ge-ra-do}
+
+%--------------------------------------------------------------------
+%Definição de comandos
+\newcommand{\comment}[1]{}
+\newcommand{\veq}{\vspace{0.2cm}}
+\newcommand{\x}{\\[5pt]}
+\newcommand{\C}[1]{\relax}
+
+\newtheorem{teo}{Teorema}[section]
+\newtheorem{defin}[teo]{Definição}
+\newtheorem{nota}{Nota}[section]
+%--------------------------------------------------------------------
+%Capítulo personalizado
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1ex \hfill \kern \z@}
+\def\@makechapterhead#1{%
+  \vspace*{10\p@}%
+  {\parindent \z@ \centering \reset@font
+        \thickhrulefill\quad
+        \bfseries \@chapapp{} \thechapter
+        \quad \thickhrulefill
+        \par\nobreak
+        \vspace*{10\p@}%
+        \interlinepenalty\@M
+        \hrule
+        \vspace*{10\p@}%
+        \Huge \bfseries #1\par\nobreak
+        \par
+        \vspace*{10\p@}%
+        \hrule
+    \vskip 70\p@    %100
+  }}
+\def\@makeschapterhead#1{%
+  \vspace*{10\p@}%
+  {\parindent \z@ \centering \reset@font
+        \thickhrulefill
+        \par\nobreak
+        \vspace*{10\p@}%
+        \interlinepenalty\@M
+        \hrule
+        \vspace*{10\p@}%
+        \Huge \bfseries #1\par\nobreak
+        \par
+        \vspace*{10\p@}%
+        \hrule
+    \vskip 70\p@
+ }
+}
+
+%--------------------------------------------------------------------
+%Variação da altura da linha
+\renewcommand{\baselinestretch}{1.1}
+
+%--------------------------------------------------------------------
+%Coloca Rascunho e a data
+%\newcommand{\reviewtimetoday}[2]{\special{!userdict begin
+%/bop-hook{gsave 20 710 translate 45 rotate 0.8 0.8 0.8 0.8 0 setcmykcolor
+%/Times-Roman findfont 10 scalefont setfont 0 0   moveto (#1) show
+%0 -12 moveto (#2) show grestore}def end}}
+%% You can turn on or off this option.
+%\reviewtimetoday{\today}{Draft Version}
+
+
+%--------------------------------------------------------------------
+%Criar o index
+\makeindex
+
+%--------------------------------------------------------------------
+%Devido ao fancyheading
+\headheight 14.7pt
+
+%--------------------------------------------------------------------
+%Trocando os efeitos da vírgula e ponto
+\DeclareMathSymbol{,}{\mathord}{letters}{"3B}
+\DeclareMathSymbol{.}{\mathpunct}{letters}{"3A}
+
+\begin{document}
+%--------------------------------------------------------------------
+%Página em algarismos romanos
+\pagenumbering{roman}
+\selectlanguage{brazil}
+
+%--------------------------------------------------------------------
+%Capa
+\input{capa.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+%--------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------
+%Dedicatória
+\input{dedicatoria.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+%--------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------
+%Agradecimentos
+\input{agradecimentos.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+%--------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------
+%Epígrafe
+\input{epigrafe.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+%--------------------------------------------------------------------
+
+
+%%--------------------------------------------------------------------
+%Sumário
+\pagestyle{myheadings}
+\begin{spacing}{1.5}
+\tableofcontents
+\end{spacing}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+
+%--------------------------------------------------------------------
+%Resumo
+\begin{spacing}{1}
+\input{resumo.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+%--------------------------------------------------------------------
+
+%--------------------------------------------------------------------
+%Abstract
+\input{abstract.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+%\end{spacing}
+%--------------------------------------------------------------------
+
+%--------------------------------------------------------------------
+%Lista de figuras
+\begin{sloppypar}
+\listoffigures
+\end{sloppypar}
+\addcontentsline{toc}{chapter}{Lista de Figuras}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+%--------------------------------------------------------------------
+%Lista de Tabelas
+%\begin{spacing}{1.5}
+\listoftables
+\addcontentsline{toc}{chapter}{Lista de Tabelas}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+%%--------------------------------------------------------------------
+%%Símbolos
+%%--------------------------------------------------------------------
+%\input{simbolos.tex}
+%\clearpage
+%\thispagestyle{empty}
+%\cleardoublepage
+%%--------------------------------------------------------------------
+
+%Abreviaturas
+%--------------------------------------------------------------------
+\input{abreviacoes.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+\end{spacing}
+%--------------------------------------------------------------------
+
+
+%Começando os capítulos
+%--------------------------------------------------------------------
+\clearpage
+\pagestyle{myheadings}
+\pagenumbering{arabic}
+%--------------------------------------------------------------------
+
+%--------------------------------------------------------------------
+%Definição de cabeçalhos
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\rightmark}
+\fancyhead[RE]{\leftmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.0pt}
+\addtolength{\headheight}{2.5pt}                % 2.5pt
+\fancypagestyle{plain}{
+     \fancyhead{}
+     \renewcommand{\headrulewidth}{0pt}
+     }
+%--------------------------------------------------------------------
+%Capítulo 1 - Introdução
+\input{capitulo1.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+%--------------------------------------------------------------------
+%Capítulo 2 - Revisão Bibliográfica
+\input{capitulo2.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+%--------------------------------------------------------------------
+%Capítulo 3 - Análise de Dados
+\input{capitulo3.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+%%--------------------------------------------------------------------
+%%Capítulo 4 - Metodologias de Previsão
+\input{capitulo4.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+%
+%%--------------------------------------------------------------------
+%%Capítulo 5 - Resultados Experimentais
+\input{capitulo5.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+%--------------------------------------------------------------------
+%Capítulo 6 - Conclusões
+\input{capitulo6.tex}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+%--------------------------------------------------------------------
+%Bibliografia
+%--------------------------------------------------------------------
+%Definição de cabeçalhos
+
+\bibliographystyle{apalike} %plainnat_mod
+\bibliography{referencias}
+\addcontentsline{toc}{chapter}{Bibliografia}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+%--------------------------------------------------------------------
+% Apêndices
+\include{Grubbs}
+%--------------------------------------------------------------------
+\end{document}

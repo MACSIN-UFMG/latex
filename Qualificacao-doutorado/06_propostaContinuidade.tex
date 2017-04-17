@@ -1,0 +1,210 @@
+\chapter{Proposta de continuidade}
+\label{cap:06_cont}
+
+Neste trabalho, o sincronismo de fase de osciladores foi caracterizado em termos de \emph{definição de fase} (Capítulo~\ref{cap:03_proposta}), \emph{atuação} e \emph{medição} da fase (Capítulo~\ref{cap:04_infoFase}). Este capítulo apresenta propostas de continuidade do trabalho. Nas duas primeiras seções são apresentadas propostas sobre como caracterizar a \emph{forma} do acoplamento para o sincronismo de fase, utilizando duas abordagens: redução de fase \citep{kuramoto1984,hoppensteadt1997,bonnin2010,dorfler2014,ferrari2015} e controle de sistemas não lineares \citep{nijmeijer1990,vidyasagar1993,khalil2002}. O presente trabalho não apresenta resultados sobre esses assuntos, mas, em sua continuidade, espera-se que esses tópicos sejam discutidos com maior profundidade e resultados alcançados. A terceira seção destaca as principais propostas apresentadas neste documento e os pontos que merecem mais atenção, para melhoria ou amadurecimento do assunto.
+
+
+
+% ======================================================================
+\section{Método da Redução de Fase}
+
+No contexto de sincronismo de osciladores, um dos métodos mais utilizados para descrição da evolução dinâmica da fase é o método da \emph{redução de fase} (\emph{phase reduction}) -- também chamado de método de \emph{descrição de fase} (\emph{phase description}). Esse método, apresentado na Seção~\ref{sec:landau-stuart}, foi utilizado nos trabalhos pioneiros de \citet{winfree1967} e \citet{kuramoto1984} que estudaram o sincronismo em redes de osciladores por meio de modelos \emph{analíticos} para a fase do sistema. Para o sistema de Landau-Stuart (Seção~\ref{sec:landau-stuart}), foi possível determinar as regiões de sincronismo (i.e. línguas de Arnold) para o sistema forçado. Trabalhos recentes apontam que o cálculo e a análise das equações dinâmicas que regem a fase de sistemas periódicos é a abordagem mais proveitosa para o estudo de sincronismo de fase \citep{hoppensteadt1997,pikovsky2003,bonnin2010}.
+
+Basicamente, o \emph{método da redução de fase} consiste em reduzir um problema de sincronismo entre osciladores (ex. dois osciladores de ordem $n$ acoplados) a um problema unidimensional, que descreva apenas a dinâmica da diferença de fase entre os osciladores (e.g. $\dot{\psi}$). Desta forma, a análise do sincronismo de um sistema de ordem elevada (ex. ordem $2n$) se reduz à análise de estabilidade de um sistema de ordem unitária (ex. $\dot{\psi}$, de ordem $1$).
+
+Considere dois osciladores acoplados. O \emph{método da redução de fase} pode ser empregado executando os seguintes passos:
+\begin{enumerate}
+ \item Para cada oscilador é definida uma variável fase: $\varphi_1$ e $\varphi_2$;
+ \item Define-se a variável \emph{diferença de fase}: $\psi = \varphi_1 - \varphi_2$;
+ \item Escreve-se a dinâmica da diferença de fase: $\dot{\psi}(\varphi_1,\varphi_2) = \dot{\varphi_1} - \dot{\varphi_2}$;
+ \item Na equação de $\dot{\psi}(\varphi_1,\varphi_2)$, substitui-se $\varphi_2 = \varphi_1 - \psi$, para obter $\dot{\psi}(\varphi_1,\psi)$;
+ \item Emprega-se o método da média (\emph{averaging}, vide Seção~\ref{sec:averaging}) para eliminar as dependências explícitas de $\dot{\psi}$ com outras variáveis (e.g. $\varphi_1$);
+ \item Analisa-se a estabilidade da equação $\dot{\psi}(\psi)$, de ordem $n=1$.
+\end{enumerate}
+
+A análise de modelos de fase (passos 5 e 6)  tem sido estudada em detalhes \citep{strogatz2000,acebron2005,dorfler2014}, mas a redução de um sistema não-linear de ordem $n$ para seu modelo de fase (passos 1, 2, 3 e 4) recebeu menos atenção \citep{bonnin2010}. Geralmente essa redução é realizada para sistemas periódicos com ciclos-limite quase circulares definidos num plano (e.g. osciladores de Van der Pol, Poincaré, Landau-Stuart), com definição de fase $\varphi(\vec{x}) = \tan^{-1}(y/x)$. A Definição~\ref{def:fase}, junto com o Teorema~\ref{thm:cx_sistPeriodicos}, poderia permitir a aplicação do método de redução de fase para sistemas periódicos em que dificilmente se define uma variável $\varphi(\vec{x})$. Isso inclui sistemas de dimensão elevada e aqueles que não apresentam uma projeção circular num plano.
+
+Um exemplo pitoresco é o atrator de Li \citep{letellier2009}, apresentado na Figura~\ref{fig:li_faseAtrator}, em que foram utilizados os parâmetros $(a,c,d,e,k,f) = (40\,\,;\,\,11/6\,\,;\,\,0,16\,\,;\,\,0,65\,\,;\,\,55\,\,;\,\,20)$, cuja evolução do atrator se dá num ciclo limite, $T$-periódico. Para esse sistema, estabelecer uma variável $\varphi(\vec{x})$ que descreva a fase não é trivial. Porém, o Teorema~\ref{thm:cx_sistPeriodicos} permitiria obter uma expressão para $\dot{\varphi}(\vec{x}) \coloneqq \left(d\tilde{\phi}/d \vec{x}\right). \boldsymbol{f}(\vec{x})$ e assim obter $\dot{\psi}(\vec{x}_1,\vec{x}_2)$ (os subíndices denotam osciladores diferentes). Note que, como o sistema é periódico, $\dot{\psi}(\vec{x}_1,\vec{x}_2)$ é $T_{1,2}$-periódico em $\vec{x}_{1,2}$.
+
+Transformar a expressão $\dot{\psi}(\vec{x}_1,\vec{x}_2)$, obtida em função dos estados, em uma expressão do tipo $\dot{\psi}(\vec{x}_1,\psi)$, i.e. em função da própria diferença de fase $\psi$, é um desfio. Para isso, é necessário encontrar uma relação $\vec{x}_2 = h(\vec{x}_1,\psi)$.
+
+Uma tentativa nessa direção é escrever a fase como (dependências explícitas de $\vec{x}$ serão omitidas):
+%
+\begin{equation} \label{eq:phi=int_gradPhi_f}
+ \phi(\vec{x}) = \int \frac{d\phi}{d\vec{x}}^T . \boldsymbol{f} \,\, {\rm d}t ,
+\end{equation}
+%
+em que fazendo integração por partes\footnote{A integração por partes: $\int u \,\, {\rm d}v = u v - \int v \,\,{\rm d}u$, foi realizada com $u \coloneqq \left( d\phi/d\vec{x} \right)^T$ e ${\rm d}v \coloneqq \boldsymbol{f}(\vec{x}) \,\, {\rm d}t$. Calculou-se ${\rm d}u = \left( d^2\phi/d\vec{x}^2 \right). \boldsymbol{f}(\vec{x}) \,\, {\rm d}t$ e $v = \int \boldsymbol{f}(\vec{x}) \,\, {\rm d}t$, usando a relação $\int \boldsymbol{f}(\vec{x}) \,\, {\rm d}t = \vec{x} $ nesta última equação.}, obtém-se:
+%
+\begin{equation} \label{eq:phi=int_gradPhi_f2}
+ \phi(\vec{x}) = \frac{d\phi}{d\vec{x}}^T . \vec{x} - \int \vec{x}^T .\frac{d^2\phi}{d\vec{x}^2}. \boldsymbol{f}(\vec{x}) \,\, {\rm d}t .
+\end{equation}
+%
+Escreve-se então a equação $\psi = \phi_1 - \phi_2$ como:
+%
+\begin{equation} \label{eq:psi=int_gradPhi_f_12}
+ \psi = \left( \frac{d\phi_1}{d\vec{x}_1}^T . \vec{x}_1 - \int \vec{x}_1^T .\frac{d^2\phi_1}{d\vec{x}_1^2}. \boldsymbol{f}_1(\vec{x}_1) \,\, {\rm d}t \right) - \left(\frac{d\phi_2}{d\vec{x}_2}^T . \vec{x}_2 - \int \vec{x}_2^T .\frac{d^2\phi_2}{d\vec{x}_2^2} .\boldsymbol{f}_2(\vec{x}_2) \,\, {\rm d}t \right) .
+\end{equation}
+%
+A relação $\vec{x}_2 = h(\vec{x}_1,\psi)$ poderia, talvez, ser inferida a partir dessa equação, utilizando os conceitos trabalhados no Capítulo~\ref{cap:03_proposta}, usando $d\phi/d\vec{x} \coloneqq c(\vec{x})\boldsymbol{f}(\vec{x})$ (Definição~\ref{def:fase}). A partir disso seria possível utilizar o método da média (passo 5) e calcular regiões de sincronismo entre dois osciladores (passo 6).
+
+Porém a relação $\vec{x}_2 = h(\vec{x}_1,\psi)$ não foi encontrada com clareza. As integrais do lado direito da Equação~\ref{eq:psi=int_gradPhi_f_12} tornam inviável o isolamento da variável $\vec{x}_2$ por este meio. Talvez uma simplificação ou análise mais cuidadosa dessa parte da equação viabilize o procedimento. Outra abordagem seria estimar uma função $\hat{h}(\vec{x}_1,\psi)$, usando técnicas de \emph{identificação de sistemas dinâmicos} para aplicação do método de redução de fase, com $\vec{x}_1$ e $\vec{x}_2$ medidos e $\psi$ dado pela Eq.~\ref{eq:psi=int_gradPhi_f_12}.
+
+Um teste muito preliminar, feito sem o devido rigor matemático, foi realizado para estimar as regiões de sincronismo para dois sistemas Rössler (Eq.~\ref{eq:rossler_cart}), em regime espiral (caótico), com acoplamento dissipativo unidirecional na variável $x$. Nesse teste, as integrais do lado direito da Equação~\ref{eq:psi=int_gradPhi_f_12} foram simplesmente desprezadas. O resultado é apresentado na Figura~\ref{fig:arnold_rossler}. Verifica-se que o resultado não é satisfatório, em comparação com o experimental. Mas esse desenvolvimento pode apontar para um caminho que, até o presente momento, ainda não foi visualizado.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.6\textwidth]{fig/arnold_RossRoss_kX1X2_analiticamente_050_2pi.pdf}
+  \caption[Regiões de sincronismo para o sistema de Rössler.]{Regiões de sincronismo para dois sistemas de Rössler (Eq.~\ref{eq:rossler_cart}), com acoplamento dissipativo unidirecional na variável $x$.}
+  \label{fig:arnold_rossler}
+\end{figure}
+
+Análises do sincronismo de fase por meio da redução de fase é uma alternativa interessante. Porém, características do sistema original podem não ser bem preservadas no modelo reduzido. Uma análise direta das equações de estados pode produzir resultados mais fidedignos ao oscilador original \citep{dorfler2014}. A próxima seção apresenta tentativas nesse sentido.
+
+
+% ======================================================================
+\section{Controle de Sincronismo}
+
+Técnicas de controle de sistemas dinâmicos não lineares podem ser utilizadas para vários fins no sincronismo de osciladores. As propostas e definições apresentadas no Capítulo~\ref{cap:03_proposta} podem permitir rearranjar o problema de sincronismo de fase entre osciladores em um problema de controle. Utilizando técnicas adequadas, seria possível verificar a aplicabilidade e a eficácia da definição de fase e dos índices e propostos. Outro possível resultado seria o projeto de controladores para alcançar o sincronismo de fase em diferentes osciladores, ou cadeia de osciladores. Primeiro o problema será colocado para que, em seguida, sejam apresentadas as propostas de desenvolvimento.
+
+
+% ----------------------------------------------------------------------
+\subsection{Colocação do problema}
+
+A seguir serão mostradas três possíveis tentativas de predispor o problema de \emph{sincronismo de fase} de tal modo que possa ser escrito como um problema de \emph{controle de sistemas dinâmicos}\citep[e.g.][]{nijmeijer2001,torres2004,torres2015}, valendo-se das propostas apresentadas nos capítulos anteriores\footnote{A ideia é realmente aproveitar as propostas apresentadas nos Capítulos~\ref{cap:03_proposta}~e~\ref{cap:04_infoFase} para colocação do problema e verificar se as propostas trazem algum ganho para o problema de \emph{controle de sincronismo}.}. Essa colocação do problema geralmente é feita definindo-se uma saída $\varphi(\vec{x})$ que descreva a fase (\emph{phase-like variable}) do sistema em função dos estados $\vec{x}$. Porém, a proposta de definição de fase apresentada (Def.~\ref{def:fase}) pode não ter solução analítica em que não é possível escrever $\tilde{\phi}$ em função de $\vec{x}$ diretamente. A questão aqui é como trazer as propostas dos capítulos anteriores para ajudar no problema de controle de sincronismo? A seguir serão apresentadas três opções de colocação do problema. Nos desenvolvimentos das equações, algumas dependências explícitas dos estados $\vec{x}$ serão omitidas, por questão de concisão, mas espera-se que esteja claro no contexto.
+
+\subsubsection{Transformação de coordenadas}
+
+Pela Definição~\ref{def:fase}, um oscilador descrito pela Eq.~\ref{eq:dx=fx}, tem a derivada temporal da fase:
+% 
+\begin{align} \label{eq:dphi_cxfxfx}
+  \dot{\phi} = c(\vec{x}) \, \boldsymbol{f}^T . \boldsymbol{f} .
+\end{align}
+%
+
+A Equação~\ref{eq:dphi_cxfxfx} pode permitir explicitar a variável fase nas equações do sistema, por uma transformação de coordenadas $\boldsymbol{\Phi}$, fazendo:
+% 
+\begin{equation} \label{eq:dx_deta_dphi}
+  \left\{ \dot{\vec{x}} = \boldsymbol{f}(\vec{x}) \right. \,\,\, \,\,\, \xRightarrow{\boldsymbol{\Phi}\,} \,\,\, \,\,\, \left\{
+  \begin{array}{ll}
+    \dot{\vec{\eta}} &= \boldsymbol{f}_{\eta}(\vec{\eta},\phi) \\
+    \dot{\phi} &= f_{\phi}(\vec{\eta},\phi) ,
+  \end{array} \right.
+\end{equation}
+% 
+em que $\vec{x} \in \mathbb{R}^n$, $\vec{\eta} \in \mathbb{R}^{(n-1)}$, $\phi \in \mathbb{R}$. Com dois sistemas descritos na forma da Eq.~\ref{eq:dx_deta_dphi}, o sincronismo de fase pode ser analisado pela estabilidade da variedade síncrona $\| \phi_1 - \phi_2 \| = 0$ -- semelhante ao que é realizado para análise de sincronismo completo \citep{nijmeijer2001}.
+
+A dificuldade, nesse caso, é encontrar a transformação de coordenadas $\boldsymbol{\Phi}$. A função $f_{\Phi}$ é dada pela Eq.~\ref{eq:dphi_cxfxfx}, porém em função de $\vec{x}$. Para achar $\boldsymbol{\Phi}$ seria necessário encontrar uma relação do tipo $\phi = h(\vec{x})$. Isso poderia ser feito estimando $\hat{\phi} = \hat{h}(\vec{x})$ via procedimentos de identificação de sistemas dinâmicos, utilizando $\tilde{\phi}$ (Def.~\ref{def:fase}) e $\vec{x}$ como variáveis medidas.
+
+
+
+\subsubsection{Expansão dinâmica}
+
+Outra forma de trabalhar o problema seria, ao invés de fazer transformação de coordenadas, fazer a \emph{expansão dinâmica}\footnote{Aqui esse termo refere-se apenas à elevação da ordem da equação no espaço de estados, de $n$ para $(n+1)$, pela adição da última equação em~(\ref{eq:dphi_cxfxfx}).} do sistema:
+% 
+\begin{equation} \label{eq:dx_dphi}
+  \left\{
+  \begin{array}{ll}
+    \dot{\vec{x}} &= \boldsymbol{f}(\vec{x}) \\
+    \dot{\phi} &= f_{\phi}(\vec{x}) ,
+  \end{array} \right.
+\end{equation}
+% 
+sendo que $f_{\phi}(\vec{x})$ é dado pela Eq.~\ref{eq:dphi_cxfxfx}. Desta forma seria possível trabalhar o controle de $\phi(t)$ proveniente da equação.
+
+
+
+\subsubsection{Frequência de oscilação}
+
+O sincronismo pode ser trabalhado em termos de frequência, definido pela variável $\omega = \dot{\phi}(\vec{x})$, em que poderia ser possível encontrar uma transformação de coordenadas $\boldsymbol{\Omega}$ tal que:
+% 
+\begin{equation} \label{eq:dx_deta_domega}
+  \left\{ \dot{\vec{x}} = \boldsymbol{f}(\vec{x}) \right. \,\,\, \,\,\, \xRightarrow{\boldsymbol{\Omega}\,} \,\,\, \,\,\, \left\{
+  \begin{array}{ll}
+    \dot{\vec{\eta}} &= \boldsymbol{f}_{\eta}(\vec{\eta},\omega) \\
+    \dot{\omega} &= f_{\omega}(\vec{\eta},\omega) ,
+  \end{array} \right.
+\end{equation}
+% 
+em que $\vec{x} \in \mathbb{R}^n$, $\vec{\eta} \in \mathbb{R}^{(n-1)}$, $\omega \in \mathbb{R}$. Nesse caso, seria possível verificar, por exemplo, se dois sistemas possuem a mesma frequência de oscilação, $\omega_1 \approx \omega_2$. Note que $\omega$ é a frequência instantânea -- e não \emph{frequência média}. Para dois osciladores acoplados, poderia ser analisada a estabilidade da variedade $| \omega_1 - \omega_2 | = 0$, por exemplo. Para garantir travamento de fase seria necessário introduzir $\phi$ via integração de $\omega(t)$.
+
+Ainda não está claro qual das formas de colocar o problema é mais vantajosa, ou ainda se há uma outra forma melhor. É necessário evoluir mais essas ideias, talvez com experimentos numéricos, para chegar a alguma conclusão a esse respeito.
+
+
+% ----------------------------------------------------------------------
+\subsection{Propostas de desenvolvimento}
+\label{sec:propostas_controle}
+
+Com uma das três formulações do problema de sincronismo de fase apresentadas, é possível utilizar técnicas de controle já estabelecidas \citep{nijmeijer1990,vidyasagar1993,khalil2002} para a resolução de alguns problemas. A seguir são apresentados alguns desses assuntos.
+
+
+\subsubsection{Verificação dos índices propostos}
+
+Os índices propostos no Capítulo~\ref{cap:04_infoFase} para avaliação do acoplamento em termos de \emph{medição} e \emph{atuação} podem ser melhor avaliados, quanto à sua aplicabilidade e eficácia, quando isolados os efeitos da \emph{forma} do acoplamento. Um sinal de controle $u(t)$ com a \emph{forma} apropriada, por exemplo, permitiria a comparação entre a \emph{atuação} em duas variáveis distintas para verificar em qual delas gasta-se menos energia. A \emph{medição}, por sua vez, poderia ser avaliada em termos de reconstrução da variável \emph{fase} do sistema. O exemplo a seguir mostra um caso particular que ilustra essas possíveis aplicações.
+
+\begin{exem}
+  Considere o sincronismo bidirecional de fase entre dois sistemas Corda (Eq.~\ref{eq:cord}). A Tabela~\ref{tab:resultados_infoEstados} mostra índices de \emph{informação} de fase $\bar{\iota}$ calculados para as variáveis de estado $(x,y,z)$. Para o acoplamento dissipativo, esses índices são equivalentes ao índice de \emph{influência} de fase, $\chi_i \equiv \iota_i \,\,\, \forall i \in \{x,y,z\}$.
+  
+  Apesar de $\bar{\iota}_y \approx \bar{\iota}_z$, quando acoplado por $y$ é necessária uma força de acoplamento $\varepsilon$ menor para sincronizar os osciladores do que por $z$ \citep{aguirre2016}, usando \emph{acoplamento dissipativo} em uma única variável\footnote{Apesar de $\varepsilon$ estar sendo usado aqui como indicador de ``facilidade de sincronismo'', observa-se que uma \emph{força de acoplamento} menor não significa, necessariamente, que seja mais ``fácil'' atingir o sincronismo, é apenas um indício. Em geral depende da energia contida nas \emph{variáveis} de acoplamento. Talvez um teste mais adequado para mensurar essa ``facilidade de sincronismo'' seja medir a energia do sinal de influência no sistema, e.g. medir a energia de $\varepsilon \boldsymbol{p}(t)$ na Eq.~\ref{eq:dx=fx+ep}.}. Conjectura-se que o \emph{acoplamento dissipativo} não consegue aproveitar bem a informação de fase contida em $z$, mas ela está lá. Essa \emph{medição} poderia ser melhor avaliada se o objetivo não fosse o sincronismo, que envolve outros dois fatores (i.e. \emph{forma} e \emph{atuação}), mas sim a reconstrução de $\phi(t)$. É possível reconstruir a evolução da fase a partir de uma única variável de estado? Quais variáveis teriam melhor desempenho? O índice $\bar{\iota}$ apresenta resultados coerentes com essa avaliação? Note que isso se assemelha ao problema de \emph{observabilidade}, mas com o objetivo de reconstruir a evolução de uma única variável, e não de todos os estados. Deve-se verificar também se uma coisa não implica a outra, isto é, se para reconstruir a \emph{fase} é necessário reconstruir \emph{todos os estados}. Analisar se dois estados são \emph{distinguíveis} com relação a fase seria necessário nesse caso.
+  
+  Para avaliar melhor a \emph{atuação} nos estados $x$ e $z$, cujos índices calculados $\bar{\chi}_y \approx \bar{\chi}_z$ (mostrado na Tabela~\ref{tab:resultados_infoEstados} os índices $\bar{\iota}$, que, nesse caso, $\bar{\zeta} \equiv \bar{\iota}$ conforme Teorema~\ref{thm:InfoFase_dissipativo}), seria necessário isolar as influências da \emph{forma} e da \emph{medição}. Para isso, seria possível utilizar técnicas de \emph{controle ótimo} para encontrar o sinal $u^{*}(t)$, de energia mínima, que leve os sistemas ao sincronismo de fase\footnote{Trabalhos semelhantes foram realizados para sincronismo de cadeias de osciladores, mas usando o método de redução de fase \citep{harada2010,zlotnik2013}.}. Espera-se que, para índices $\bar{\chi}$ semelhantes, sejam obtidos sinais $u^{*}(t)$ com energia semelhante. Isso poderia verificar a validade ou não do índice proposto.
+  \qed
+\end{exem}
+
+A questão da \emph{atuação} poderia ainda ser relacionada ao conceito de \emph{alcançabilidade} \citep{nijmeijer1990,vidyasagar1993}, mas de apenas uma variável: a fase. Verificar de maneira geral, para uma dada função $g(\vec{x})$, qual a \emph{região alcançável} de fase é possível atingir é um desfio. Não seria absurdo imaginar também uma análise da \emph{dinâmica zero} \citep{nijmeijer1990} do sistema acoplado, com a diferença fase controlada ($\psi = 0$). Nesse caso, por exemplo, \emph{dinâmica zero} estável implicaria sincronismo completo.
+
+Experimentos como outros sistemas podem ser realizados para verificação dos índices. Isso poderia ajudar a esclarecer quais os principais fatores que influenciam o sincronismo de fase de osciladores.
+
+
+
+\subsubsection{Avaliação de formas de acoplamento}
+
+Nos trabalhos que tratam sincronismo de \emph{fase}\footnote{Para sincronismo completo, técnicas como \emph{substituição completa} (ou parcial) e controladores diversos são utilizados.}, uma das formas mais utilizadas é o \emph{acoplamento dissipativo} \citep{rosenblum1996,rosenblum1997,andrade2000,boccaletti2000,osipov2003,ivanchenko2004,oh2014,aguirre2016}. Quando é estudado o sistema sozinho, é comum usar também a ação de uma \emph{força externa}, e.g. $u(t) \coloneqq \varepsilon \, \sin (\omega t)$, colocada em uma das equações de estados \citep{pikovsky1997,pikovsky1997,park1999,zaks1999,josic2001,aguirre2016}. Uma forma mais sofisticada de acoplamento foi usada no trabalho de \citet{belykh2005}, que se assemelha ao controladores comumente usados em PLL (\emph{phase-locked loop}), e foram obtidos resultados interessantes de sincronismo com diferentes sistemas.
+
+A Definição~\ref{def:indice_influFase}, porém, indica que a influência na fase de um sistema é máxima quando $\boldsymbol{g}(\vec{x}) \coloneqq \boldsymbol{f}(\vec{x})$. Essa forma de acoplamento poderia ser comparada às formas existentes, em termos de \emph{esforço de sincronismo}, quantificado em energia do sinal de controle $u^{*}(t)$ otimizado. A ideia seria avaliar essa forma de acoplamento para diferentes sistemas.
+
+Um teste preliminar foi realizado com acoplamento unidirecional, de um sistema de Van der Pol (mestre, Eq.~\ref{eq:vanDerPol}) com um sistema de Rössler (escravo, Eq.~\ref{eq:rossler_cart}). A Figura~\ref{fig:arnold_vaDerPol_rossler} mostra regiões de sincronismo para (a) acoplamento dissipativo em $y$; (b) acoplamento proposto, fazendo $\boldsymbol{g}(\vec{x}) \coloneqq \boldsymbol{f}(\vec{x})$, com $u(t) \coloneqq (\theta_1-\theta_2)$, sendo $\theta_1$ e $\theta_2$ definidos pela Eq.~\ref{eq:vanDerPol_pol}~e~\ref{eq:rossler_cyl}, respectivamente. Verifica-se que o acoplamento proposto apresenta mais condições de sincronismo. Porém, nesse experimento há outros fatores envolvidos (e.g. \emph{medição} e \emph{forma}) que impossibilita uma conclusão categórica. Mas mostra que é possível atingir sincronismo de fase com esse tipo de influência na dinâmica do oscilador e que talvez valha a pena aprofundar esse estudo.
+
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{fig/arnold_VDPol_RosslerCart_kY1Y2_040_2pi.pdf}
+      \caption{Dissipativo em $y$.}
+      \label{fig:arnold_vaDerPol_rossler_dissipativo}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{fig/arnold_VDPol_RosslerCart_kPhi1Phi2_FxGx_041_2pi.pdf}
+      \caption{Acoplamento proposto.}
+      \label{fig:arnold_vaDerPol_rossler_proposto}
+  \end{subfigure}
+  \caption[Regiões de sincronismo de fase entre Van der Pol e Rössler para dois tipos de acoplamento.]{Regiões de sincronismo para um acoplamento unidirecional entre os sistemas de Van der Pol (mestre) e Rössler (escravo). Foi utilizado o (a) acoplamento dissipativo na variável $y$ de ambos osciladores e (b) acoplamento proposto fazendo $\boldsymbol{g}(\vec{x}) \coloneqq \boldsymbol{f}(\vec{x})$ e $u(t) \coloneqq (\theta_1-\theta_2)$, sendo $\theta_1$ e $\theta_2$ definidos pela Eq.~\ref{eq:vanDerPol_pol}~e~\ref{eq:rossler_cyl}, respectivamente.}
+  \label{fig:arnold_vaDerPol_rossler}
+\end{figure}
+
+
+\subsubsection{Projeto de controladores}
+
+Projeto de controladores visando o sincronismo também podem ser efetuados para diferentes sistemas, com acoplamentos e estratégias de controles variadas. Ressalva-se que, no contexto de sincronismo de \emph{fase}, não é interessante o projeto de controladores muito agressivos, por exemplo, que anulem completamente a dinâmica natural de oscilação do sistema para imposição de uma \emph{dinâmica desejada}. É preferível o uso de estratégias mais sutis, em que a potência do sinal de controle seja comparável à de uma \emph{fraca interação}. Algumas estratégias e análises que podem ser interessantes ao problema envolvem \emph{controle baseado em passividade}, \emph{teorema do pequeno ganho} \citep{khalil2002}, estratégias de controle ótimo \citep{kirk1970}. Ainda não está claro qual seria a abordagem mais adequada.
+
+
+
+% ======================================================================
+\section{Principais Propostas e Continuidade do Trabalho}
+
+A principal proposta apresentada até agora é a Definição~\ref{def:fase_geral}, que estabelece um conceito de fase que pode ser aplicado a uma grande classe de osciladores. O maior ganho que essa definição pode trazer diz respeito à descrição da dinâmica de evolução da fase (vide exemplo com sistema de Van der Pol na página~\pageref{sec:vanDerPol_modificado}), que pode ser mais fidedigna à evolução do sistema na direção correspondente ao expoente nulo de Lyapunov. Porém, mais experimentos numéricos ilustrativos devem ser realizados para verificar tal característica. O principal ganho em se descrever melhor a dinâmica da fase é, talvez, nas análises em escalas de tempo inferiores a um período de oscilação, ponto fraco dos métodos mais utilizados atualmente.
+
+Foi estabelecido também o conceito de \emph{regiões de mesma fase} (Def.~\ref{def:espaco_ort}) para a definição proposta. Mostrou-se que a definição concorda com o método do arcotangente no atrator de Poincaré, mas se diferencia deste fora do atrator (Sec.~\ref{sec:isofase_poincare}). As regiões de mesma fase são obtidas a partir do próprio campo vetorial $\boldsymbol{f}(\vec{x})$ do sistema, sendo possível defini-las para uma grande classe de sistemas. Essas regiões podem, talvez, ser utilizadas para estabelecer uma seção de Poincaré adequada para osciladores de topologia complexa.
+
+Para o cálculo da evolução da fase pela Definição~\ref{def:fase} proposta, faz-se necessário encontrar o campo escalar $c(\vec{x})$ adequado. Para sistemas periódicos foi estabelecida uma forma de encontrá-lo (Sec.~\ref{sec:fase_periodico}). Porém, para atratores caóticos, definir $c(\vec{x})$ ainda é um desafio. Poderiam ser utilizados os resultados de sistemas periódicos (Sec.~\ref{sec:fase_periodico}), usando um perímetro médio $\bar{\ell}$ do atrator caótico. Porém a variação desse perímetro poderia depreciar fortemente a definição. Realizar análises considerando um perímetro não constante, do tipo $\ell(\vec{x})$, poderia ser uma alternativa.
+
+Uma vez definido $c(\vec{x})$, seria possível detectar sincronismo de fase a partir da definição proposta. Realizar detecção de sincronismo para \emph{sinais temporais} também seria uma abordagem possível, via imersão.
+
+Os índices propostos no Capítulo~\ref{cap:04_infoFase}, baseados na Definição~\ref{def:fase}, necessitam de mais experimentos para sua avaliação. Alguns experimentos foram mencionados na Seção~\ref{sec:propostas_controle}, considerando técnicas de controle. Outra possível forma de se verificar é utilizar um sistema com fase bem definida (ex. sistema de Poincaré) e realizar experimentos em outras coordenadas, via transformação não linear, fazendo a análise nas coordenadas originais.
+
+A proposta de segregação do problema de \emph{sincronizabilidade} em termos de \emph{medição}, \emph{atuação} e \emph{forma} parece ajudar a colocar melhor o problema e esclarecer questões que referem-se ao acoplamento. Um estudo mais aprofundado sob esses termos pode ser realizados com acoplamentos convencionais (e.g. dissipativo, força externa senoidal) e até a propor novos.
+
+Desenvolver controladores de sincronismo baseados em técnicas de controle não linear e, talvez, no método de redução de fase seriam alternativas interessantes. Essas propostas parecem ser as que estão menos claras até o momento, que precisariam de maior amadurecimento para seu desenvolvimento.
+
+
+

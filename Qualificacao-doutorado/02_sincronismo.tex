@@ -1,0 +1,474 @@
+\chapter{Sincronismo de osciladores} \label{cap:02_sinc}
+% ======================================================================
+\section{Introdução}
+
+Neste capítulo são apresentados conceitos fundamentais de sincronismo de osciladores, tipos de sincronismos, descrição matemática e alguns exemplos de análise e aplicação dos conceitos. O texto segue, principalmente, a abordagem realizada por \citet{pikovsky2003} e \citet{boccaletti2002}, além de uma revisão bibliográfica contextualizando o presente trabalho.
+
+
+
+% ======================================================================
+\section{O que é sincronismo}
+
+\emph{Sincronismo} pode ser definido como o \emph{ajuste do ritmo de objetos oscilantes devido a sua fraca interação} \citep{pikovsky2003}. Essa definição, de cunho mais geral, traz consigo outros conceitos correlatos como \emph{objetos oscilantes}, \emph{ritmo}, \emph{fraca interação}. No estudo de sincronismo de sistemas dinâmicos, esses conceitos são definidos tanto fisicamente -- quando for o caso -- como matematicamente. Esses conceitos são apresentados a seguir, num e noutro sentido.
+
+\emph{Objetos oscilantes} podem ser entendidos como osciladores autossustentáveis, ou seja, sistemas capazes de manter algum tipo de oscilação por si só. Um exemplo clássico de oscilador autossustentável é o relógio de pêndulo, estudado e patenteado pelo matemático holandês Christiaan Huygens (1629--1695), descrito em seu trabalho \citep{huygens1673}, que consiste num \emph{sistema ativo} (fonte de energia interna) capaz de manter sua própria oscilação, isoladamente. Como contra-exemplo, pode-se citar o estudo clássico da população de lebres e linces canadenses ao longo de 70 anos \citep{lulich1937}, cujo número de indivíduos de uma espécie e de outra apresentam oscilações ``síncronas''. Porém, neste caso, o conceito de \emph{sincronismo} não é apropriado pelo fato de que um é causa do outro e, desta forma, o sistema ``lince-lebre'' não pode ser decomposto em dois subsistemas ``lince'' e ``lebre'' separadamente, ou seja, cada um não representa um oscilador autossustentável \citep{pikovsky2003}.
+
+O conceito de \emph{ritmo} refere-se à relação da oscilação com o tempo, caracterizada pelo \emph{período} (tempo de um ciclo de oscilação) ou pela \emph{frequência} (oscilações por unidade de tempo). O ritmo de um oscilador autossustentável é caracterizado, portanto, por sua \emph{frequência natural}, determinado por parâmetros internos do sistema. Dois sistemas em sincronia podem ajustar sua frequência natural de modo a atingir o estado síncrono -- que nem sempre quer dizer ``mesma frequência''. Por outro lado, o conceito de \emph{frequência} não é suficiente para determinar \emph{ritmos em sincronia}. Além de possuir uma relação fixa entre as frequências, dois osciladores síncronos precisam oscilar com alguma relação fixa entre as \emph{fases}.
+
+\emph{Fase} é uma ideia chave da teoria de sincronismo e, num primeiro momento, pode ser conceituada como a quantidade que é incrementada em $2\pi$ após um ciclo de oscilação \citep{pikovsky2003}. A frequência do oscilador autossustentável não é determinada pelas condições iniciais, porém a \emph{fase} da oscilação pode ser influenciada por elas e ainda pela \emph{fraca interação} com outro oscilador. Mais adiante, será mostrado um exemplo em que essa influência sobre a fase possibilita o sincronismo entre dois sistemas.
+
+A \emph{interação} entre dois osciladores permite que permaneçam em sincronia. Ademais, pressupõe-se que essa seja uma \emph{interação fraca}, com intensidade inferior às forças presentes em cada subsistema. O estudo da população de lebres e linces, mencionado anteriormente, é um típico exemplo de ``interação forte'' entre as duas populações, tornando-os inseparáveis, o que torna o conceito de \emph{sincronismo} inapropriado. A \emph{interação fraca} pode ser exemplificada por dois relógios de pêndulo acoplados pela base de fixação, em que o movimento do pêndulo provoca uma vibração mínima na base e, após algum tempo, tornam-se síncronos \citep{pikovsky2003}.
+
+A interação entre dois osciladores pode ser ainda classificada em \emph{unidirecional} ou \emph{bidirecional}, que diz respeito à forma com que se dá a influencia de um sistema no outro. O acoplamento \emph{unidirecional}, também chamado de mestre-escravo, traz uma hierarquia consigo, em que um sistema influencia outro, mas não o oposto. Como exemplo pode-se citar o ritmo cicardiano (ciclo biológico) de vários seres vivos que é influenciado pela rotação da Terra. Claramente, nosso ciclo biológico (sistema escravo) não influencia a rotação da terra (sistema mestre), mas essa rotação influencia nosso ritmo cicardiano, regulando a digestão, sono, renovação das células. O acoplamento \emph{bidirecional}, também chamado de \emph{sincronismo mútuo}, ocorre quando os sistemas ``sentem'' e exercem ``influência'' sobre os pares. Enxames de vagalumes da espécie {\it Photinus pyralis}, por exemplo, piscam num sincronismo mútuo, em que cada indivíduo percebe e sofre influência de seus pares mais próximos \citep{mirollo1990}.
+
+
+
+
+% ======================================================================
+\section{Definição matemática}
+
+Os conceitos introduzidos serão formalizados matematicamente a seguir.
+
+
+% ----------------------------------------------------------------------
+\subsection{Oscilador autossustentável}
+
+Matematicamente, um oscilador autossustentável pode ser descrito como um sistema dinâmico \emph{autônomo}, ou seja, sem a dependência explícita do tempo, e representado no espaço de estados na seguinte forma:
+%
+\begin{align} \label{eq:dx=fx}
+  \mathcal{S}: \{ &\dot{\vec{x}} = \boldsymbol{f}(\vec{x}),
+\end{align}
+%
+em que $\vec{x} \in X \subseteq \mathbb{R}^n$ é o vetor de estados do sistema e $\boldsymbol{f} \in V(X): X \mapsto V(X) \subseteq \mathbb{R}^n$ um campo vetorial não linear que, dada uma condição inicial $\vec{x}(0)$, leva o sistema a um conjunto $\omega$-limite não unitário $\Gamma_0 \subset X$ periódico (ciclo limite), \emph{quasi}-periódico ou atrator estranho. O formato da oscilação do sistema deve depender exclusivamente dos parâmetros internos do sistema, e não do seu estado transiente ou inicial \citep{pikovsky2003}.
+
+% DEFINIÇÃO DE ATRATOR/CICLO-LIMITE: é bom verificar se é isso mesmo... tentei não especificar se é atrator ou ciclo-limite, deixei geral
+Note que um oscilador autossustentável não pode ser representado por um sistema \emph{globalmente assintoticamente estável} e tampouco por um sistema \emph{instável}. O oscilador deve possuir uma \emph{região de estabilidade} no sentido de Lyapunov, em que, para qualquer estado inicial $\vec{x}_0 \in \mathcal{B} \subseteq \mathbb{R}^n$, o sistema evolui de tal forma que, à medida que $t \rightarrow \infty$, seus estados são trazidos a uma região $\Gamma_0 \subset \mathcal{B}$, sendo $\Gamma_0$ um conjunto compacto e $\boldsymbol{f}$-invariante.
+%Se $\vec{x}(t_1) \in \mathcal{B}$, então $\vec{x}(t_2) \in \Gamma_0 \,\,|\,\, \forall \,\, t_2 \geq t_1$.
+A região $\mathcal{B}$ é chamada de \emph{bacia de atração} e seu subconjunto $\Gamma_0$ é chamado de \emph{atrator} \citep{anishchenko2007}.
+
+
+% ----------------------------------------------------------------------
+\subsection{Frequência e período}
+
+Em regime permanente, o oscilador autossustentável é caracterizado pelo seu ritmo, por vezes traduzido em termos de \emph{período}, \emph{frequência} e \emph{fase}. A relação entre a \emph{frequência cíclica} (número de oscilações por unidade de tempo) e o período (tempo de um ciclo de oscilação) é dada por:
+% 
+\begin{align} \label{eq:freq_periodo}
+  f = \frac{1}{T}.
+\end{align}
+% 
+É conveniente caracterizar a frequência também em termos de \emph{frequência angular} $\omega$, cuja relação com a \emph{frequência cíclica} $f$ se dá por:
+% 
+\begin{align} \label{eq:freqAngular}
+  \omega = 2\pi f = \frac{2\pi}{T},
+\end{align}
+%
+sendo $\omega$ expresso em $\mathrm{rad}$ por unidade de tempo (e.g. $\mathrm{rad}/\mathrm{s}$).
+
+
+% ----------------------------------------------------------------------
+\subsection{Fase}
+
+\emph{Fase} é a quantidade que é incrementada em $2\pi$ num ciclo de oscilação \citep{pikovsky2003}. Em geral, diz-se que a evolução da fase é dada por \citep{malkin1959,winfree1967,kuramoto1984,pikovsky2003}:
+% 
+\begin{align} \label{eq:dphi_dt}
+  \frac{d\phi}{dt} = \omega_0,
+\end{align}
+% 
+em que $\omega_0 \in \mathbb{R}$ é a frequência angular, \emph{frequência natural} do sistema. Nessa descrição a evolução da fase se dá de forma constante. Apesar dessa descrição ser possível para qualquer regime periódico -- ainda que não uniforme \citep{pikovsky2003}, é difícil de aplicar em osciladores caóticos, que tem comportamento aperiódico e, portanto, é difícil definir $\omega_0$. Talvez uma possível descrição da evolução da fase do sistema pode ser escrita como:
+% 
+\begin{align} \label{eq:dphi_dt_x}
+  \frac{d\phi}{dt} = \omega(\vec{x}),
+\end{align}
+% 
+em que a frequência angular $\omega \in S(X): X \mapsto S(X) \subseteq \mathbb{R}$ é escrita como um campo escalar, sendo esta uma função do estado do sistema. A Eq.~\ref{eq:dphi_dt_x}, que deixa explícito que a frequência do sistema pode variar ao longo de sua trajetória, pode-se aplicar melhor a algumas classes de sistemas. Porém, para fins de conceituação da \emph{fase} de um sistema, considere um sistema \emph{quasilinear} que oscila em regime permanente sobre uma órbita periódica dada por:
+% 
+\begin{align} \label{eq:fase_sistQuasilin}
+  x(t) = A \sin (\omega t + \phi_0),
+\end{align}
+%
+em que $A$ é a amplitude da oscilação e $\phi_0$ a fase inicial. Nesse caso a evolução da fase é dada por:
+% 
+\begin{align} \label{eq:fase}
+  \phi(t) = \omega t + \phi_0.
+\end{align}
+%
+É claro que a Eq.~\ref{eq:fase} provém de um sistema relativamente simples, em que pressupõe-se uma frequência $\omega$ constante e livre de perturbações externas com relação à evolução de $\phi(t)$. Mas essa descrição traz conceitos valorosos no entendimento de osciladores.
+
+Um primeiro conceito é que a \emph{fase} de um sistema é, geralmente, definida em seu \emph{regime permanente}, ou seja, a evolução de $\phi$ conforme a Eq.~\ref{eq:fase} se dá quando $\vec{x}(t) \in \Gamma_0$. A definição de fase fora do regime permanente foi definida para sistemas periódicos em termos de \emph{isócronas} (\emph{isochrones}) \citep{winfree1967} e é explorada na Seção~\ref{sec:landau-stuart} em que é feita uma análise do sistema de Landau-Stuart \citep{landau1944,stuart1960}. Para sistemas caóticos a definição de \emph{isócronas} é inapropriada, uma vez que o sistema não possui período fixo. Em geral, utilizam o conceito de \emph{regiões de mesma fase} (\emph{isophases}) no lugar. Uma aproximação entre um e outro conceito foi proposto nos trabalhos de \citet{schwabedal2010a} e \citet{schwabedal2012}, em que foi utilizado um procedimento de otimização da variância do tempo de retorno para descrever as \emph{regiões de mesma fase}.
+
+A Eq.~\ref{eq:fase} mostra que a evolução da fase no tempo cresce indefinidamente, se descrita num sistema cartesiano. No entanto, como o sistema é periódico, isto é $\phi(t) = \phi(t + T)\,\,\forall t$, é possível descrever a fase também em coordenadas cilíndricas $\phi(t) \in \mathbb{S}^1 = [0,2\pi[$. Alguns trabalhos se dedicaram a nesse tipo de descrição para sistemas caóticos \citep{josic2001,beck2003}.
+
+% É BOM VERIFICAR...
+Outra propriedade interessante da fase (Eq.~\ref{eq:fase}) é que esta é uma variável estável -- não \emph{assintoticamente estável}. Uma perturbação externa, por exemplo, se mantém constante, não cresce nem decai ao longo do tempo. Um ciclo limite estável possui um expoente de Lyapunov igual a zero, correspondente ao movimento ao longo do ciclo limite -- os demais expoentes de Lyapunov são negativos e correspondem às direções transversais ao ciclo-limite. Essa é uma propriedade fundamental da teoria de sincronismo, que mostra que a fase de sistemas periódicos é susceptível a influências externas, o que torna possível a sincronização de um sistema. Essa propriedade da dinâmica da fase também reflete a característica de invariância a deslocamentos temporais de sistemas dinâmicos autônomos: se $\vec{x}(t)$ é uma solução, então a mesma função deslocada no tempo $\vec{x}(t+\Delta t)$ também é solução. No ciclo-limite, o deslocamento temporal $\Delta t$ corresponde a um deslocamento de fase $\Delta\phi = \omega \Delta t$ \citep{pikovsky2003}.
+
+
+% ----------------------------------------------------------------------
+\subsection{Oscilador com perturbação externa}
+
+O sistema da Eq.~\ref{eq:dx=fx} pode sofrer a ação externa de uma \emph{fraca interação}:
+%
+\begin{align} \label{eq:dx=fx+ep}
+  \mathcal{S}: \{ &\dot{\vec{x}} = \boldsymbol{f}(\vec{x}) + \varepsilon \, \boldsymbol{p}(t),
+\end{align}
+%
+em que $\varepsilon \in \mathbb{R}^{+}$ denota a força (ganho) e $\boldsymbol{p}$ a forma da interação. O oscilador autossustentável é estável a pequenas perturbações, em que, após a perturbação, o sistema volta rapidamente ao seu estado oscilatório de regime permanente \citep{pikovsky2003}.
+
+
+% ----------------------------------------------------------------------
+\subsection{Acoplamento}
+
+Osciladores síncronos podem estar dispostos de diferentes formas, o que dá origem aos tipos de sincronismo. No sincronismo \emph{unidirecional}, ou sincronismo \emph{mestre-escravo}, apenas o sistema \emph{escravo} $\mathcal{S}_{2}$ tem a forma da Eq.~\ref{eq:dx=fx+ep} e sofre influência externa do sistema \emph{mestre} $\mathcal{S}_{1}$, que não é influenciado pelo escravo, e tem a forma da Eq.~\ref{eq:dx=fx}:
+%
+\begin{align} \label{eq:sinc_mestreEscravo}
+  \mathcal{S}_{1}: \{ &\dot{\vec{x}}_{1} = \boldsymbol{f_{1}}(\vec{x}_{1}), \nonumber \\
+  \mathcal{S}_{2}: \{ &\dot{\vec{x}}_{2} = \boldsymbol{f_{2}}(\vec{x}_{2}) + \varepsilon \,\boldsymbol{p}(\vec{x}_{1},\vec{x}_{2},t).
+\end{align}
+%
+
+No sincronismo \emph{bidirecional}, ou sincronismo \emph{mútuo}, todos os sistemas têm influência uns sobre os outros e, portanto, todos têm a forma da Eq.~\ref{eq:dx=fx+ep}, em que a $\boldsymbol{p}(t)$ em um sistema é função dos estados de outro(s) sistema(s). Um \emph{sincronismo mútuo} entre dois sistemas $\mathcal{S}_1$ e $\mathcal{S}_2$ descritos conforme a Eq.~\ref{eq:dx=fx}, por exemplo, poderia ser representado da seguinte forma:
+%
+\begin{align} \label{eq:sinc_mutuo}
+  \mathcal{S}_1: \{ &\dot{\vec{x}}_1 = \boldsymbol{f_1}(\vec{x}_1) + \varepsilon_1 \,\boldsymbol{p_1}(\vec{x}_1,\vec{x}_2,t), \nonumber \\
+  \mathcal{S}_2: \{ &\dot{\vec{x}}_2 = \boldsymbol{f_2}(\vec{x}_2) + \varepsilon_2 \,\boldsymbol{p_2}(\vec{x}_2,\vec{x}_1,t).
+\end{align}
+%
+Note que a forma e intensidade da interação $\varepsilon \,\boldsymbol{p}(t)$ pode ser diferente em cada sistema, mas há relações de influência de $\mathcal{S}_1$ em $\mathcal{S}_2$ e vice-versa, caracterizando assim o \emph{sincronismo mútuo}.
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Formas de sincronismo}
+
+O regime de \emph{sincronismo completo} entre dois sistemas $\mathcal{S}_1$ e $\mathcal{S}_2$ ocorre quando ambos apresentam evolução idêntica dos estados:
+% 
+\begin{align} \label{eq:sinc_estadoSincIdentico}
+  \vec{x}_1(t) \approx \vec{x}_2(t).
+\end{align}
+% 
+Esse regime pode ser observado, por exemplo, no acoplamento de sistemas com campo vetorial $\boldsymbol{f}(\vec{x})$ idêntico em todos os subsistemas, i.e. $\boldsymbol{f}_1(\vec{x_1}) = \boldsymbol{f}_2(\vec{x_2})$.
+
+Por outro lado, o \emph{sincronismo incompleto} ocorre quando a evolução dos estados dos sistemas ocorre de forma não idêntica, mas com alguma relação. Nesse caso, pode ocorrer o \emph{sincronismo de fase}, em que, apesar da evolução dos estados não ser coincidente, a \emph{fase} é síncrona. Considerando a evolução da fase descrita por um campo escalar $\phi(t):\mathbb{R}^n \mapsto \mathbb{R}$ (Eq.~\ref{eq:fase}), o estado síncrono ocorre quando:
+% 
+\begin{equation} \label{eq:sinc_fase}
+ k\,\phi_1(t) \approx l\,\phi_2(t),
+\end{equation}
+em que $k$ e $l \in \mathbb{N}^{*}$, considerando um sincronismo ressonante.
+
+Além do estado síncrono, é possível ainda que os sistemas entrem em regime de \emph{travamento de fase} (\emph{phase locking}), em que a diferença de fase entre dois sistemas permanece sempre menor que um valor constante, i.e. sem \emph{escorregamento de fase} (\emph{phase slip}):
+% 
+\begin{equation} \label{eq:sinc_fase_trav}
+ \left| k\phi_1(t) - l\phi_2(t) \right| < \psi_{\rm max},
+\end{equation}
+em que $\psi_{\rm max}$ é um valor constante inferior a $2\pi$. Neste trabalho, o regime de \emph{travamento de fase} (Eq.~\ref{eq:sinc_fase_trav}) também será tratado como \emph{sincronismo de fase}, salvo em casos particulares expressamente mencionados.
+
+De forma mais ampla, há também o \emph{sincronismo generalizado}, em que o estado síncrono ocorre quando os estados de um sistema são completamente determinados pelos estados de outro, por meio de uma função injetora que mapeia os estados de um sistema para outro:
+%
+\begin{equation} \label{eq:y=Hx}
+  \vec{x}_1 = \boldsymbol{H}(\vec{x}_2),
+\end{equation}
+%
+em que $\vec{x}_1 \in \mathbb{R}^{n_1}$ é determinado por $\vec{x}_2 \in \mathbb{R}^{n_2}$, por meio do mapeamento $\boldsymbol{H}:\mathbb{R}^{n_1} \mapsto \mathbb{R}^{n_2}$. Vale notar que, neste caso, a dimensão de ambos sistemas pode ser diferente (i.e. $n_1 \neq n_2$).
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Outras formas de sincronismo}
+
+Na literatura científica há várias outras denominações e classificações de sincronismo. Algumas das principais são apresentadas brevemente a seguir.
+
+Denomina-se \emph{sincronismo com atraso} (\emph{lag sychronization}) o sincronismo de sistemas não idênticos, $\boldsymbol{f}_1 \neq \boldsymbol{f}_2$, e ocorre quando os estados são coincidentes a menos de uma diferença temporal de $\tau_0$, ou seja, $\vec{x}_1(t) \approx \vec{x}_2(t+\tau_0)$ \citep{rosenblum1997}. O \emph{sincronismo intermitente com atraso} (\emph{intermittent lag synchronization}), mostrado no trabalho de \citet{rosenblum1997} e estudado por \citet{boccaletti2000}, ocorre quando a força de interação $\varepsilon$ já possibilita o regime de sincronismo de fase, mas ainda não é suficiente para exibir o regime de \emph{sincronismo com atraso}, é um estágio intermediário entre os dois regimes.
+
+O \emph{sincronismo imperfeito de fase} (\emph{imperfect phase synchronization}) ocorre quando um sistema caótico é influenciado por uma força periódica externa. Os sistemas ficam em \emph{sincronia de fase} durante longos períodos de tempo, mas com interrupções de curtos períodos de escorregamento de fase. \citet{zaks1999} mostrou esse fenômeno para sistemas caóticos com ampla distribuição de períodos (alto coeficiente de difusão).
+
+% nao gostei desse: define sincronismo quando usa-se um sistema de controle (tipo ``controle do caos'' ou ``supressão do caos'') nos sistemas mestre e escravo
+O trabalho de \citet{femat1999} apresenta outras classificações para o problema de \emph{controle de sincronismo}, em que a função forçante $\boldsymbol{p}(t)$ (Eq. \ref{eq:dx=fx+ep}) provém de um sistema em malha fechada que tenta manter o sincronismo entre os (e.g. dois) sistemas, i.e. $\boldsymbol{p}(t) \coloneqq \boldsymbol{g}(e(t))$ em que $e(t)$ representa o \emph{erro de sincronismo}. Nesse tipo de problema ocorre o \emph{sincronismo exato} (\emph{exact synchronization}) quando garante-se que o erro de sincronismo $e(t)$ é assintoticamente estável, i.e. $e(t) \rightarrow 0$ quando $t \rightarrow \infty$. Denomina-se \emph{sincronismo prático} (\emph{practical synchronization}) quando o erro de sincronismo $e(t)$ é estável no sentido de Lyapunov, i.e. garante-se que $e(t) < \delta$ quando $t \rightarrow \infty$. \citet{femat1999} define \emph{quase sincronismo} (\emph{almost synchronization}) quando: (i) pelo menos um dos estados dos sistemas está em sincronismo, \emph{exato} ou \emph{prático}; e (ii) pelo menos um dos estados não esteja em sincronismo, nem \emph{exato} e nem \emph{prático}.
+
+
+
+
+
+
+
+% ======================================================================
+\section{O Oscilador de Landau-Stuart}
+\label{sec:landau-stuart}
+
+Para uma melhor aprofundamento no estudo de sincronismo de osciladores é instrutivo iniciar a análise num sistema mais simples para possibilitar a comparação com situações mais complexas. Para a análise de sincronismo de osciladores, este texto seguirá a abordagem utilizada nos trabalhos de \citet{winfree1967} e \citet{kuramoto1984}, em que é analisado o sistema isolado, com uma perturbação externa, e, a partir dessa análise, infere-se suas condições de sincronismo.
+
+Dentre os osciladores periódicos mais analisados estão o sistema de van der Pol \citep{vanDerPol1927} e a equação de Landau-Stuart \citep{landau1944,stuart1960}. Outros modelos também foram utilizados para representar diferentes sistemas osciladores (e.g. em termos de \emph{fase}) como as equações de Adler \citep{adler1973}, modelo de Kuramoto \citep{kuramoto1984} e o modelo de Winfree \citep{winfree1967}. A seguir, será utilizada a equação de Landau-Stuart como ponto de partida em que, por se tratar de um sistema periódico, permite análises mais profundas das condições necessárias de sincronismo e caracterização dos fenômenos relacionados.
+% AQUI cabe um "review" dos principais trabalhos envolvendo essas equações...
+O material apresentado aqui baseia-se em estudos anteriores no mesmo sistema \citep{kuramoto1984,pikovsky2003,bonnin2010}.
+
+A equação de Landau-Stuart (``modelo lambda-omega'') pode ser escrita como:
+%
+\begin{equation} \label{eq:Landau-Stuart}
+  \dot{A} = (1 + i\eta) A - (1 + i\alpha)|A^2|A .
+\end{equation}
+%
+que, reescrevendo em coordenadas polares, $A = Re^{i\theta}$, tem-se:
+%
+\begin{align} \label{eq:Landau-Stuart_polar}
+  \dot{R} &= R(1 - R^2) , \nonumber \\
+  \dot{\theta} &= \eta - \alpha R^2 .
+\end{align}
+%
+Em estado estacionário, o sistema evolui em um ciclo limite de raio unitário, $R=1$. A Figura~\ref{fig:landStu_limitCycle} mostra a evolução do sistema no plano de fases para quatro condições iniciais distintas. Para condições iniciais arbitrárias, $R(0)=R_0$ e $\theta(0)=\theta_0$, a solução da Eq.~\ref{eq:Landau-Stuart_polar} é:
+%
+\begin{align} \label{eq:Landau-Stuart_sol}
+  R(t) &= \left[ 1 + \frac{1 - R^2_0}{R^2_0}e^{-2t} \right] ^{-\frac{1}{2}} , \nonumber \\
+  \theta(t) &= \theta_0 + (\eta - \alpha)t - \frac{\alpha}{2} \ln (R_0^2 + (1 - R_0^2)e^{-2t} ).
+\end{align}
+%
+No ciclo limite, o ângulo $\theta$ varia com velocidade constante de $\omega_0 = \eta - \alpha$ (frequência) mais uma parcela de fase proporcional a $\alpha$. Após o estado transitório, quando $t \rightarrow \infty$ e o termo $e^{-2t} \rightarrow 0$, a fase do sistema pode então ser definida em todo o plano $(R,\theta)$ como:
+%
+\begin{equation} \label{eq:Landau-Stuart_phi}
+  \phi(R,\theta) = \theta - \alpha \ln R .
+\end{equation}
+%
+A Eq.~\ref{eq:Landau-Stuart_phi} pode ser verificada tomando-se a derivada, que varia proporcionalmente a $\eta - \alpha$:
+%
+\begin{align} \label{eq:Landau-Stuart_dphi}
+  \dot{\phi} &= \dot{\theta} - \frac{\alpha}{R} \dot{R} \nonumber\\
+    &= \left( \eta - \alpha R^2 \right) - \frac{\alpha}{R} \left( R(1 - R^2) \right) \nonumber\\
+    &= \eta - \alpha .
+\end{align}
+%
+
+\begin{figure}
+ \centering
+  \includegraphics[width=0.6\textwidth]{fig/landauStuart_planoDeFases.pdf}
+  \caption[Sistema de Landau-Stuart: trajetórias.]{Evolução de quatro trajetórias $\gamma_1$, $\gamma_2$, $\gamma_3$ e $\gamma_4$ no espaço de estados do oscilador autossustentável de Landau-Stuart ($\alpha = 1, \eta = 2$), para quatro condições iniciais diferentes (pontos). A solução em estado estacionário é um ciclo limite estável $\Gamma_0$ (linha contínua).}
+ \label{fig:landStu_limitCycle}
+\end{figure}
+
+Verifica-se que a fase para a equação de Landau-Stuart pode ser definida não apenas para o regime permanente, i.e. no ciclo limite, mas também em seus arredores, conforme Eq.~\ref{eq:Landau-Stuart_phi}. Outra forma de analisar a evolução da fase do sistema é por meio do conceito de isócronas (\emph{isochrones}) \citep{winfree1967,guckenheimer1975}, explorado a seguir.
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Isócronas}
+
+Para um oscilador autossustentável, considere o mapeamento:
+%
+\begin{equation} \label{eq:isochrones}
+  \boldsymbol{\Phi} (\vec{x}): \vec{x}(t) \mapsto \vec{x}(t + T_0) ,
+\end{equation}
+%
+em que $T_0$ é exatamente o período de oscilação.
+
+Com essa transformação estroboscópica todos os pontos do ciclo limite são pontos fixos, em que a Eq.~\ref{eq:isochrones} faz o mapeamento para o próprio ponto. Os pontos vizinhos, fora do ciclo limite, são atraídos para o ciclo limite. Considere um ponto arbitrário $\vec{x}^*$ no ciclo limite e todos os pontos vizinhos que são atraídos para $\vec{x}^*$ pela ação de $\boldsymbol{\Phi} (\vec{x})$. Esse conjunto de pontos forma uma hipersuperfície $\boldsymbol{I}$ de dimensão $(n-1)$ que cruza o ciclo limite no ponto $\vec{x}^*$, chamada de isócrona (\emph{isochrone}). Desta forma, a fase pode ser definida para qualquer ponto do espaço de fases, baseado no período de evolução do ciclo limite.
+
+A Figura~\ref{fig:landStu_ischrones} mostra um exemplo, para o sistema de Landau-Stuart, em que são representadas quatro hipersuperfícies $\boldsymbol{I}_i$, de dimensão $1$ ($2-1$). Para uma condição inicial $\vec{x}_0 \in \boldsymbol{I}_i$, aplicando-se sucessivamente o mapeamento $\boldsymbol{\Phi} (\vec{x})$, o sistema evolui sobre a isócrona $\boldsymbol{I}_i$ até atingir o ponto $\vec{x}^* \in \Gamma_0$. Para o mapeamento~(Eq.~\ref{eq:isochrones}), o ponto $\vec{x}^*$ no ciclo limite se comporta como um ponto fixo estável.
+
+Numa outra perspectiva, se tomar uma hipersuperfície $\boldsymbol{I}$ (\emph{isochrone}) como uma \emph{seção de Poincaré}, pode-se dizer que todos os pontos dessa seção tem o mesmo \emph{tempo de retorno}. Inclusive para pontos não pertencentes ao ciclo limite.
+
+Na equação de Landau-Stuart (Eq. \ref{eq:Landau-Stuart}), tomando-se a transformação de coordenadas realizada, uma isócrona pode ser entendida como um valor fixo para a fase:
+%
+\begin{equation} \label{eq:Landau-Stuart_isochrone}
+  \theta - \alpha \ln (R) = \mathrm{constante} ,
+\end{equation}
+%
+que, no espaço de estados, para $\alpha \neq 0$, representa espirais logarítmicos em todo o plano. A Figura \ref{fig:landStu_ischrones} mostra quatro isócronas.
+
+\begin{figure}
+ \centering
+  \includegraphics[width=0.6\textwidth]{fig/landauStuart_isocronas.pdf}
+  \caption[Sistema de Landau-Stuart: isócronas.]{Oscilador de Landau-Stuart ($\alpha = 1, \eta = 2$), com o ciclo limite $\Gamma_0$ (linha espessa) e algumas isócronas (linhas finas).}
+ \label{fig:landStu_ischrones}
+\end{figure}
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Sistema forçado}
+
+É possível reescrever a Eq.~\ref{eq:Landau-Stuart} (sistema de Landau-Stuart) na forma cartesiana:
+%
+\begin{align} \label{eq:Landau-Stuart_dx=fx+px}
+  \dot{x} &= x - \eta y - (x^2 + y^2)(x - \alpha y), \nonumber \\
+  \dot{y} &= y + \eta x - (x^2 + y^2)(y + \alpha x),
+\end{align}
+%
+e ainda reescrever a equação da fase (Eq.~\ref{eq:Landau-Stuart_phi}) como:
+%
+\begin{equation} \label{eq:Landau-Stuart_phi+px}
+  \phi = \tan^{-1} \frac{y}{x} - \frac{\alpha}{2}\ln (x^2 + y^2),
+\end{equation}
+%
+em que sua derivada temporal é dada por:
+%
+\begin{align} \label{eq:Landau-Stuart_dphifx_w0}
+  \dot{\phi} (\vec{x}) &= \frac{\partial \phi}{\partial x} \frac{d x}{dt} + \frac{\partial \phi}{\partial y} \frac{d y}{dt} \nonumber \\
+  &= \mathcal{L}_f \phi(\vec{x}) \nonumber \\
+  &= \frac{d \phi}{d \vec{x}}^T . \boldsymbol{f}(\vec{x}) \nonumber \\
+  &= \omega_0 ,
+\end{align}
+%
+em que $\mathcal{L}_f\phi(\vec{x})$ denota a derivada de Lie do campo escalar $\phi(\vec{x})$ ao longo do campo vetorial $\boldsymbol{f}(\vec{x})$, $d \phi/d \vec{x}$ o vetor de derivadas parciais (na equação aparece transposto) de $\phi(\vec{x})$ com relação aos estados $\vec{x}$ e $\omega_0 \coloneqq \eta - \alpha$, a velocidade angular do sistema, que, por definição, é a derivada temporal da fase $\phi$.
+
+Considerando o sistema sob a ação de uma \emph{fraca interação} $\boldsymbol{p}(t)$ (Eq.~\ref{eq:dx=fx+ep}), a Eq.~\ref{eq:Landau-Stuart_dphifx_w0} torna-se:
+%
+\begin{align} \label{eq:Landau-Stuart_dphi_dx_epx}
+  \dot{\phi} (\vec{x}) &= \mathcal{L}_f \phi(\vec{x}) + \mathcal{L}_p \phi(\vec{x}) \nonumber \\
+   &= \frac{d \phi}{d \vec{x}}^T . [\boldsymbol{f}(\vec{x}) + \varepsilon \boldsymbol{p}(t)] \nonumber \\
+   &= \frac{d \phi}{d \vec{x}}^T .\boldsymbol{f}(\vec{x}) + \varepsilon\,\frac{d \phi}{d \vec{x}}^T . \boldsymbol{p}(t) \nonumber \\
+   &= \omega_0 + \varepsilon\,\frac{d \phi}{d \vec{x}}^T . \boldsymbol{p}(t) ,
+\end{align}
+%
+sendo que o segundo termo à direita da equação tem valor pequeno (proporcional a $\varepsilon$). Considerando-se que os desvios de $\vec{x}$ em relação ao ciclo limite $\Gamma_0$ sejam pequenos, é possível fazer a aproximação:
+%
+\begin{equation} \label{eq:Landau-Stuart_dphi_w0_qx}
+  \dot{\phi} (\vec{x}) = \omega_0 + \varepsilon \, \left. \frac{d \phi}{d \vec{x}}^T \right| _{\Gamma_0} .  \boldsymbol{p}(t) ,
+\end{equation}
+%
+que pode ser útil quando não se tem fase bem definida fora do ciclo limite.
+
+Considere que o sistema de Landau-Stuart sofra uma \emph{fraca interação} periódica, apenas no estado $x$ (Eq.~\ref{eq:Landau-Stuart_dx=fx+px}), conforme a seguir:
+%
+\begin{equation} \label{eq:Landau-Stuart_px}
+  \boldsymbol{p}(t) =
+  \begin{bmatrix}
+    \cos (\omega t) \\
+    0
+  \end{bmatrix}.
+\end{equation}
+%
+A derivada temporal da fase (Eq. \ref{eq:Landau-Stuart_dphi_dx_epx}) é:
+%
+\begin{align} \label{eq:Landau-Stuart_dphi+px_0}
+  \dot{\phi} &= \mathcal{L}_f \phi(\vec{x}) + \mathcal{L}_p \phi(\vec{x}) \nonumber \\
+    &= \frac{d \phi}{d \vec{x}}^T.\boldsymbol{f}(\vec{x}) + \varepsilon\, \frac{d \phi}{d \vec{x}}^T. \boldsymbol{p}(t) \nonumber \\
+    &= \omega_0 + \varepsilon\, \frac{\partial \phi}{\partial x} \cos (\omega t) \nonumber \\
+    &= \omega_0 - \varepsilon\, \frac{(\alpha x + y)}{x^2 + y^2} \cos (\omega t).
+\end{align}
+%
+Considerando o sistema no ciclo limite (vide Eq.~\ref{eq:Landau-Stuart_dphi_w0_qx}), i.e. $\sqrt{x^2+y^2}=1$ e $\phi \equiv \theta$, e escrevendo a Eq.~\ref{eq:Landau-Stuart_dphi+px_0} em termos de $\phi$, tem-se:
+%
+\begin{align} \label{eq:Landau-Stuart_dphi+px}
+  \dot{\phi} &= \eta - \alpha - \varepsilon\,(\alpha \cos \phi + \sin \phi) \cos (\omega t).
+\end{align}
+%
+
+
+
+
+A Eq.~\ref{eq:Landau-Stuart_dphi+px} é a expressão básica que descreve a dinâmica da fase de um oscilador periódico autossustentável forçado. Considere a diferença de fase $\psi$ entre o sistema e a perturbação externa $\boldsymbol{p}(t)$:
+%
+\begin{equation} \label{eq:psi_wt}
+  \psi = \phi - \omega t,
+\end{equation}
+%
+em que a fase do sistema forçante é dada por $\omega t$. Calcula-se a dinâmica da diferença de fase:
+%
+\begin{align} \label{eq:dpsi_dphi-w}
+  \dot{\psi} &= \dot{\phi} - \omega,
+\end{align}
+% 
+considerando a Eq.~\ref{eq:Landau-Stuart_dphi+px} tem-se:
+% 
+\begin{align}
+  \dot{\psi} &= \eta - \alpha - \varepsilon(\alpha \cos \phi + \sin \phi) \cos (\omega t) - \omega \nonumber \\
+  &= (\omega_0 - \omega) - \varepsilon(\alpha \cos \phi + \sin \phi) \cos (\omega t),
+\end{align}
+% 
+e estabelecendo $\nu$ como a diferença de frequência entre o sistema e a perturbação externa:
+% 
+\begin{equation}
+ \nu \coloneqq \omega_0 - \omega,
+\end{equation}
+% 
+tem-se:
+% 
+\begin{align} \label{eq:dpsi_dt}
+  \dot{\psi} &= \nu - \varepsilon(\alpha \cos \phi + \sin \phi) \cos (\omega t).
+\end{align}
+%
+Considerando a Eq.~\ref{eq:psi_wt} ainda é possível escrever:
+% 
+\begin{align} \label{eq:dpsi_dt_2}
+  \dot{\psi} &= \nu - \varepsilon \bigg[ \alpha \cos (\psi + \omega t) + \sin (\psi + \omega t) \bigg] \cos (\omega t).
+\end{align}
+%
+
+O estudo do sincronismo do oscilador periódico (Eq.~\ref{eq:Landau-Stuart}) perturbado por uma força externa se reduz aqui ao estudo da estabilidade da dinâmica da fase (Eq.~\ref{eq:dpsi_dt_2}). Porém, nota-se que o lado direito da Eq.~\ref{eq:dpsi_dt_2} há termos que dependem de $\psi(t)$ e termos que dependem de $\omega t$, mas não apenas de $\psi(t)$. Em outras palavras, trata-se de um sistema não homogêneo de equações diferenciais. A fim de obter um sistema reduzido, dissociado de $\omega t$, que pode ser escrito na forma $\dot{\psi}=f(\psi)$, diferentes considerações e simplificações são realizadas.
+
+Uma simplificação possível foi realizada por Robert Adler em seu trabalho de 1946, em que modelou a dinâmica da diferença de fase de modo que o segundo termo à direita da Eq.~\ref{eq:dpsi_dt_2} é representado por uma função senoidal apenas \citep{adler1973}:
+% 
+\begin{align} \label{eq:adler}
+  \dot{\psi} &= \nu - \varepsilon \sin \psi.
+\end{align}
+%
+Esse modelo é utilizado ainda hoje para representar sistemas, conhecido como osciladores de fase de primeira ordem \citep{osipov2007}.
+
+Uma abordagem mais formal para análise da Eq.~\ref{eq:dpsi_dt_2} é o teorema de Malkin \citep{malkin1949}, que fornece uma forma explícita para esse sistema de equações diferenciais que regem o desvio de fase $\psi(t)$ \citep{hoppensteadt1997,gilli2004}. Entretanto, o teorema de Malkin apóia-se na consideração de que as frequências do oscilador $\omega_0$ e do sistema forçante $\omega_0$ sejam ressonantes, \emph{comensuráveis}.
+
+Outra abordagem considera a força de interação como \emph{fraca}, i.e. $\varepsilon \ll 1$. Com essa consideração é possível utilizar métodos assintóticos \citep{bogoliubov1961}, que descrevem sistemas fracamente não lineares, para análise do problema. Dentre os métodos assintóticos, destaca-se o \emph{método da média} (\emph{averaging method}), utilizado em vários trabalhos \citep{bogoliubov1961,kuramoto1984,nayfeh1995,lopatin1995,nayfeh2000,josic2001,ivanchenko2004,bonnin2009,bonnin2010}. A seguir é apresentado o \emph{método de média} (\emph{averaging method}) e sua aplicação à Eq.~\ref{eq:dpsi_dt}.
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{O método da média}
+\label{sec:averaging}
+
+O \emph{método da média}, também conhecido como método de Krylov-Bogoliubov-Mitropolski, permite a separação de escalas de tempo claramente distintas \citep{lopatin1995}. Uma variável que tem evolução muito mais lenta que a outra pode ser considerada, aproximadamente, constante durante um ciclo de variação da variável rápida. A equação da dinâmica da diferença de fase (Eq.~\ref{eq:dpsi_dt}) possui duas escalas de tempo distintas, uma $2\pi$-periódica com relação a $\phi$ e outra $T$-periódico em relação a $\omega t$. Considerando que as frequências sejam próximas -- ou ressonantes $\omega \approx \frac{k}{l} \omega_0$, a diferença de frequência se aproxima de zero, i.e. $\nu \approx 0$. Com essa consideração e assumindo $\varepsilon \ll 1$, é possível afirmar que a evolução de $\psi(t)$ é mais lenta que $\omega t$. Desta forma, é possível eliminar a dependência temporal explícita tomando-se a média temporal ao longo de um ciclo de oscilação referente a $\omega$.
+
+De forma mais geral, para o sistema abaixo:
+%
+\begin{align} \label{eq:dpsi_avg}
+  \dot{\psi} &= \nu - \varepsilon q(\psi + \omega t,t),
+\end{align}
+%
+considerando que $\nu$ e $\varepsilon$ possuem valores pequenos, o termo do lado direito da Eq.~\ref{eq:dpsi_avg} assumirá valores pequenos e, portanto, considera-se que a dinâmica de evolução de $\psi$ é mais lenta que a do sistema forçante $\omega t$, i.e. $\dot{\psi} \ll \omega$. Desta forma, tomando-se a média temporal ao longo de um período $T$, obtém-se:
+%
+\begin{align} \label{eq:dpsi_avg_2}
+  \dot{\bar{\psi}} &= \nu - \varepsilon Q(\bar{\psi}),
+\end{align}
+%
+em que $\bar{\psi}$ é a dinâmica da diferença \emph{média} de fase e $Q(\bar{\psi})$ o funcional:
+%
+\begin{align} \label{eq:dpsi_avg_integral}
+  Q(\bar{\psi}) &= \frac{1}{T} \int_0^T \! q(\psi + \omega t,t) \, \mathrm{d}t.
+\end{align}
+%
+
+Nota-se que a técnica utilizada transforma a equação de fase não homogênea (Eq.~\ref{eq:dpsi_dt_2}) em uma equação diferencial homogênea (Eq.~\ref{eq:dpsi_avg_2}), em que é possível determinar os limites e condições de sincronismo baseado na estabilidade da equação dinâmica da diferença de fase. Se a Equação~\ref{eq:dpsi_avg_2} tiver um ponto de equilíbrio estável é possível atingir o regime de \emph{travamento de fase} (Eq.~\ref{eq:sinc_fase_trav}). Se o ponto de equilíbrio é assintoticamente estável, tem-se o regime de \emph{sincronismo de fase} (Eq.~\ref{eq:sinc_fase}).
+
+Como a Eq.~\ref{eq:dpsi_avg_2} representa a equação média em \emph{um ciclo de oscilação} do sistema forçante, uma interpretação possível é que, para atingir o regime síncrono, o termo $\varepsilon Q(\bar{\psi})$ deve conseguir compensar a diferença de frequência $\nu$. Avaliando-se $\varepsilon Q(\bar{\psi})$ em termos de limites máximo e mínimo é possível traçar conclusões dos limiares de sincronismo de um sistema sujeito à uma perturbação externa.
+
+Para o sistema de Landau-Stuart, aplicando-se o método da média, a Eq.~\ref{eq:dpsi_dt_2} torna-se:
+% 
+\begin{align} \label{eq:dpsi_averaged}
+  \dot{\bar{\psi}} &= \nu - \frac{\varepsilon}{2} ( \alpha \cos \bar{\psi} + \sin \bar{\psi} ).
+\end{align}
+%
+Nesse caso, fica claro que o segundo termo a direita da Eq.~\ref{eq:dpsi_averaged} é limitado em $\pm \displaystyle\frac{\varepsilon}{2} \sqrt{\alpha^2 +1}$. Nota-se então que, para valores de $\nu$ além dos limiares, o sincronismo não é possível. Assim, para atingir o sincronismo é possível estabelecer os limites de $\nu$:
+% 
+\begin{align} \label{eq:avg_limites}
+  -\frac{\varepsilon}{2} \sqrt{\alpha^2 +1} \leq \nu \leq \frac{\varepsilon}{2} \sqrt{\alpha^2 +1}.
+\end{align}
+% 
+
+Aqui os limites foram estabelecidos para $\omega \approx \omega_0$, mas, sem nenhum prejuízo da análise realizada, o mesmo procedimento poderia ser realizado para os casos ressonantes em que $\nu = \omega \approx \frac{k}{l} \omega_0$. A desigualdade (Eq.~\ref{eq:avg_limites}), considerando os casos ressonantes, dá origem as \emph{línguas de Arnold} que são limites de sincronismo definidos no plano $(\frac{\omega}{\omega_0},\varepsilon)$, conforme mostra a Figura \ref{fig:landStu_arnold}.
+
+\begin{figure}
+ \centering
+  \includegraphics[scale=1.5]{fig/landStu_arnold.pdf}
+  \caption[Sistema de Landau-Stuart: línguas de Arnold.]{Línguas de Arnold, definidas no plano $(\frac{\omega}{\omega_0},\varepsilon)$, calculadas conforme desigualdade (\ref{eq:avg_limites}), considerando os casos ressonantes de $1:n$ até $n=8$ para o sistema de Landau-Stuart. Fonte: \citet{bonnin2010}.}
+ \label{fig:landStu_arnold}
+\end{figure}
+
+
+
+
+
+
+
+
+% ======================================================================
+\section{Outros Osciladores}
+
+A extensão das análises feitas na Seção~\ref{sec:landau-stuart} para outros osciladores e outras formas de sincronismo -- mesmo para sistemas periódicos, se esbarra em algumas dificuldades. \citet{ivanchenko2004} analisou dois sistemas de Van der Pol em sincronismo por meio de equações de fase e amplitude (método \emph{averaging}), em que descreveu vários regimes dinâmicos (e.g. mono-estabilidade, bi-estabilidade, multi-estabilidade, batimentos) e alguns tipos de bifucação. Porém, mesmo no caso clássico de osciladores de Van Der Pol acoplados, ainda falta uma completa descrição dos regimes dinâmicos, suas transições e características \citep{ivanchenko2004}. Talvez uma das grandes dificuldades seja a própria definição de uma variável que descreva a fase, em que nem sempre é possível sua obtenção de forma trivial, ou mesmo a garantia de que a variável obtida representa bem a dinâmica de evolução do sistema.
+
+Para osciladores caóticos as dificuldades são maiores, especialmente para o uso do \emph{método da média}. A falta de um período fixo de oscilação e encontrar uma transformação para um sistema de coordenadas do tipo $\mathbb{R}^{(n-1)}\times\mathbb{S}^1$ (vide, por exemplo, a transição da Eq.~\ref{eq:Landau-Stuart_dphi+px_0} para Eq.~\ref{eq:Landau-Stuart_dphi+px}) são os principais desafios \citep{josic2001}. Alguns trabalhos \citep{josic2001,beck2003} mostraram que é possível aplicar o método de redução de fase para osciladores caóticos \emph{forçados} por uma entrada periódica. \citet{josic2001} mostrou ainda que uma transformação de coordenadas, em termos de \emph{fase} e \emph{amplitude}, existe para maioria dos sistemas de fase coerente, apresentando condições suficientes para tal. Porém, um procedimento geral para obtenção de uma variável \emph{fase} de um oscilador ainda não está disponível. O capítulo seguinte discute com maior profundidade quais os principais requisitos de uma variável descritora de fase (\emph{phase-like variable}) e apresenta uma proposta de obtenção.
+

@@ -1,0 +1,453 @@
+\chapter{Controle de Sincronismo}
+\label{cap:05_controleSinc}
+
+Neste trabalho, o sincronismo de fase de osciladores foi caracterizado em termos de \emph{definição de fase} (Capítulo~\ref{cap:03_proposta}), \emph{atuação} e \emph{medição} da fase (Capítulo~\ref{cap:04_infoFase}). Neste capítulo serão discutidas algumas \emph{formas} de controlar a fase de um oscilador com o objetivo de atingir o sinronismo de fase. A abordagem adotada utiliza conceitos de controle de sistemas não lineares \citep{nijmeijer1990,vidyasagar1993,khalil2002}.
+
+
+
+
+Aqui, será tratado o assunto de controle de sincronismo entre osciladores. Neste capítulo haverá mais ideias e proposições do que resultados...
+
+- Analisar outras formas ``comuns'' de acoplamento: e.g. \emph{complete replacement}, artigo Belykkh (baseado em PLL), ... (pesquisar mais)
+- Como verificar a ``forma'' de acoplamento?
+
+
+Propor trabalhar com:
+\begin{enumerate}
+ \item Transoformar coordenadas dos sistemas de modo a explicitar Psi (diferença de fase)
+ \item Maximizar os Índices do Capítulo anterior e verificar o melhor sinal de controle u(t), com menor potência
+ \item Controle de sincronismo via Teorema do Pequeno Ganho
+ \item Analisar (direito) o acoplamento quando g(x):=f(x)
+ \item Rede de osciladores acoplados com g(x):=f(x)
+ \item Analisar sistemas multi-agentes com sincronismo de fase entre diferentes osciladores
+ \item Controle baseado em Passividade (??)
+ \item Controle ótimo (????)
+\end{enumerate}
+
+
+
+% ======================================================================
+\section{Introdução}
+
+% ======================================================================
+\section{Propostas}
+
+
+
+% % ======================================================================
+% \section{Estimação de modelos de fase}
+% 
+% 
+% 
+% % ----------------------------------------------------------------------
+% \subsection{Definição do problema}
+% O sistema utilizado foi \citep{rossler1976}:
+% % 
+% \begin{equation}\label{eq:sistema_rossler}
+%  \mathcal{S}_1:
+%  \left\{
+%   \begin{array}{ll}
+%   \dot{x}_1 &= - x_2 - x_3 \\
+%   \dot{x}_2 &= x_1 + a x_2 \\
+%   \dot{x}_3 &= b + x_3(x_1 - c)
+%   \end{array}
+%  \right. ,
+% \end{equation}
+% % 
+% em que $a = 0.15$, $b = 0.2$ e $c = 10$.
+% 
+% A fase do atrator de Rössler pode ser calculada, analiticamente, como:
+% % 
+% \begin{equation}\label{eq:sistema_rossler_phi}
+%  \phi(t) = \tan^{-1} \bigg( \frac{y}{x} \bigg)
+% \end{equation}
+% % 
+% 
+% Será obtido um modelo ARX, de tempo discreto, para evolução da fase do sistema $\phi(k)$, com a estrutura:
+% % 
+% \begin{equation}\label{eq:modelo_fase_rossler}
+%  \mathcal{M}_\phi:
+%  \left\{
+%   \begin{array}{ll}
+%   \hat{\phi}(k) &= \theta_0 t + \theta_1 x_1(k-1)  + \theta_2 x_1(k-2) + \theta_3 \sin\big( x_1(k-1)\big) + \theta_4 \cos\big( x_1(k-1) \big) \\
+%   &+ \theta_5 x_2(k-1)  + \theta_6 x_2(k-2) + \theta_7 \sin\big( x_2(k-1)\big) + \theta_8 \cos\big( x_2(k-1) \big) \\
+%   &+ \theta_9 x_3(k-1)  + \theta_{10} x_3(k-2) + \theta_{11} \sin\big( x_3(k-1)\big) + \theta_{12} \cos\big( x_3(k-1) \big)
+%   \end{array}
+%  \right. ,
+% \end{equation}
+% % 
+% em que $k$ representa a evolução em tempo discreto, $t$ o tempo contínuo, $\theta_i \forall i \in [1,12]$ os parâmetros do modelo, estimados por mínimos quadrados. O tempo $t$ foi considerado uma ``entrada'' para o modelo pelo comportamento da fase se aproximar de uma reta crescente ao longo do tempo.
+% 
+% % ----------------------------------------------------------------------
+% \subsection{Metodologia}
+% 
+% \subsubsection{Dados de treinamento e validação}
+% 
+% Foi realizada uma simulação numérica no sistema $\mathcal{S}_1$ e foi obtido o conjunto de dados $Z_t$ de \emph{treinamento}, com condições iniciais $\vec{x} = [0\,\,\,-3\,\,\,0]$ e tempo de simulação de $t_f = 100$ segundos. Os dados $Z_t$ possuem a forma:
+% % 
+% \begin{equation}\label{eq:dados_zt}
+%  Z_t:
+%  \left[
+%   \begin{array}{llll}
+%   t(1) & x_1(1) & x_2(1) & x_3(1) \\
+%   t(2) & x_1(2) & x_2(2) & x_3(2) \\
+%   \vdots & \vdots & \vdots & \vdots \\
+%   t(N) & x_1(N) & x_2(N) & x_3(N) \\
+%   \end{array}
+%  \right] ,
+% \end{equation}
+% % 
+% em que $t$ é o valor do tempo da amostra, $x_i\,\,\forall i \in [1,3]$ os estados do sistema.
+% 
+% Foi coletado ainda um conjunto de dados $Z_v$ de \emph{validação}, com condições iniciais $\vec{x} = [-3\,\,\,0\,\,\,0]$ e tempo de simulação de $t_f = 100$ segundos.
+% 
+% \subsubsection{Estimação de parâmetros}
+% 
+% A estimação dos parâmetros do modelo $\mathcal{M}_\phi$ foi realizada pelo algoritmo de mínimos quadrados convencional.
+% 
+% 
+% 
+% 
+% % ----------------------------------------------------------------------
+% \subsection{Resultados}
+% A Figura~\ref{fig:rossler_fase_trn} mostra a fase do sistema (vermelho) e a fase estimada pelo modelo (preto) para os dados de treinamento. A Figura~\ref{fig:rossler_fase_val} mostra a fase do sistema (vermelho) e a fase estimada pelo modelo (preto) para os dados de treinamento. Esses dados apenas mostram que a modelagem realizada obteve resultados razoáveis. Talvez o resultado mais expressivo está nos parâmetros $\theta$ estimados do modelo. A ponderação realizada pelo algoritmo de mínimos quadrados pode ser entendida como uma medida da correlação dos regressores com a evolução da fase do sistema. Os valores dos parâmetros são apresentados na Tabela~\ref{tab:rossler_theta}. Pelo módulo dos parâmetros calculados, é possível verificar que a variável mais influente no modelo da dinâmica da fase é $x_2$ (eixo $y$), seguido por $x_1$ (eixo $x$) e $x_3$ (eixo $z$). Esse resultado vai de encontro com trabalhos anteriores, que consideram o eixo $y$ como melhor forma de obter sincronismo, i.e. aquele que necessita de menor força de interação $\varepsilon$. O modelo apresentado mostra o quão influente cada variável de estado é sobre a dinâmica da fase do sistema. Os altos valores absolutos dos parâmetros relacionados a $x_2$ indicam que uma pequena variação nesse estado pode acarretar grande influência na fase do sistema, portanto, tornando-o mais facilmente \emph{sincronizável} quando a força de interação age em $x_2$, e.g. quando $x_2 = f_2(\vec{x}) + \varepsilon p(t)$.
+% 
+% \begin{table}
+%   \caption{Valores dos parâmetros do modelo de fase $\hat{\phi}$.}
+%   \label{tab:rossler_theta}
+%   \centering
+%   \begin{tabular}{ccc}
+%     Parâmetro & Regressor & Valor Estimado \\ \hline
+%     $\theta_{0}$ & $t(k)$ & $1.0219$ \\
+%     $\theta_{1}$ & $x_1(k-1)$ & $-470.1353$ \\
+%     $\theta_{2}$ & $x_1(k-2)$ & $479.8831$ \\
+%     $\theta_{3}$ & $\sin\big(x_1(k-1)\big)$ & $-0.0075$ \\
+%     $\theta_{4}$ & $\cos\big(x_1(k-1)\big)$ & $0.0142$ \\
+%     $\theta_{5}$ & $x_2(k-1)$ & $-977.9596$ \\
+%     $\theta_{6}$ & $x_2(k-2)$ & $974.6709$ \\
+%     $\theta_{7}$ & $\sin\big(x_2(k-1)\big)$ & $0.0196$ \\
+%     $\theta_{8}$ & $\cos\big(x_2(k-1)\big)$ & $0.0262$ \\
+%     $\theta_{9}$ & $x_3(k-1)$ & $-2.5772$ \\
+%     $\theta_{10}$ & $x_3(k-2)$ & $-2.2642$ \\
+%     $\theta_{11}$ & $\sin\big(x_3(k-1)\big)$ & $-0.4758$ \\
+%     $\theta_{12}$ & $\cos\big(x_3(k-1)\big)$ & $-1.4798$ \\
+%   \end{tabular}
+% \end{table}
+% 
+% 
+% 
+% \begin{figure}
+%  \centering
+%   \includegraphics[scale=0.6]{fig/rossler_fase_trn.pdf}
+%   \caption{Dados de treinamento $Z_t$. Fase do sistema de Rössler (em vermelho) e a estimada pelo modelo (em preto).}
+%  \label{fig:rossler_fase_trn}
+% \end{figure}
+% 
+% \begin{figure}
+%  \centering
+%   \includegraphics[scale=0.6]{fig/rossler_fase_val.pdf}
+%   \caption{Dados de validação $Z_v$. Fase do sistema de Rössler (em vermelho) e a estimada pelo modelo (em preto).}
+%  \label{fig:rossler_fase_val}
+% \end{figure}
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% % ======================================================================
+% \section{Rössler: papel das coordenadas}
+% 
+% Considere o oscilador autônomo:
+% % 
+% \begin{equation}\label{eq:dx_fx_rossler}
+%   \mathcal{R}: \left\{ \dot{\vec{x}} = \boldsymbol{f} (\vec{x}) \right. ,
+% \end{equation}
+% % 
+% representado pelo sistema de Rössler \citep{rossler1976}:
+% % 
+% \begin{equation}\label{eq:rossler_cart_2}
+%  \mathcal{R}: \left\{
+%   \begin{array}{ll}
+%   \dot{x} &= - \omega_2 y - z \\
+%   \dot{y} &= \omega_2 x + a y \\
+%   \dot{z} &= b + z(x - c)
+%   \end{array}
+%  \right. ,
+% \end{equation}
+% % 
+% em que $\vec{x} := [x\,\,y\,\,z]^T \in X \subseteq \mathbb{R}^3$. Um possível mapeamento $\boldsymbol{\Phi}(\vec{x}) : \vec{x} \mapsto \vec{z}$, para coordenadas cilíndricas $\vec{z} := [\phi\,\,\rho\,\,z]^T \in Z \subseteq \{\mathbb{S}^1,\mathbb{R}^2\}$, sendo $\mathbb{S}^1=[0,2\pi]/$, é dado por:
+% % 
+% \begin{equation}\label{eq:rossler_Phi_2}
+%  \vec{z} = \boldsymbol{\Phi}(\vec{x}) := \left[
+%   \begin{array}{c}
+%     \tan^{-1}(\frac{y}{x}) \\
+%     \sqrt{x^2+y^2} \\
+%     z
+%   \end{array} \right] ,
+% \end{equation}
+% % 
+% cujo mapeamento inverso é:
+% % 
+% \begin{equation}\label{eq:rossler_ihP_2}
+%  \vec{x} = \boldsymbol{\Phi}^{-1}(\vec{z}) = \left[
+%   \begin{array}{c}
+%     \rho \cos(\phi) \\
+%     \rho \sin(\phi) \\
+%     z
+%   \end{array} \right] .
+% \end{equation}
+% % 
+% Verifica-se que o mapeamento (\ref{eq:rossler_Phi_2}) é válido para todo $\vec{x} \in X \equiv \mathbb{R}^3$, uma vez que o jacobiano de $\boldsymbol{\Phi}(\vec{x})$ é definido em todo espaço $\mathbb{R}^3$.
+% 
+% Aplicando-se o mapeamento (\ref{eq:rossler_Phi_2}) em (\ref{eq:rossler_cart_2}) é possível obter uma representação na forma:
+% % 
+% \begin{equation}\label{eq:dx_fx_rossler_cyl}
+%   \mathcal{R}_{\Phi}: \left\{ \dot{\vec{z}} = \boldsymbol{f}_{\Phi} (\vec{z}) \right. ,
+% \end{equation}
+% % 
+% em que:
+% % 
+% \begin{equation}\label{eq:rossler_cyl_2}
+%  \mathcal{R}_{\Phi}: \left\{
+%   \begin{array}{ll}
+%   \dot{\phi} &= \omega_2 + a\sin(\phi)\cos(\phi) + z/\rho \sin(\phi) \\
+%   \dot{\rho} &= a \rho \sin^2(\phi) - z \cos(\phi) \\
+%   \dot{z} &= b - c z + \rho z \cos(\phi)
+%   \end{array}
+%  \right. .
+% \end{equation}
+% % 
+% 
+% Nos experimentos descritos a seguir serão considerados os osciladores descritos na forma de $\mathcal{R}$ e $\mathcal{R}_{\Phi}$. O principal objetivo é avaliar as possíveis implicações em se utilizar as coordenadas cilíndricas $\vec{z}$ na representação do sistema e no acoplamento com outros osciladores. 
+% 
+% 
+% 
+% % ----------------------------------------------------------------------
+% \subsection{Rössler forçado}
+% 
+% Considere o sistema Rössler forçado, em coordenadas cartesianas:
+% % 
+% \begin{equation}\label{eq:dx_fx_rossler_cart_Gpt}
+%   \mathcal{R}: \left\{ \dot{\vec{x}} = \boldsymbol{f} (\vec{x}) + G. k p(t) \right. ,
+% \end{equation}
+% % 
+% e também em coordenadas cilíndricas:
+% % 
+% \begin{equation}\label{eq:dx_fx_rossler_cyl_Gpt}
+%   \mathcal{R}_{\Phi}: \left\{ \dot{\vec{z}} = \boldsymbol{f}_{\Phi} (\vec{z}) + G. k p(t) \right. ,
+% \end{equation}
+% % 
+% em que a oscilação forçante é dada por $p(t):= \sin(\omega_1 t)$ e $G \in \mathbb{R}^3$ é uma matriz constante que determina em qual variável o sistema será forçado. Os experimentos foram realizados considerando duas situações:
+% % 
+% \begin{equation}\label{eq:dx_fx_rossler_cyl_G}
+%   \begin{array}{ll}
+%   G_a &= [1\,\,0\,\,0]^T \\
+%   G_b &= [0\,\,1\,\,0]^T
+%   \end{array}  .
+% \end{equation}
+% % 
+% 
+% O sistema foi simulado considerando o atrator Rössler de fase coerente ($a = 0.15$, $b = 0.2$, $c = 10$) com $\omega_2 = 1$, tempo de simulação de $3000$s, sendo os primeiros $2000$s descartados das análises, condições iniciais aleatórias $\vec{z}_0 = [\phi_0\,\,\,\,\rho_0\,\,\,\,0]^T$ ($\vec{x}_0 = [\rho_0\cos\phi_0\,\,\rho_0\sin\phi_0\,\,0]^T$), com $\rho_0 = \mathcal{U}(1,18.3)$ e $\phi_0 = \mathcal{U}(\frac{\pi}{2},\frac{3\pi}{2})$, em que $\mathcal{U}$ denota a distribuição uniforme, e passo de integração definido pela função \texttt{ode45} do software Matlab\textsuperscript{\textregistered}. A frequência da oscilação forçante $\omega_1$ e a força de acoplamento $k$ foram variados entre os valores $\omega_1 \in [0.85,1.15]$rad/s e $k \in [0.00,1.00]$. Foi considerado que o sistema está em regime de sincronismo de fase quando $\phi(t) - \omega_1 t < \pi, \forall t > 2000$s.
+% 
+% A Figura~\ref{fig:arnold_SinWt_RossCyl} mostra as línguas de Arnold para o sistema Rössler forçado por uma entrada senoidal nas variáveis de coordenadas cilíndricas $\mathcal{R}_{\Phi}$. Para comparação, a Figura~\ref{fig:arnold_SinWt_RossCart} mostra as línguas de Arnold para o sistema forçado nas variáveis cartesianas $\mathcal{R}$. Não foi verificado o sincronismo de fase para o acoplamento via variável $z$, que compõe tanto as coordenadas cilíndricas quanto as cartesianas.
+% 
+% \begin{figure}
+%     \centering
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{fig/arnold_SinWt_RossCyl_phi.pdf}
+%         \caption{$G_a$: acoplamento em $\phi$.}
+%         \label{fig:arnold_SinWt_RossCyl_phi}
+%     \end{subfigure}
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{fig/arnold_SinWt_RossCyl_rho.pdf}
+%         \caption{$G_b$: acoplamento em $\rho$.}
+%         \label{fig:arnold_SinWt_RossCyl_rho}
+%     \end{subfigure}
+%     \caption{Línguas de Arnold para o sistema de Rössler forçado por uma entrada senoidal (\ref{eq:dx_fx_rossler_cyl_Gpt}) nas variáveis (a) $\phi$, (b) $\rho$.}\label{fig:arnold_SinWt_RossCyl}
+% \end{figure}
+% 
+% \begin{figure}
+%     \centering
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{fig/arnold_SinWt_RossCart_x.pdf}
+%         \caption{$G_a$: acoplamento em $x$.}
+%         \label{fig:arnold_SinWt_RossCart_x}
+%     \end{subfigure}
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{fig/arnold_SinWt_RossCart_y.pdf}
+%         \caption{$G_b$: acoplamento em $y$.}
+%         \label{fig:arnold_SinWt_RossCart_y}
+%     \end{subfigure}
+%     \caption{Línguas de Arnold para o sistema de Rössler forçado por uma entrada senoidal (\ref{eq:dx_fx_rossler_cart_Gpt}) nas variáveis (a) $x$, (b) $y$.}\label{fig:arnold_SinWt_RossCart}
+% \end{figure}
+% 
+% 
+% A Figura~\ref{fig:arnold_SinWt_RossCyl} mostra que a atuação da força externa em $\phi$ (Fig.~\ref{fig:arnold_SinWt_RossCyl_phi}) possui, dentre os pontos analisados, maior região de sincronismo de fase. Em contrapartida, quando o sistema é forçado na variável $\rho$ (Fig.~\ref{fig:arnold_SinWt_RossCyl_rho}), a região de sincronismo foi a menor entre os casos analisados. Comparando-se a atuação em $\phi$ com a atuação em $x$ (Fig.~\ref{fig:arnold_SinWt_RossCart_x}) e $y$ (Fig.~\ref{fig:arnold_SinWt_RossCart_y}), verificou-se que $\phi$ possui mais pontos em sincronismo, mas não é observada uma diferença expressiva.
+% 
+% Outras duas simulações numéricas foram realizadas utilizando-se acoplamento \emph{dissipativo} entre a oscilação externa e o sistema Rössler: {\bf a)} acoplamento em $\phi$: fez-se $p(t) := \omega_1 t - \phi(t)$ e $G := G_a$ em (\ref{eq:dx_fx_rossler_cyl_Gpt}); {\bf b)} acoplamento em $y$: fez-se $p(t) := \sin(\omega_1 t) - y(t)$ e $G := G_b$ em (\ref{eq:dx_fx_rossler_cart_Gpt}). A Figura~\ref{fig:arnold_SinWt_RossCyl_k12} mostra as línguas de Arnold para os dois casos. Verifica-se que o acoplamento dissipativo pela fase é o que permite sincronismo de fase com menor esforço.
+% 
+% 
+% \begin{figure}
+%   \centering
+%   \begin{subfigure}[b]{0.49\textwidth}
+%       \includegraphics[width=\textwidth]{fig/arnold_SinWt_RossCyl_kWtPhi2.pdf}
+%       \caption{Acoplamento em $\phi$.}
+%       \label{fig:arnold_SinWt_RossCyl_kWtPhi2}
+%   \end{subfigure}
+%   \begin{subfigure}[b]{0.49\textwidth}
+%       \includegraphics[width=\textwidth]{fig/arnold_SinWt_RossCyl_kSinwtY2.pdf}
+%       \caption{Acoplamento em $y$.}
+%       \label{fig:arnold_SinWt_RossCyl_kSinwtY2}
+%   \end{subfigure}
+%   \caption{Línguas de Arnold para o sistema de Rössler com duas formas de acoplamento dissipativo em relação a uma senóide: (a) acoplamento $p(t) := \omega_1 t - \phi(t)$ em $\phi$, nas coordenadas cilíndricas (Eq.~\ref{eq:dx_fx_rossler_cyl_Gpt}); (b) acoplamento $p(t) := \sin(\omega_1 t) - y(t)$ em $y$, nas coordenadas cartesianas (Eq.~\ref{eq:dx_fx_rossler_cart_Gpt}).}
+%   \label{fig:arnold_SinWt_RossCyl_k12}
+% \end{figure}
+% 
+% 
+% % ----------------------------------------------------------------------
+% \subsection{Rössler mestre-escravo}
+% 
+% Considere dois sistemas de Rössler acoplados unidirecionalmente, em coordenadas cartesianas:
+% % 
+% \begin{equation}\label{eq:dx_fx_rossler_rossler_cart}
+%   \mathcal{R}_{1,2}: \left\{ \dot{\vec{x}}_{1,2} = \boldsymbol{f} (\vec{x}_{1,2}) + G_2. k (\vec{x}_{1}-\vec{x}_{2}) \right. ,
+% \end{equation}
+% % 
+% e também em coordenadas cilíndricas:
+% % 
+% \begin{equation}\label{eq:dx_fx_rossler_rossler_cyl}
+%   \mathcal{R}_{\Phi1,2}: \left\{ \dot{\vec{z}}_{1,2} = \boldsymbol{f}_{\Phi} (\vec{z}_{1,2}) + G_2. k (\vec{z}_{1}-\vec{z}_{2}) \right. ,
+% \end{equation}
+% % 
+% em que o subíndice $1$ indica o sistema \emph{mestre} e o subíndice $2$ o sistema \emph{escravo} e $G_2 \in \mathbb{R}^3$ é uma matriz constante que determina a variável de acoplamento entre os sistemas, conforme Eq.~(\ref{eq:dx_fx_rossler_cyl_G}). 
+% 
+% As condições de simulação foram iguais a anterior, sendo que o parâmetro $\omega_1$ do sistema mestre assumiu valores $\omega_1 \in [0.85,1.15]$ e a força de acoplamento $k \in [0.00,0.20]$. Foi considerado que o sistema está em regime de sincronismo de fase quando $\phi(t) - \omega_1 t < \pi, \forall t > 2000$s.
+% 
+% A Figura~\ref{fig:arnold_Ross_RossCyl} e a Figura~\ref{fig:arnold_SinWt_RossCart} mostra as línguas de Arnold para o sistema Rössler acoplado pelas variáveis de coordenadas cilíndricas $\mathcal{R}_{\Phi}$ e pelas variáveis cartesianas $\mathcal{R}$, respectivamente. Nesse tipo de acoplamento também não foi verificado o sincronismo de fase para a variável $z$.
+% 
+% \begin{figure}
+%     \centering
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{fig/arnold_Ross_RossCyl_kPhiPhi2.pdf}
+%         \caption{$G_a$: acoplamento em $\phi$.}
+%         \label{fig:arnold_Ross_RossCyl_kPhiPhi2}
+%     \end{subfigure}
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{fig/arnold_Ross_RossCyl_kRhoRho2.pdf}
+%         \caption{$G_b$: acoplamento em $\rho$.}
+%         \label{fig:arnold_Ross_RossCyl_kRhoRho2}
+%     \end{subfigure}
+%     \caption{Línguas de Arnold para dois sistemas de Rössler $\mathcal{R}_{\Phi}$ com acoplamento unidirecional dissipativo (\ref{eq:dx_fx_rossler_rossler_cyl}) nas variáveis (a) $\phi$, (b) $\rho$.}\label{fig:arnold_Ross_RossCyl}
+% \end{figure}
+% 
+% \begin{figure}
+%     \centering
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{fig/arnold_Ross_RossCart_kX1X2.pdf}
+%         \caption{$G_a$: acoplamento em $x$.}
+%         \label{fig:arnold_Ross_RossCart_kX1X2}
+%     \end{subfigure}
+%     \begin{subfigure}[b]{0.49\textwidth}
+%         \includegraphics[width=\textwidth]{fig/arnold_Ross_RossCart_kY1Y2.pdf}
+%         \caption{$G_b$: acoplamento em $y$.}
+%         \label{fig:arnold_Ross_RossCart_kY1Y2}
+%     \end{subfigure}
+%     \caption{Línguas de Arnold para dois sistemas de Rössler $\mathcal{R}$ com acoplamento unidirecional dissipativo (\ref{eq:dx_fx_rossler_rossler_cart}) nas variáveis (a) $x$, (b) $y$.}\label{fig:arnold_Ross_RossCart}
+% \end{figure}
+% 
+% Verifica-se que o acoplamento dissipativo, em uma única variável, que despende menor esforço se dá em $\phi$, nas coordenadas cilíndricas. No experimento, quase todos os valores de força de interação $k$ diferentes de zero levaram os sistemas ao sincronismo de fase quando acoplados por $\phi$. Por outro lado, o acoplamento em $\rho$ mostrou-se pouco efetivo. As variáveis cartesianas $x$ e $y$ mostraram um desempenho semelhante entre si, sem diferenças expressivas.
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% % ======================================================================
+% \section{Sistema de Poincaré: papel das coordenadas}
+% 
+% O sistema de Poincaré:
+% % 
+% \begin{equation}\label{eq:poincare_cart_2}
+%  \mathcal{P}: \left\{
+%   \begin{array}{ll}
+%   \dot{x} &= - \omega y - \lambda(x^2 + y^2 - p^2) x_1 \\
+%   \dot{y} &= \omega x - \lambda(x^2 + y^2 - p^2) x_1 \\
+%   \end{array}
+%  \right. ,
+% \end{equation}
+% % 
+% em que $\vec{x} := [x\,\,y]^T \in X \subseteq \mathbb{R}^2$ pode ser mapeado para coordenadas polares $\vec{z} := [\phi\,\,\rho]^T \in Z \subseteq \{\mathbb{S}^1,\mathbb{R}^1\}$ por meio de $\boldsymbol{\Phi}(\vec{x}) : \vec{x} \mapsto \vec{z}$:
+% % % 
+% % \begin{equation}\label{eq:poincare_Phi_2}
+% %  \vec{z} = \boldsymbol{\Phi}(\vec{x}) := \left[
+% %   \begin{array}{c}
+% %     \tan^{-1}(\frac{y}{x}) \\
+% %     \sqrt{x^2+y^2}
+% %   \end{array} \right] ,
+% % \end{equation}
+% % % 
+% % cujo mapeamento inverso é dado por:
+% % % 
+% % \begin{equation}\label{eq:poincare_ihP_2}
+% %  \vec{x} = \boldsymbol{\Phi}^{-1}(\vec{z}) = \left[
+% %   \begin{array}{c}
+% %     \rho \cos(\phi) \\
+% %     \rho \sin(\phi)
+% %   \end{array} \right] .
+% % \end{equation}
+% % % 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% 
+% % Aplicando-se o mapeamento (\ref{eq:rossler_Phi_2}) em (\ref{eq:rossler_cart_2}) é possível obter uma representação na forma:
+% % % 
+% % \begin{equation}\label{eq:dx_fx_rossler_cyl}
+% %   \mathcal{R}_{\Phi}: \left\{ \dot{\vec{z}} = \boldsymbol{f}_{\Phi} (\vec{z}) \right. ,
+% % \end{equation}
+% % % 
+% % em que:
+% % % 
+% % \begin{equation}\label{eq:rossler_cyl_2}
+% %  \mathcal{R}_{\Phi}: \left\{
+% %   \begin{array}{ll}
+% %   \dot{\phi} &= \omega_2 + a\sin(\phi)\cos(\phi) + z/\rho \sin(\phi) \\
+% %   \dot{\rho} &= a \rho \sin^2(\phi) - z \cos(\phi) \\
+% %   \dot{z} &= b - c z + \rho z \cos(\phi)
+% %   \end{array}
+% %  \right. .
+% % \end{equation}
+% % % 
+% % 
+% % Nos experimentos descritos a seguir serão considerados os osciladores descritos na forma de $\mathcal{R}$ e $\mathcal{R}_{\Phi}$. O principal objetivo é avaliar as possíveis implicações em se utilizar as coordenadas cilíndricas $\vec{z}$ na representação do sistema e no acoplamento com outros osciladores. 
+% % 
+% % 
+% % 
+% % % ----------------------------------------------------------------------
+% % \subsection{Rössler forçado}
+% % 
+% % Considere o sistema Rössler forçado, em coordenadas cartesianas:
+% % % 
+% % \begin{equation}\label{eq:dx_fx_rossler_cart_Gpt}
+% %   \mathcal{R}: \left\{ \dot{\vec{x}} = \boldsymbol{f} (\vec{x}) + G. k p(t) \right. ,
+% % \end{equation}
+% % % 
+% 
+% 
+% 
+% 
+% 

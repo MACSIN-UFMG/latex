@@ -1,0 +1,381 @@
+%-------------------------------------------------------------------
+%Definições gerais do documento
+\documentclass[12pt,a4paper,titlepage,brazil]{book}
+%--------------------------------------------------------------------
+%Inclui os pacotes utilizados neste documento
+\usepackage[latin1]{inputenc} %permite o uso de caracteres latinos (acentuação e outras coisas)
+\usepackage[brazil]{babel} %faz a localização dos pacotes
+\usepackage[T1]{fontenc} %define fonte vetorial
+\usepackage{graphicx} %para o uso de figuras
+\usepackage{caption}
+\usepackage{subcaption}
+% \usepackage{tikz,pgfplots} %permite o uso do pgfplots
+\usepackage{acronym} %para a gerências de siglas durante o texto
+\usepackage{dsfont} %permite o uso de certos caracteres especiais
+\usepackage{amsmath} %permite o uso de certos caracteres especiais e do ambiente align
+\usepackage{mathtools}
+\usepackage{setspace} %para o controle do espaçamento entre linhas
+\usepackage[left=2.5cm,right=2.5cm,top=4cm,bottom=2.5cm]{geometry}
+\usepackage{amsthm} %permite a criação de ambientes de teorema, definição e permite o uso do ambiente proof
+\usepackage{import} %permite o uso do comando import (para as figuras geradas com o inkscape)
+\usepackage{pdflscape} %permite o uso do ambiente landscape (para colocar certas páginas em paisagem)
+\usepackage{pdfpages} %permite o uso do comando \includepdf para inserir uma página pdf no documento (folha de aprovação)
+\usepackage{hyperref} %cria hyperlinks dentro do texto
+\usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage{amssymb} %símbolos diversos
+\usepackage{multirow} %uso de múltiplas linha nas tabelas
+\usepackage{courier} %para usar fonte Courier no comando \texttt{blábláblá}
+% \usepackage{cite}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs} %pacote para letra script no modo matemático
+\usepackage{enumerate} %pacote para alterar simbolos de enumeração
+% \usepackage[authoryear,round,longnamesfirst]{natbib}
+% \usepackage[style=authoryear,dashed=false,backend=bibtex8,giveninits=true,uniquename=init]{biblatex} %modifica a utilização do arquivo de referências
+\usepackage[style=authoryear,dashed=false,backend=biber,giveninits=true,uniquename=init]{biblatex} %modifica a utilização do arquivo de referências
+
+%Configurações do hyperref
+\hypersetup{
+    pdftitle={Sincronismo de Fase de Osciladores},
+    pdfauthor={Leandro Freitas Abreu},
+    pdfsubject={Projeto de Tese I - PPGEE - UFMG},
+    pdfkeywords={sincronismo de fase, dinâmica de fase, osciladores não-lineares, controle},
+    colorlinks=true,
+    linkcolor=darkgray,
+    citecolor=darkgray,
+    urlcolor=darkgray
+}
+
+%Define comando para uso de epígrafes
+\newcommand{\epigrafe}[1]{
+    \begin{minipage}{.5\textwidth}
+        \hspace{1cm}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+        \vspace{1cm}{\raggedright\par\sffamily\slshape #1\par}
+    \end{minipage}
+}
+
+%Define comando para uso de epígrafes no começo de um capítulo
+\newcommand{\epigrafec}[1]{
+    \vspace{-1.8cm}
+    \begin{minipage}{.5\textwidth}
+        \hspace{1cm}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+        \vspace{1cm}{\raggedright\par\sffamily\slshape #1\par}
+    \end{minipage}
+    \\[1.5cm]
+}
+
+%Comando para pequeno texto de introdução ao capítulo - normalmente utilizado logo no início do capítulo
+\newcommand{\intro}[1]{
+\singlespacing
+\noindent\emph{#1} \\
+\onehalfspacing
+}
+
+%Cria ambientes para teoremas e definições e os configura
+\theoremstyle{plain}
+\newtheorem{thm}{Teorema}[chapter]
+\newtheorem{met}{Metodologia}[chapter]
+\newtheorem{lem}{Lema}[chapter]
+\theoremstyle{definition}
+\newtheorem{propos}{Proposição}[chapter]
+\newtheorem{defi}{Definição}[chapter] % usado!
+\newtheorem{prop}{Propriedade}[chapter]
+\newtheorem{exem}{Exemplo}[chapter] % usado!
+
+%redefine o comando sin de modo que ele escreva sen ao invés de sin
+\renewcommand{\sin}{\operatorname{sen}}
+
+% redefine espaçamento entre linhas das tabelas
+\renewcommand{\arraystretch}{1.5}
+
+%declara operador argmin
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% cria atalho para citação com parênteses e textual
+\let \citep=\parencite
+\let \citet=\textcite
+\let \Citet=\Textcite
+% {}
+
+
+%--------------------------------------------------------------------
+%Capítulo personalizado
+\makeatletter
+\def\thickhrulefill{\leavevmode \leaders \hrule height 1ex \hfill \kern \z@}
+\def\@makechapterhead#1{%
+  \vspace*{10\p@}%
+  {\parindent \z@ \centering \reset@font
+        \thickhrulefill\quad
+        \bfseries \@chapapp{} \thechapter
+        \quad \thickhrulefill
+        \par\nobreak
+        \vspace*{10\p@}%
+        \interlinepenalty\@M
+        \hrule
+        \vspace*{10\p@}%
+        \Huge \bfseries #1\par\nobreak
+        \par
+        \vspace*{10\p@}%
+        \hrule
+    \vskip 70\p@    %100
+  }}
+\def\@makeschapterhead#1{%
+  \vspace*{10\p@}%
+  {\parindent \z@ \centering \reset@font
+        \thickhrulefill
+        \par\nobreak
+        \vspace*{10\p@}%
+        \interlinepenalty\@M
+        \hrule
+        \vspace*{10\p@}%
+        \Huge \bfseries #1\par\nobreak
+        \par
+        \vspace*{10\p@}%
+        \hrule
+    \vskip 70\p@
+ }
+}
+
+
+%--------------------------------------------------------------------
+%Arquivo com bibliografia
+\bibliography{99_referencias}
+
+%--------------------------------------------------------------------
+%Variação da altura da linha
+\renewcommand{\baselinestretch}{1.1}
+
+%--------------------------------------------------------------------
+
+\begin{document}
+%-----------------------------------------------------------------------------------------------------------------------
+%Insere a capa do documento
+\pagestyle{empty}
+\include{00_capa}
+
+%---------------------------------------------------------------------------------------------------
+%Insere a folha de rosto
+\pagenumbering{roman}
+\include{00_rosto}
+
+%---------------------------------------------------------------------------------------------------
+%Insere a folha de aprovação
+% \includepdf{folha_aprovacao.pdf}
+\cleardoublepage
+
+%---------------------------------------------------------------------------------------------------
+%Muda o espaçamento do texto para 1.5 entre linhas a partir desse ponto
+\onehalfspacing
+% %---------------------------------------------------------------------------------------------------
+% %Dedicatória
+% \cleardoublepage
+% \pagestyle{empty}
+% \vspace{5.5cm}
+% \begin{flushright}
+% À minha amada esposa Bárbara Mourão Aranha Freitas.
+% \end{flushright}
+% \cleardoublepage
+% %
+% %---------------------------------------------------------------------------------------------------
+% %Agradecimentos
+% \chapter*{Agradecimentos}
+% \thispagestyle{empty}
+% \vfill
+% Numa das viagens de férias, ainda pouco habituado com a direção naquelas estradas esburacadas, deixo o carro, todo cheio, degringolar mata-burro abaixo. Cabisbaixo e menoscabado com a imperícia, entrego as chaves e recuso-me a continuar. Foi então que meu velho, apesar de deveras agastado com o sucedido, segurou firme o molho contra meu peito, fitou-me profundamente e interviu: ``você vai até o fim''. \\ \\
+% Assim era a convivência com meu velho: ligeira e intensa, palavras poucas e sentido muito, misto de furor e ternura. E cá estou ainda persistindo... obrigado meu velho pai!
+% 
+% 
+% Obrigado.
+% %
+% %---------------------------------------------------------------------------------------------------
+% %Epígrafe
+% \cleardoublepage
+%     \thispagestyle{empty}
+%     \vfill
+%     \epigrafe{``Na vida, o que aprendemos mesmo é a sempre fazer maiores perguntas.''\\ (João Guimarães Rosa) }
+%     \vfill
+% % \cleardoublepage
+% % \cleardoublepage
+%     \thispagestyle{empty}
+%     \vfill
+%     \epigrafe{``Below a threshold, anarchy prevails; above it, there is a collective rhythm.''\\ (Arthur Taylor Winfree) }
+%     \vfill
+% % \cleardoublepage
+% % \cleardoublepage
+%     \thispagestyle{empty}
+%     \vfill
+%     \epigrafe{``No man is an Iland, intire of itselfe; every man is a peece of the Continent, a part of the maine; if a Clod bee washed away by the Sea, Europe is the lesse, as well as if a Promontorie were, as well as if a Manor of thy friends or of thine owne were; any mans death diminishes me, because I am involved in Mankinde; And therefore never send to know for whom the bell tolls; It tolls for thee.''\\ (John Donne) }
+%     \vfill
+% \cleardoublepage
+% %
+%%---------------------------------------------------------------------------------------------------
+%%Resumo
+\chapter*{Resumo}
+\pagestyle{plain}
+
+O sincronismo de fase de osciladores é um fenômeno observado em várias áreas do conhecimento. O estudo e caracterização desse fenômeno tem recebido bastante atenção nos últimos anos, mas uma teoria geral, aplicável a qualquer classe de sistemas ainda não foi estabelecida. Este trabalho apresenta uma proposta de definição de fase para osciladores representados em espaço de estados, a partir do campo vetorial do sistema. A definição pode descrever melhor a dinâmica de evolução da fase do sistema, correspondente ao expoente nulo de Lyapunov. São propostos índices para avaliar a relação de uma variável de saída do sistema com a fase definida. São apresentados alguns resultados preliminares ilustrando possíveis uso dos índices e da definição de fase proposta. O trabalho traz ideias de continuidade, visando avaliar as propostas apresentadas e expandir suas aplicações para o projeto de controladores de sincronismo de fase.
+
+
+%---------------------------------------------------------------------------------------------------
+%Abstract
+\chapter*{Abstract}
+Phase synchronization is a phenomenon observed in several areas of knowledge. A good characterization of the phenomenon has received considerable attention in recent years, but a general theory, applicable to any class of systems was not developed. This work presents a novel phase definition for oscillators represented in state space format, based on its vector field. The definition can represent better the phase evolution of the system, corresponding to the zero Lyapunov exponent. It was proposed indices to measure the relation between an arbitrary system output and the phase proposed. Some preliminary results are described illustrating the use of the indices and the phase definition. Some ideas to evaluate the validity of the proposals and to expand its applications are presented.
+
+
+%---------------------------------------------------------------------------------------------------
+%Lista de Figuras
+\listoffigures
+
+%---------------------------------------------------------------------------------------------------
+%Lista de Tabelas
+\listoftables
+
+
+%---------------------------------------------------------------------------------------------------
+%Lista de Abreviações
+\chapter*{Lista de Siglas e Abreviações}
+%Define as siglas utilizadas nesta dissertação
+\begin{acronym}[HOSVD]
+  \acro{CAPES}{Coordenação de Aperfeiçoamento de Pessoal de Nível Superior}
+  \acro{CNPq}{Conselho Nacional de Desenvolvimento Científico e Tecnológico}
+  \acro{CPH}{Centro de Pesquisas Hidráulicas e Recursos Hídricos}
+  \acro{DELT}{Departamento de Engenharia Eletrônica da UFMG}
+  \acro{FAPEMIG}{Fundação de Amparo à Pesquisa do Estado de Minas Gerais}
+%   \acro{FFT}{Transformada rápida de Fourier\acroextra{ - \emph{Fast Fourier Transform}}}
+%   \acro{LIT}{Linear Invariante no Tempo}
+  \acro{MACSIN}{Grupo de Pesquisa em Modelagem, Análise e Controle de SIstemas Não-lineares}
+  \acro{PLL}{Malha de captura de fase\acroextra{ - \emph{Phase-Locked Loop}}}
+  \acro{PPGEE}{Programa de Pós-Graduação em Engenharia Elétrica}
+  \acro{IFMG}{Instituto Federal de Educação, Ciência e Tecnologia de Minas Gerais}
+  \acro{UFMG}{Universidade Federal de Minas Gerais}
+  \acro{UPO}{Órbita periódica instável\acroextra{ - \emph{unstable periodic orbit}}}
+\end{acronym}
+%
+%---------------------------------------------------------------------------------------------------
+%Notação
+\chapter*{Símbolos e Notação}
+%Define símbolos e notação utilizadas nesta dissertação
+
+Aqui são descritos a notação e os principais símbolos utilizados.
+
+\section*{Notação}
+\begin{acronym}[HOSVD]
+  \acro{esc}[$a$]{Escalar}
+  \acro{vec}[$\vec{a}$]{Vetor}
+  \acro{vecComp}[$a_i$]{$i$-ésimo componente do vetor $\vec{a}$}
+  \acro{mat}[$A$]{Matriz}
+  \acro{vecT}[$\vec{a}^T$]{Vetor transposto}
+  \acro{matT}[$A^T$]{Matriz transposta}
+  \acro{func}[$a(.)$]{Campo escalar}
+  \acro{campVec}[$\boldsymbol{a}(.)$]{Campo vetorial}
+  \acro{dEsc}[$\dot{a}$]{Derivada de $a$ com relação ao tempo $t \in \mathbb{R}$}
+  \acro{dVec}[$\dot{\vec{a}}$]{Derivada do vetor $\vec{a}$ com relação ao tempo $t \in \mathbb{R}$}
+  \acro{dadB}[$\frac{\partial a(\vec{b})}{\partial \vec{b}}$]{Vetor de derivadas parciais do campo escalar $a(\vec{b})$ com relação a cada componente do vetor $\vec{b}$, ou gradiente de $a$ com relação a $\vec{b}$}
+  \acro{dAdB}[$\frac{\partial \boldsymbol{a}(\vec{b})}{\partial \vec{b}}$]{Matriz de derivadas parciais do campo vetorial $\boldsymbol{a}$ com relação a cada componente do vetor $\vec{b}$, ou matriz jacobiana de $\boldsymbol{a}$ com relação a $\vec{b}$}
+  \acro{lieDer}[$\mathcal{L}_{\boldsymbol{a}} b$]{Derivada de Lie do campo escalar $b$ na direção do campo vetorial $\boldsymbol{a}$}
+  \acro{nat}[$\mathbb{N}$]{Conjunto dos números naturais}
+  \acro{re}[$\mathbb{R}$]{Conjunto dos números reais}
+  \acro{rePlus}[$\mathbb{R}^+$]{Conjunto dos números reais positivos}
+  \acro{rePlusZer}[$\mathbb{R}^{*+}$]{Conjunto dos números reais positivos sem o zero}
+  \acro{equiv}[$\equiv$]{Equivalente}
+  \acro{eqDef}[$ \coloneqq $]{Igual por definição}
+  \acro{approx}[$\approx$]{Aproximadamente}
+  \acro{dot}[$ \left\langle , \right\rangle $]{Produto escalar}
+  \acro{norma}[$\| . \|$]{Operador norma}
+\end{acronym}
+
+
+\section*{Principais símbolos utilizados}
+\begin{acronym}[HOSVD]
+  \acro{n}[$n$]{Escalar que representa a ordem do sistema dinâmico}
+  \acro{xy}[$x,y$]{Estados do sistema dinâmico de segunda ordem ($n=2$)}
+  \acro{xyz}[$x,y,z$]{Estados do sistema dinâmico de terceira ordem ($n=3$)}
+  \acro{x}[$\vec{x}, \vec{z}$]{Vetores de estados do sistema dinâmico, e.g. $\vec{x}=[x,y]^T$ ou $\vec{x}=[x,y,z]^T$}
+  \acro{k}[$k,\varepsilon$]{Escalar (e.g. constante) que representa a força de interação entre dois osciladores}
+  \acro{u}[$u$]{Escalar que representa uma entrada do sistema dinâmico}
+  \acro{X}[$X, Z$]{Conjunto de todos estados possíveis de $\vec{x}$ e $\vec{z}$, respectivamente}
+  \acro{A}[$A, B$]{Matrizes constantes}
+  \acro{h}[$h(.)$]{Campo escalar de saída do sistema dinâmico}
+  \acro{omega}[$\omega$]{Frequência de oscilação do sistema}
+  \acro{T}[$T$]{Período de oscilação do sistema}
+  \acro{phi0}[$\phi(.)$]{Campo escalar que representa a \emph{fase} ``ideal'' de um oscilador (detalhes no texto)}
+  \acro{phi1}[$\tilde{\phi}(.)$]{Campo escalar que representa a definição de \emph{fase} proposta (detalhes no texto)}
+  \acro{phi2}[$\varphi(.)$]{Campo escalar que representa uma definição de \emph{fase} genérica}
+  \acro{f}[$\boldsymbol{f}(.),\boldsymbol{g}(.)$]{Campos vetoriais de deriva e direcionamento do sistema dinâmico}
+  \acro{Phi}[$\boldsymbol{\Phi}(\vec{x})$]{Mapeamento de $\vec{x} \in X$ para $\vec{z} \in Z$}
+  \acro{ihP}[$\boldsymbol{\Phi}^{-1}(\vec{z})$]{Mapeamento inverso de $\vec{z} \in Z$ para $\vec{x} \in X$}
+  \acro{Poin}[$\Gamma_{\mathcal{P}}$]{Seção de Poincaré no atrator}
+  \acro{Gamma}[$\Gamma_0$]{Conjunto $\omega$-limite, não unitário, do sistema dinâmico: ciclo limite ou atrator estranho}
+  \acro{gamma}[$\gamma_i$]{$i$-ésima trajetória do sistema dinâmico, escolhida arbitrariamente}
+\end{acronym}
+
+
+
+%---------------------------------------------------------------------------------------------------
+%Sumário
+\tableofcontents
+
+%%---------------------------------------------------------------------------------------------------
+% Início do texto da dissertação
+\clearpage
+\pagestyle{myheadings}
+\pagenumbering{arabic}
+%%---------------------------------------------------------------------------------------------------
+%Definição de cabeçalhos
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}{}}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\rightmark}
+\fancyhead[RE]{\leftmark}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.0pt}
+\addtolength{\headheight}{3.1pt}                % 2.5pt
+\fancypagestyle{plain}{
+     \fancyhead{}
+     \renewcommand{\headrulewidth}{0pt}
+     }
+%---------------------------------------------------------------------------------------------------
+%INTRODUÇÃO (Introdução do trabalho)
+\include{01_introducao}
+
+%---------------------------------------------------------------------------------------------------
+%SINCRONISMO DE OSCILADORES
+\include{02_sincronismo}
+
+%---------------------------------------------------------------------------------------------------
+%PROPOSTA DE DEFINIÇÃO DE FASE
+\include{03_proposta}
+
+%---------------------------------------------------------------------------------------------------
+%ÍNDICE DE INFORMAÇÃO DE FASE
+\include{04_informacaoFase}
+
+% %---------------------------------------------------------------------------------------------------
+% %CONTROLE DE SINCRONISMO DE OSCILADORES (este capítulo só aparecerá na tese)
+% \include{05_controleSinc}
+
+%---------------------------------------------------------------------------------------------------
+%PROPOSTA DE CONTINUIDADE
+\include{06_propostaContinuidade}
+
+%---------------------------------------------------------------------------------------------------
+%REFERÊNCIAS BIBLIOGRÁFICAS
+\printbibliography
+
+\addcontentsline{toc}{chapter}{Bibliografia}
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+%---------------------------------------------------------------------------------------------------
+%APÊNDICES
+\appendix
+
+
+\end{document}

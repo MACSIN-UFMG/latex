@@ -1,0 +1,902 @@
+\chapter{Informação de Fase}
+\label{cap:04_infoFase}
+
+O sincronismo de fase de osciladores, na maioria das definições presentes em trabalhos científicos, pressupõe a existência de uma grandeza denominada \emph{fase} proveniente dos osciladores. A busca de um conceito que caracterize esta grandeza foi o tema do Capítulo~\ref{cap:03_proposta}. Neste capítulo estuda-se como forças externas (e.g. acoplamento com outro oscilador) podem influenciar a dinâmica da fase de um oscilador e como informações sobre essa grandeza podem ser extraídas do sistema, considerando a proposta do capítulo anterior. Sob essa perspectiva, são estudadas formas de acoplamento, especialmente para osciladores vastamente utilizados em trabalhos de sincronismo. São propostas três métricas para quantificar i) a \emph{informação} sobre a fase que um sinal de saída pode ter, ii) a \emph{representatividade} de fase de um sinal de saída e iii) a \emph{influência} na fase que um sinal de entrada pode exercer. São apresentados exemplos em que as métricas são utilizadas para escolha da variável de acoplamento e para avaliação de uma variável descritora de fase (\emph{phase-like variable}).
+
+
+
+
+
+
+
+% ======================================================================
+\section{Introdução} \label{sec:infoFase}
+
+Neste capítulo serão considerados osciladores descritos por uma equação de estado, tal qual a Eq.~\ref{eq:dx=fx}, e que estes admitem apenas \emph{uma} variável que descreva a \emph{fase} da oscilação. Sistemas que admitem nenhuma (e.g. nenhum expoente de Lyapunov nulo) ou mais de uma (e.g. mais de um expoente de Lyapunov nulo) variável \emph{fase} não são considerados.
+% Considera-se ainda que o \emph{sincronismo de fase} ocorre quando a diferença entre a fase dos osciladores é limitada, i.e. $| \phi_1 - \phi_2 | < \mathrm{const.}$ e a dinâmica de diferença de fase é majoritariamente estável numa revolução, i.e. $\dot{\bar{\psi}} < 0 $, em que $\bar{\psi}$ é a média da diferença de fase numa revolução no atrator.
+
+As análises são realizadas considerando a Definição~\ref{def:fase_geral}: a direção de maior crescimento da fase é a mesma do campo vetorial $\boldsymbol{f}(\vec{x})$. Assumindo tal definição, é possível dizer que a evolução da fase durante a oscilação pode ser percebida em qualquer projeção $\boldsymbol{f}(\vec{x})$, em maior ou menor grau. Isso significa que qualquer variável de estado (e.g. $x$) possui alguma informação sobre a evolução da fase do sistema no instante em que sua derivada é não nula (e.g. $\dot{x} \neq 0$), já que a derivada de uma variável de estado é uma projeção do campo vetorial e, portanto, uma projeção do crescimento da fase. É possível imaginar então que um oscilador, definido num espaço de dimensão adequada, pode alcançar o sincronismo de fase com acoplamento em qualquer uma das variáveis de estado. Essa assertiva não se verifica na prática, uma vez que a projeção nos estados não é igualmente balanceada, sendo que algumas variáveis possuem mais \emph{informação de fase} em relação a outras e, ainda, algumas possuem mais \emph{influência na fase} do sistema do que outras.
+
+A seguir será analisado o problema de sincronismo de fase do ponto de vista dos conceitos de \emph{informação} e \emph{influência} de fase. Será avaliado o quanto de informação sobre a fase do oscilador pode estar contida numa variável de estado -- ou num sinal de saída do sistema, e o quanto um sinal de entrada pode influenciar a dinâmica da fase. A discussão será direcionada sempre com vistas ao sincronismo de fase de osciladores.
+
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Colocação do problema}
+
+Sejam dois osciladores acoplados unidirecionalmente:
+% 
+\begin{align}\label{eq:dx_fx+pt}
+  \mathcal{S}_0:& \left\{ \dot{\vec{x}}_0 = \boldsymbol{f}_0 (t) \right. \nonumber \\
+  \mathcal{S}:& \left\{ \dot{\vec{x}} = \boldsymbol{f} (\vec{x}) + \boldsymbol{p} (t) \right. .
+\end{align}
+% 
+Assume-se que os sistemas $\mathcal{S}_0$ e $\mathcal{S}$ admitem uma fase $\phi_0$ e $\phi$, respectivamente. O acoplamento entre os sistemas é realizado pelo campo vetorial $\boldsymbol{p}(t)$. Para uma primeira análise, assume-se que o sincronismo de fase ocorre quando:
+% 
+\begin{align}\label{eq:phi1=phi2_infoFase}
+  \left\{
+  \begin{array}{ll}
+    &\phi(t) \approx \phi_0(t) \\
+    &\dot{\phi}(t) \approx \dot{\phi}_0(t) .
+  \end{array}
+  \right.
+\end{align}
+% 
+
+Para que ocorra o sincronismo de fase entre $\mathcal{S}_0$ e $\mathcal{S}$, o acoplamento $\boldsymbol{p}$ tem papel fundamental no controle de $\phi(t)$. Nesse papel distingue-se duas atribuições: (i) \emph{medição} e (ii) \emph{atuação}. A primeira refere-se a (i) levar a $\mathcal{S}$ informação sobre a evolução da fase de $\mathcal{S}_0$, enquanto a segunda diz sobre (ii) a direção de atuação em $\mathcal{S}$ de modo a influenciar ao máximo sua fase para atingir o sincronismo, fazendo com que $\phi_0 \approx \phi$. Para distinguir essas duas atribuições, define-se\footnote{Esse desmembramento de $\boldsymbol{p}$ é considerado razoável, já que se pressupõe que a variável fase $\phi$, que se deseja controlar (i.e. sincronizar), é unidimensional, não sendo necessário, por exemplo, considerar mais de um sinal de entrada (e.g. $u_1, u_2, u_3, \dots$).}:
+% 
+\begin{equation}\label{eq:p=g.u(t)}
+  \boldsymbol{p}(t) \coloneqq \boldsymbol{g}(t) u(t) ,
+\end{equation}
+% 
+em que $\boldsymbol{g}$ é um campo vetorial de norma unitária $\| \boldsymbol{g}(t) \| = 1 \,\,\, \forall t$ que diz respeito à \emph{direção} de atuação em $\mathcal{S}$, enquanto que $u(t)$ diz respeito à \emph{forma} de atuação -- que deve conter alguma informação sobre a fase do oscilador $\mathcal{S}_0$. Em outras palavras, $u(t)$ está relacionado à (i) \emph{medição} da fase $\phi_0$ e $\boldsymbol{g}$ está relacionado com a (ii) \emph{atuação} na fase $\phi$, cuja dinâmica é dada por:
+% 
+\begin{align}\label{eq:dPhi_infoFase}
+  \dot{\phi} &= \mathcal{L}_{\left(\boldsymbol{f}+\boldsymbol{p}\right)} \phi \nonumber \\
+    &= \mathcal{L}_{\boldsymbol{f}} \phi + \mathcal{L}_{\boldsymbol{p}} \phi \nonumber \\
+    &= \mathcal{L}_{\boldsymbol{f}} \phi + \left( \mathcal{L}_{\boldsymbol{g}} \phi \right) \, u(t) \nonumber \\
+    &= \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{f} \right) + \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{g} \right) \, u(t)
+    ,
+\end{align}
+% 
+em que $\mathcal{L}$ denota a derivada de Lie e as dependências explícitas de $\vec{x}$ e $t$ foram omitidas por concisão\footnote{A partir deste ponto algumas dependências explícitas de $\vec{x}$ e $t$ serão omitidas, para maior simplicidade.}.
+
+% ----------------------------------------------------------------------
+\subsection{Atuação na fase}
+
+Para análise da \emph{atuação} de $u(t)$ na equação dinâmica $\dot{\phi}$ (Eq.~\ref{eq:dPhi_infoFase}), supõe-se que $u(t)$ é um sinal adequado para atingir o sincronismo (Eq.~\ref{eq:phi1=phi2_infoFase}) e tem norma limitada por $\| u(t) \| < u_{\rm max} \,\,\, \forall t$. Nesse caso, o papel de $\boldsymbol{g}(t)$ é maximizar a influência de $u(t)$ em $\dot{\phi}$. Como o segundo termo entre parênteses da Eq.~\ref{eq:dPhi_infoFase} é um produto interno entre campos vetoriais, não é difícil perceber que $u(t)$ exercerá maior influência na fase quando $\boldsymbol{g}(t)$ apontar na mesma direção de $d\phi/d \vec{x}$. Considerando a Definição~\ref{def:fase}, isso equivale a dizer que:
+% 
+\begin{equation}\label{eq:g=fx/|fx|}
+  \boldsymbol{g}(t) \coloneqq \frac{1}{\| \boldsymbol{f}(\vec{x}) \|} \,\, \boldsymbol{f}(\vec{x}) ,
+\end{equation}
+%
+em que a divisão pela norma é colocada para atender a condição $\| \boldsymbol{g}(t) \| = 1$. Note que isso é válido para todo espaço de estados, a menos dos pontos fixos em que $\| \boldsymbol{f}(\vec{x}) \| = \boldsymbol{0}$. Com essa direção de \emph{atuação} em $\mathcal{S}$, e assumindo a Definição~\ref{def:fase}, a dinâmica de $\phi$ (Eq.~\ref{eq:dPhi_infoFase}) torna-se:
+% 
+\begin{align}\label{eq:dPhi_infoFase_gx=fx}
+  \dot{\phi} &= \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{f} \right) + \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{g} \right) \, u(t) \nonumber \\
+    &= \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{f} \right) + \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{f} \right) \frac{1}{\| \boldsymbol{f} \|} \, u(t) \nonumber \\
+    &= \bigg( c \, \| \boldsymbol{f} \|^2 \bigg) + \bigg( c \, \| \boldsymbol{f} \|^2 \bigg) \frac{1}{\| \boldsymbol{f} \|} \, u(t)
+    .
+\end{align}
+% 
+Note que nesse caso o sinal de acoplamento atua diretamente na frequência natural do sistema, com norma máxima dada por $u_{\rm max} / \| \boldsymbol{f} \|$. É possível dizer ainda que a influência de $u(t)$ nunca vai a zero -- a menos dos pontos fixos de $\boldsymbol{f}$, onde a ação de controle não se define.
+
+Logo, assumindo a Definição~\ref{def:fase}, a direção de atuação que exerce maior influência na fase de um oscilador é a direção do próprio campo vetorial $\boldsymbol{f}(\vec{x})$ que rege o comportamento dinâmico do sistema.
+
+% ----------------------------------------------------------------------
+\subsection{Medição da fase}
+
+Para determinar qual informação $u(t)$ precisa conter, será exigido que a dinâmica das fases de $\mathcal{S}_0$ e $\mathcal{S}$ seja \emph{idêntica}. Esse tipo de definição é mais forte do que o usual em trabalhos de sincronismo de fase de osciladores -- que costumam exigir travamento de fase apenas. Porém, o intuito é proporcionar uma referência de comparação para o ``sinal ideal'' de $u(t)$, buscado aqui.
+
+Desta forma, para que $\dot{\phi} = \dot{\phi}_0$, manipula-se a Eq.~\ref{eq:dPhi_infoFase}:
+% 
+\begin{align}\label{eq:u(t)_infoFase}
+  u(t) = \frac{\dot{\phi}_0 - \left( \displaystyle \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{f} \right)}{\displaystyle\frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{g} } .
+\end{align}
+% 
+Do lado direito da equação, o termo entre parênteses no numerador é a frequência natural $\dot{\phi}$ de oscilação de $\mathcal{S}$ e o termo no denominador é caracterizado pela direção de atuação (dicutido na seção anterior), i.e. esses termos não dependem de $\mathcal{S}_0$. A Eq.~\ref{eq:u(t)_infoFase} mostra que $u(t)$ deve conter informação sobre a fase do sistema $\mathcal{S}_0$, sobretudo a respeito de sua dinâmica $\dot{\phi}_0$.
+
+% ----------------------------------------------------------------------
+\subsection{Acoplamento dissipativo}
+
+O acoplamento dissipativo, vastamente utilizado em trabalhos de sincronismo, diz respeito tanto à \emph{medição} quanto à \emph{atuação} nos osciladores envolvidos. Geralmente esse tipo de acoplamento é realizado em um dos estados do sistema. Considerando o acoplamento dissipativo na primeira variável de estado tem-se o caso particular:
+% 
+\begin{align}\label{eq:u=e(x1-x2)_infoFase}
+  \left\{
+  \begin{array}{ll}
+    &u \coloneqq \varepsilon \left( x_0 - x \right) \\
+    &\boldsymbol{g} \coloneqq [1 \,\,\, 0 \,\,\, \dots \,\,\, 0 ]^T
+  \end{array}
+  \right. ,
+\end{align}
+% 
+em que $x_0 , x \in \mathbb{R}$ são as primeiras variáveis de estado de $\vec{x}_0 , \vec{x} \in \mathbb{R}^n$, respectivamente, $\varepsilon \in \mathbb{R}^{+}$ é uma constante que representa a força de acoplamento e $\boldsymbol{g} \in \mathbb{R}^n$ um vetor constante.
+
+Assumindo a Definição~\ref{def:fase}, a dinâmica da fase de $\mathcal{S}$ (Eq.~\ref{eq:dPhi_infoFase}) é dada por:
+% 
+\begin{align}\label{eq:dPhi_infoFase_e(x1-x2)}
+  \dot{\phi} &= \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{f} \right) + \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{g} \right) \, u(t) \nonumber \\
+    &= \left( \frac{d\phi}{d \vec{x}}^T.\,\boldsymbol{f} \right) + \left( \frac{\partial\phi}{\partial x} \right) \, \varepsilon \left( x_0 - x \right) \nonumber \\
+    &= \bigg( c\, \| \boldsymbol{f} \|^2 \bigg) + \bigg( c\, \| f_x \|^2 \bigg) \, \varepsilon \left( x_0 - x \right)
+    ,
+\end{align}
+%
+em que $\partial\phi / \partial x$ denota a derivada parcial de $\phi$ com relação à variável $x$, $f_x$ o primeiro elemento de $\boldsymbol{f}$ que, por definição, é a derivada temporal $\dot{x}$ do sistema não forçado.
+
+Para avaliar a \emph{atuação} do acoplamento dissipativo, compare o segundo termo entre parênteses do lado direito da Eq.~\ref{eq:dPhi_infoFase_gx=fx} com o da Eq.~\ref{eq:dPhi_infoFase_e(x1-x2)} -- ignore o termo $c$ que é igual nas duas equações. Enquanto no primeiro caso a atuação de $u(t)$ era ponderada por $\| \boldsymbol{f} \|^2$, no segundo essa ponderação é feita por uma projeção deste i.e. $\| f_x \|^2$. É fácil notar que o acoplamento dissipativo só tem atuação relevante na dinâmica da fase de $\mathcal{S}$ quando $f_x$ for suficientemente grande, ou seja, quando há projeção significativa de $\boldsymbol{f}$ sobre $f_x$. Pelo mesmo raciocínio, a \emph{influência} (\emph{atuação}) do acoplamento é grande quando $\|f_x\|\approx\|\boldsymbol{f}\|$, ou seja, quando a derivada temporal $\dot{x}$ do sistema \emph{não acoplado} tiver a maior ``participação'' na composição do vetor de derivadas $\boldsymbol{f}$. A Figura~\ref{fig:infoFase_projecao_F_Fx} ilustra três situações num trecho de trajetória em que $\boldsymbol{f}$ tem diferentes projeções em $f_x \coloneqq \dot{x}$.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.9\textwidth]{fig/infoFase_projecao_F_Fx.pdf}
+  \caption[Ilustração da projeção das projeções $\boldsymbol{f}(\vec{x})$.]{Trecho da trajetória $\gamma$ em três pontos distintos $\vec{x} \in \{\vec{x}_1\,,\,\vec{x}_2\,,\,\vec{x}_3\}$. Em $\vec{x}_1$ observa-se que $\boldsymbol{f}(\vec{x})$ tem maior projeção sobre $f_x \coloneqq \dot{x}$, i.e. $\| \dot{x} \| \approx \| \boldsymbol{f}(\vec{x}) \|$; em $\vec{x}_2$ a projeção de $\boldsymbol{f}(\vec{x})$ é equivalentemente distribuída, i.e. $\| \dot{x} \| \approx \| \dot{y} \| \approx \| \dot{z} \|$; mas em $\vec{x}_3$ verifica-se que $\| \dot{x} \| \ll \| \boldsymbol{f}(\vec{x}) \|$, situação em que a atuação nessa direção provoca pouca alteração na fase.}
+  \label{fig:infoFase_projecao_F_Fx}
+\end{figure}
+
+Para avaliar a \emph{medição} da fase no acoplamento dissipativo compara-se a Eq.~\ref{eq:u(t)_infoFase} com a Eq.~\ref{eq:u=e(x1-x2)_infoFase}. O termo no denominador da Eq.~\ref{eq:u(t)_infoFase} não está presente no acoplamento dissipativo e, como consequência, a influência na \emph{atuação} em $\mathcal{S}$ oscila conforme comentado no parágrafo anterior. Nos demais termos, é possível estabelecer uma comparação entre $(\dot{\phi}_0 - \dot{\phi})$ e $(x_0 - x)$ -- Eqs.~\ref{eq:u(t)_infoFase}~e~\ref{eq:u=e(x1-x2)_infoFase} respectivamente, porém esta relação não está clara. Mas, de alguma forma, $x_0$ contém alguma informação sobre a evolução da fase $\phi_0$. As análises em termos \emph{medição} se aterão a tentar quantificar o quanto de $\phi_0$ está presente numa variável.
+
+
+% ----------------------------------------------------------------------
+\subsection{Acoplamento e sincronismo}
+
+Cabe aqui uma observação importante: o desmembramento do papel do acoplamento em termos de \emph{medição} e \emph{atuação} foi proposto aqui apenas para análise, para tentar enxegar melhor os fatores que podem influenciar a fase de um oscilador. É claro que o \emph{sincronismo de fase} entre dois osciladores depende de ambos, de maneira não trivial. Não adiantaria, por exemplo, ter a ``melhor'' variável de \emph{medição} sendo que a \emph{atuação} é inadequada, e vice-versa.
+
+Outra peça fundamental desse quebra-cabeça é a \emph{forma} com que $u(t)$ influencia $\phi(t)$ para atingir o sincronismo. A Eq.~\ref{eq:u(t)_infoFase} mostrou que o sinal $u(t)$ deve conter alguma informação sobre $\phi_0$, mas determinar a exata relação entre $u(t)$ e $\phi_0$ que pode ou não estabelecer um \emph{sincronismo de fase} entre dois osciladores é um problema mais complexo. Essa discussão tem sido abordada em termos de \emph{sincronizabilidade} entre osciladores, em que alguns trabalhos tentaram investigar sua relação com conceitos de observabilidade e controlabilidade \citep{letellier2010,kerfourn2012,aguirre2016}, sem resultados claros sobre essa relação, que parece depender dessa \emph{forma} de acoplamento. No Capítulo~\ref{cap:06_cont} são discutidas questões acerca da \emph{forma}.
+
+A seguir são propostas métricas que tentam quantificar a qualidade da \emph{medição} da fase de um oscilador e também a \emph{atuação} na fase de um oscilador. Vale reiterar que esse tipo de proposta não se atreve a quantificar exatamente a \emph{qualidade} de um acoplamento (e.g. depende da \emph{forma}), mas pode ajudar, por exemplo, na escolha de uma variável para extrair a fase de um oscilador ou pode servir de guia na escolha da variável de acoplamento.
+
+
+
+
+
+
+
+% ======================================================================
+\section{Métricas Sobre a Fase de um Oscilador}
+
+Seja um oscilador definido tal qual a Eq.~\ref{eq:dx=fx}, mas com sinais de entrada e saída:
+%
+\begin{align} \label{eq:dx=fx_y=hx_infoFase}
+  \mathcal{S}: \left\{
+  \begin{array}{ll}
+    \dot{\vec{x}} &= \boldsymbol{f}(\vec{x}) + \boldsymbol{g}(\vec{x})\, u(t) \\
+    y &= h(\vec{x}) ,
+  \end{array} \right.
+\end{align}
+%
+em que $\boldsymbol{g}: X \mapsto V(X)$ é o campo vetorial de direcionamento, $u(t) \in \mathbb{R}$ uma entrada do sistema, $h: X \mapsto S(X)$ um campo escalar, $y \in \mathbb{R}$ o sinal de saída do sistema.
+
+A seguir serão propostos três índices que objetivam quantificar as relações externas, de \emph{atuação} e \emph{medição}, com a fase do sistema oscilador. Os índices são propostos para três diferentes contextos:
+% 
+\begin{itemize}
+ \item [\ref{sec:Indice_infofase} - ] {\bf Índice de \emph{informação} de fase ($\iota$)}: verifica o quanto de informação sobre a fase $\phi$ do sistema contém na variável de saída $y$;
+ \item [\ref{sec:Indice_repfase} - ] {\bf Índice de \emph{representação} de fase ($\zeta$)}: verifica o quanto a evolução de $y(t)$ ao longo do tempo se assemelha a $\phi(t)$ -- pode ser usado quando deseja-se que $y$ seja uma variável descritora de fase (\emph{phase-like variable});
+ \item [\ref{sec:Indice_influfase} - ] {\bf Índice de \emph{influência} de fase ($\chi$)}: quantifica a influência que a entrada $u(t)$ pode ter na dinâmica da fase do sistema, de acordo com o campo vetorial $\boldsymbol{g}(\vec{x})$.
+\end{itemize}
+% 
+Esses índices são detalhados nas seções seguintes.
+
+
+% ----------------------------------------------------------------------
+\subsection{Índice de Informação de Fase}
+\label{sec:Indice_infofase}
+
+Na Seção~\ref{sec:infoFase} mostrou-se a importância da informação sobre a dinâmica da fase num sinal de acoplamento. Uma forma de tentar quantificar a informação dinâmica de $\phi$ contida em $y$ é calculando suas derivadas temporais: $\dot{\phi} = \left( d\phi / d\vec{x} \right)^T.\,\boldsymbol{f}$ e $\dot{y} = \left( dh / d\vec{x} \right)^T.\,\boldsymbol{f}$. Para fins de comparação entre as derivadas, ignora-se o termo comum ($\boldsymbol{f}$), restando dois vetores de derivadas parciais de $\vec{x}$. A métrica proposta compara justamente esses dois vetores, conforme a seguir.
+
+\begin{defi}
+  \label{def:indice_infoFase}
+  O \emph{índice de informação de fase} de uma variável $y$ sobre um sistema $\mathcal{S}$, conforme Eq.~\ref{eq:dx=fx_y=hx_infoFase}, é dado por:
+  %
+  \begin{equation} \label{eq:iota_infoFase}
+    \iota(t) = \frac{\left\| \left\langle \displaystyle \frac{dh}{d\vec{x}} \, , \, \frac{d\phi}{d\vec{x}} \right\rangle \right\|}{\left\| \displaystyle \frac{dh}{d\vec{x}} \right\| \, \left\| \displaystyle \frac{d\phi}{d\vec{x}} \right\|} ,
+  \end{equation}
+  %
+  em que $\left\langle , \right\rangle$ denota o produto interno.
+  \qed
+\end{defi}
+
+O índice proposto assume valores normalizados $\iota \in [0,1]$, em que $\iota = 1$ indica colinearidade entre $\left( dh / d\vec{x} \right)$ e $\left( d\phi / d\vec{x} \right)$, enquanto $\iota = 0$ indica ortogonalidade entre eles. Note que a métrica não distingue \emph{sentido} entre esses vetores, mas apenas quantifica a projeção entre os módulos dos vetores. Para ilustrar essa característica veja o exemplo a seguir.
+
+\begin{exem}
+  \label{ex:indice_infoFase}
+  Considere o oscilador de Poincaré descrito pela Eq.~\ref{eq:sistema_poincare} com um sinal de saída igual a $h(\vec{x})=x$. No atrator $\Gamma_0$, a evolução de $x(t)$ assume forma senoidal, com ciclos de incremento e decremento, i.e. num ciclo de oscilação, $\left( dh / d\vec{x} \right) > 0$ até metade do ciclo e $\left( dh / d\vec{x} \right) < 0$ na outra metade. O \emph{índice de informação de fase} proposto (Eq.~\ref{eq:iota_infoFase}), ao considerar o \emph{módulo} da projeção entre $\left( dh / d\vec{x} \right)$ e $\left( d\phi / d\vec{x} \right)$, presume-se que a quantidade de \emph{informação} sobre a fase do sistema de Poincaré em $h(\vec{x})$ na primeira metade do ciclo é a mesma da segunda metade. É claro que, se o objetivo for extrair a fase $\phi(t)$ a partir de $h(\vec{x})$, essa troca de sinal deve ser levada em consideração, i.e. a \emph{forma} de extração deve ser adequada -- e pode se tornar um grande problema em alguns casos. Verifica-se então que o índice tenta mensurar a quantidade de informação, sem quantificar a \emph{forma} de extração dessa informação.
+\end{exem}
+
+Um cálculo semelhante poderá servir, inclusive, para determinar uma variável descritora de fase adequada, conforme apresentado na próxima seção.
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Índice de Representação de Fase}
+\label{sec:Indice_repfase}
+
+Considere a Eq.~\ref{eq:dx=fx_y=hx_infoFase}. Deseja-se agora que $y(t)$ represente a fase $\phi(t)$ do oscilador $\mathcal{S}$, i.e. que $y(t)$ seja uma variável descritora de fase (\emph{phase-like variable}). A métrica proposta para tal fim é apresentada a seguir.
+
+\begin{defi}
+  \label{def:indice_repFase}
+  O \emph{índice de representação de fase} de uma variável $y$ sobre um sistema $\mathcal{S}$, conforme Eq.~\ref{eq:dx=fx_y=hx_infoFase}, é dado por:
+  %
+  \begin{equation} \label{eq:zeta_infoFase}
+    \zeta = \frac{\displaystyle \left\langle \frac{dh}{d\vec{x}} \, , \, \frac{d\phi}{d\vec{x}} \right\rangle }{\left\| \displaystyle \frac{dh}{d\vec{x}} \right\| \, \left\| \displaystyle \frac{d\phi}{d\vec{x}} \right\|} .
+  \end{equation}
+  %
+  \qed
+\end{defi}
+
+O índice proposto assume valores normalizados $\zeta \in [-1,1]$, em que $\zeta \approx 1$ indica $\dot{y}(\vec{x}) \approx \dot{\phi}(\vec{x})$, e $\zeta(\vec{x}) \approx 0$ indica o caso em que não há informação de fase em $h(\vec{x})$.
+
+A métrica proposta aqui é semelhante à anterior (Def.~\ref{def:indice_infoFase}) e observa-se a relação $\iota = \| \zeta \|$. A diferença é que, agora, $y(t)$ se propõe a comportar-se tal qual $\phi(t)$. Nesse caso considera-se que a obtenção de $\phi$ a partir de $y(t)$ deve ser direta, i.e. $y(t) \approx \phi(t)$. Ou seja, a \emph{forma} de obtenção de $\phi(t)$ a partir do sinal de saída também é avaliada no índice $\zeta$ -- e penalizada em caso de troca de sinal das derivadas parciais numa trajetória (vide Exemplo~\ref{ex:indice_infoFase}). De certa maneira, é também uma forma de quantificar a condição de monotonicidade de crescimento com o tempo (Eq.~\ref{eq:Lfh>0}).
+
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Índice de Influência na Fase}
+\label{sec:Indice_influfase}
+
+Seja um oscilador definido tal qual a Eq.~\ref{eq:dx=fx_y=hx_infoFase}. O sinal de entrada exerce influência no sistema conforme a direção do campo vetorial $\boldsymbol{g}(\vec{x})$. Deseja-se quantificar essa atuação no sistema com relação à influência na \emph{fase} $\phi$ do oscilador. Baseado na análise realizada na Seção~\ref{sec:infoFase}, propõe-se o \emph{índice de influência de fase} a seguir.
+
+\begin{defi}
+  \label{def:indice_influFase}
+  O \emph{índice de influência de fase} de um campo vetorial $\boldsymbol{g}(\vec{x})$ sobre um sistema $\mathcal{S}$, conforme Eq.~\ref{eq:dx=fx_y=hx_infoFase}, é dado por:
+  %
+  \begin{equation} \label{eq:chi_infoFase}
+    \chi = \frac{\displaystyle \left\| \left\langle \boldsymbol{g}^T \, , \, \frac{d\phi}{d\vec{x}} \right\rangle \right\| }
+    {\left\| \displaystyle \boldsymbol{g} \right\| \, \left\| \displaystyle \frac{d\phi}{d\vec{x}} \right\|} .
+  \end{equation}
+  %
+  \qed
+\end{defi}
+
+Esse índice assume valores normalizados $\chi \in [0,1]$, em que $\chi = 1$ indica colinearidade entre $\boldsymbol{g}$ e $\left( d\phi / d\vec{x} \right)$, enquanto $\chi = 0$ indica ortogonalidade entre eles. Assumindo a Definição~\ref{def:fase}, o cálculo do índice pode ser realizado substituindo $\left( d\phi / d\vec{x} \right)$ por $\boldsymbol{f}(\vec{x})$ na equação.
+
+Note que o cálculo do índice, assumindo a Definição~\ref{def:fase}, valoriza o caso em que $\boldsymbol{g}(\vec{x})$ e $\boldsymbol{f}(\vec{x})$ são colineares. Ao estabelecer $\boldsymbol{g}(\vec{x}) \coloneqq \boldsymbol{f}(\vec{x})$, por exemplo, o índice assumiria valor máximo $\chi = 1$. Por outro lado, do ponto de vista de \emph{controle de sistemas dinâmicos}, a \emph{controlabilidade} \citep{hermann1977} desse campo vetorial de deriva seria baixíssima, uma vez que a matriz de controlabilidade não-linear teria posto unitário (i.e. \emph{não controlável}), pois ${\rm ad}_{\boldsymbol{f}}^k \boldsymbol{f} = 0 \,\,\, \forall k \in \mathbb{N}^*$ (sendo ${\rm ad}$ o operador colchete de Lie). Mas no contexto de \emph{sincronismo de fase}, esse tipo de atuação pode maximizar a influência sobre a fase do oscilador e ajudar no sincronismo.
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Cálculo dos Índices Médios}
+
+O cálculo dos índices propostos, no contexto de \emph{sincronismo de fase} entre osciladores, é interessante que seja feito não em \emph{todo} espaço de estado, mas em alguma região deste (e.g. no atrator). Para uma dada trajetória, é possível calcular os índices \emph{médios}:
+%
+\begin{align}
+  \label{eq:iota_int_infoFase}
+  \bar{\iota} &= \frac{1}{t_f-t_0} \, \int\limits_{t_0}^{t_f} \iota \,\, {\rm d}t , \\
+  \label{eq:zeta_int_infoFase}
+  \bar{\zeta} &= \frac{1}{t_f-t_0} \, \int\limits_{t_0}^{t_f} \zeta \,\, {\rm d}t , \\
+  \label{eq:chi_int_infoFase}
+  \bar{\chi} &= \frac{1}{t_f-t_0} \, \int\limits_{t_0}^{t_f} \chi \,\, {\rm d}t ,
+\end{align}
+%
+em que $t_0$ e $t_f$ denotam os tempos inicial e final.
+
+O cálculo dos índices propostos (Defs.~\ref{def:indice_infoFase},~\ref{def:indice_repFase}~e~\ref{def:indice_influFase}) pressupõe o conhecimento das derivadas parciais de $\phi$ com relação a $\vec{x}$. Porém, considerando a Definição~\ref{def:fase}, é fácil notar que o termo $\left( d\phi / d\vec{x} \right)$ nas Equações~\ref{eq:iota_infoFase},~\ref{eq:zeta_infoFase}~e~\ref{eq:chi_infoFase} pode ser substituído por $\boldsymbol{f}(\vec{x})$. Esse aspecto de ordem prática permite o cálculo do índice para qualquer classe de osciladores, mesmo sem uma variável descritora de fase (\emph{phase-like variable}) bem estabelecida.
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Acoplamento Dissipativo}
+
+No caso particular do acoplamento dissipativo entre sistemas idênticos, o índice de \emph{informação} de fase e o índice de \emph{influência} de fase produzem o mesmo resultado.
+
+
+\begin{thm}
+  \label{thm:InfoFase_dissipativo}
+  Dois osciladores descritos conforme Eq.~\ref{eq:dx_fx+pt}, idênticos $\boldsymbol{f}_0 \equiv \boldsymbol{f}$, com acoplamento dissipativo na primeira variável $\varepsilon(x - x_0)$, conforme Eq.~\ref{eq:u=e(x1-x2)_infoFase}, possuem \emph{índice de informação de fase} (Def.~\ref{def:indice_infoFase}) da variável acoplada $h(\vec{x}_0) \coloneqq x_0$ e \emph{índice de influência de fase} (Def.~\ref{def:indice_influFase}) de $\boldsymbol{g}$ equivalentes:
+  %
+  \begin{equation}
+    \iota \equiv \chi .
+  \end{equation}
+  %
+\end{thm}
+
+\begin{proof}
+  Para o caso considerado calcula-se:
+  %
+  \begin{align} \label{eq:thm_infoFase_prova}
+    \begin{array}{ll} \displaystyle
+      \frac{d h(\vec{x}_0)}{d \vec{x}_0} &= \displaystyle \frac{d x_0}{d \vec{x}_0} \\
+      &= [1 \,\,\, 0 \,\,\, \dots \,\,\, 0 ]^T
+    \end{array} .
+  \end{align}
+  %
+  Verifica-se que $\left( d h/d \vec{x}_0\right) = \boldsymbol{g}$ (Eq.~\ref{eq:u=e(x1-x2)_infoFase}). Como $\boldsymbol{f}_0 \equiv \boldsymbol{f}$, os índices de \emph{informação} (Def.~\ref{def:indice_infoFase}) e de \emph{influência} (Def.~\ref{def:indice_influFase}) de fase calculados são equivalentes, conforme verifica-se diretamente nas respectivas equações (Eqs.~\ref{eq:iota_infoFase}~e~\ref{eq:chi_infoFase}).
+\end{proof}
+
+
+
+
+
+% ======================================================================
+\section{Resultados Preliminares}
+
+Nesta seção serão apresentados alguns resultados preliminares com relação à aplicação dos índices propostos, tentando verificar sua relação com o sincronismo de fase entre os osciladores. Nos testes foram utilizados os osciladores de Poincaré, Van der Pol, Rössler, Lorenz e Corda, em diferentes representações. Primeiro será mostrado para o caso de acoplamento dissipativo entre osciladores a aplicação do índice de \emph{iformação} de fase (Def.~\ref{def:indice_infoFase}) que, nesse caso, é equivalente ao índice de \emph{influência} de fase (Def.~\ref{def:indice_influFase}), conforme Teorema~\ref{thm:InfoFase_dissipativo}. Em seguida, o índice de \emph{representação} de fase (Def.~\ref{def:indice_repFase}) será utilizado para caracterizar um conjunto de variáveis descritoras de fase.
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Escolha de Variável para Acoplamento Dissipativo}
+
+Sejam dois osciladores descritos conforme Eq.~\ref{eq:dx=fx}, acoplados unidirecionalmente:
+% 
+\begin{align}\label{eq:dx12_fx12_infoFase}
+  \mathcal{S}_1:& \left\{ \dot{\vec{x}}_1 = \boldsymbol{f}_1 (\vec{x}_1) \right. \nonumber \\
+  \mathcal{S}_2:& \left\{ \dot{\vec{x}}_2 = \boldsymbol{f}_2 (\vec{x}_2) + \varepsilon G . (\vec{x}_1 - \vec{x}_2) \right. ,
+\end{align}
+% 
+em que $\left( \vec{x}_1, \vec{x}_2 \right)  \in X \subseteq \mathbb{R}^{n}$ são as variáveis de estado; $\left( \boldsymbol{f}_1 , \boldsymbol{f}_2 \right) \in V(X) : X \mapsto V(X) \subseteq \mathbb{R}^{n}$ são os campos vetoriais dos osciladores não forçados; $\varepsilon \in \mathbb{R}^{+}$ uma constante que determina a força de acoplamento; $G \in \mathbb{R}^{n\times n}$ uma matriz constante que estabelece em qual variável se dará o acoplamento; sendo $n \in \{2,3\}$ a ordem dos sistemas. Dada uma condição inicial $\vec{x}_{1,2}(0)$, os estados dos osciladores evoluem para um atrator $\Gamma_{1,2}$, periódico ou caótico, à medida que $t \to \infty$.
+
+Para cada sistema, duas opções de valores para a matriz $G$ foram utilizadas, de acordo com a variável de acoplamento.
+Acoplamento na primeira variável:
+% 
+\begin{align}\label{eq:Ga_infoFase}
+  G_a = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix} \,\,\, \,\,\, \left(n = 2\right) , &&
+  G_a = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix} \,\,\, \,\,\, \left(n = 3\right) 
+  .
+\end{align}
+% 
+Acoplamento na segunda variável:
+% 
+\begin{align}\label{eq:Gb_infoFase}
+  G_b = \begin{bmatrix} 0 & 0 \\ 0 & 1 \end{bmatrix} \,\,\, \,\,\, \left(n = 2\right) , &&
+  G_b = \begin{bmatrix} 0 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 0 \end{bmatrix} \,\,\, \,\,\, \left(n = 3\right) 
+  .
+\end{align}
+% 
+
+Os campos vetoriais $\boldsymbol{f}_1$ e $\boldsymbol{f}_2$ serão descritos por um dos seguintes osciladores:
+\begin{itemize}
+ \item [$\mathcal{S}_{p}$]: sistema de Poincaré, descrito em coordenadas cartesianas (Eq.~\ref{eq:poincare_cart}),
+ \item [$\mathcal{S}_{p}^{\Phi}$]: sistema de Poincaré, descrito em coordenadas polares (Eq.~\ref{eq:poincare_pol}),
+ \item [$\mathcal{S}_{v}$]: sistema de Van der Pol, descrito em coordenadas cartesianas (Eq.~\ref{eq:vanDerPol_cart}),
+ \item [$\mathcal{S}_{v}^{\Phi}$]: sistema de Van der Pol, descrito em coordenadas polares (Eq.~\ref{eq:vanDerPol_pol}),
+ \item [$\mathcal{S}_{r}$]: sistema de Rössler, descrito em coordenadas cartesianas (Eq.~\ref{eq:rossler_cart}),
+ \item [$\mathcal{S}_{r}^{\Phi}$]: sistema de Rössler, descrito em coordenadas cilíndricas (Eq.~\ref{eq:rossler_cyl}).
+\end{itemize}
+
+% ----------------------------------------------------------------------
+\subsubsection{Sistema de Poincaré}
+
+O sistema de Poincaré é descrito por:
+% 
+\begin{equation}\label{eq:poincare_cart}
+ \mathcal{S}_{p}: \left\{
+  \begin{array}{ll}
+  \dot{x} &= - \omega y - \lambda(x^2 + y^2 - p^2) x \\
+  \dot{y} &= \omega x - \lambda(x^2 + y^2 - p^2) y \\
+  \end{array}
+ \right. ,
+\end{equation}
+% 
+em que $(\omega, \lambda, p) = (1,0 \,;\,\, 0,5 \,;\,\, 1,0)$, sendo que $\omega$ assumirá outros valores nos testes.
+
+Nesse sistema é possível fazer o mapeamento $\boldsymbol{\Phi}_p(\vec{x}) : \vec{x} \mapsto \vec{z}$ para coordenadas polares $\vec{z} := [\theta\,\,\rho]^T \in Z \subseteq \{\mathbb{S}^1,\mathbb{R}^1\}$:
+% 
+\begin{equation}\label{eq:poincare_Phi_infoFase}
+ \vec{z} = \boldsymbol{\Phi}_p(\vec{x}) := \left[
+  \begin{array}{c}
+    \tan^{-1}\left(\frac{y}{x} \right) \\
+    \sqrt{x^2+y^2}
+  \end{array} \right] ,
+\end{equation}
+% 
+cujo mapeamento inverso é:
+% 
+\begin{equation}\label{eq:poincare_ihP_infoFase}
+ \vec{x} = \boldsymbol{\Phi}_p^{-1}(\vec{z}) = \left[
+  \begin{array}{c}
+    \rho \cos(\theta) \\
+    \rho \sin(\theta) \\
+  \end{array} \right] ,
+\end{equation}
+% 
+que é válido para todo $\vec{x} \neq [0\,\,\, 0]^T$. Aplicando esse mapeamento em $\mathcal{S}_{p}$ (Eq.~\ref{eq:poincare_cart}) tem-se o sistema descrito em coordenadas polares:
+% 
+\begin{equation}\label{eq:poincare_pol}
+ \mathcal{S}_{p}^{\Phi}: \left\{
+  \begin{array}{ll}
+    \dot{\theta} &= \omega \\
+    \dot{\rho} &= \lambda \rho (p^2 - \rho^2 ) \\
+  \end{array}
+ \right. .
+\end{equation}
+% 
+
+
+
+
+% ----------------------------------------------------------------------
+\subsubsection{Sistema de Van der Pol}
+
+O sistema de Van der Pol \citep{vanDerPol1927} é descrito por:
+% 
+\begin{equation}\label{eq:vanDerPol_cart}
+ \mathcal{S}_{v}: \left\{
+  \begin{array}{ll}
+  \dot{x} &= y \\
+  \dot{y} &= 2 \mu y (1 - \beta x^2) - \omega^2 x
+  \end{array}
+ \right. ,
+\end{equation}
+% 
+em que $(\omega, \mu , \beta) = (1,0 \,;\,\, 1,0 \,;\,\, 1,0)$, sendo que $\omega$ assumirá outros valores nos testes.
+
+O mapeamento $\boldsymbol{\Phi}_v(\vec{x}) : \vec{x} \mapsto \vec{z}$ para coordenadas polares $\vec{z} := [\theta\,\,\rho]^T \in Z \subseteq \{\mathbb{S}^1,\mathbb{R}^1\}$ é:
+% 
+\begin{equation}\label{eq:vanDerPol_Phi}
+ \vec{z} = \boldsymbol{\Phi}_v(\vec{x}) := \left[
+  \begin{array}{c}
+    - \tan^{-1}\left(\frac{y}{x} \right) \\
+    \sqrt{x^2+y^2}
+  \end{array} \right] ,
+\end{equation}
+% 
+cujo mapeamento inverso é:
+% 
+\begin{equation}\label{eq:vanDerPol_ihP}
+ \vec{x} = \boldsymbol{\Phi}_v^{-1}(\vec{z}) = \left[
+  \begin{array}{c}
+    \rho \cos(-\theta) \\
+    \rho \sin(-\theta) \\
+  \end{array} \right] ,
+\end{equation}
+% 
+válido para todo $\vec{x} \neq [0\,\,\, 0]^T$. Aplicando esse mapeamento tem-se:
+% 
+\begin{equation}\label{eq:vanDerPol_pol}
+ \mathcal{S}_{v}^{\Phi}: \left\{
+  \begin{array}{ll}
+    \dot{\theta} &= \mu \sin(2 \theta) + \sin(\theta)^2 + \omega^2 \cos(\theta)^2 - \beta \mu \rho^2 \sin(2 \theta) \cos(\theta)^2 \\
+    \dot{\rho} &= 2\mu \rho \sin(\theta)^2 - \frac{1}{2} \rho \sin(2 \theta) + \frac{1}{2} \omega^2 \rho \sin(2 \theta) - 2 \beta \mu \rho^3 \sin(\theta)^2 \cos(\theta)^2 \\
+  \end{array}
+ \right. .
+\end{equation}
+% 
+
+
+
+
+% ----------------------------------------------------------------------
+\subsubsection{Sistema de Rössler}
+
+O sistema de Rössler \citep{rossler1976} é descrito por:
+% 
+\begin{equation}\label{eq:rossler_cart}
+ \mathcal{S}_{r}: \left\{
+  \begin{array}{ll}
+    \dot{x} &= - \omega y - z \\
+    \dot{y} &= \omega x + a y \\
+    \dot{z} &= b + z(x - c_r)
+  \end{array}
+ \right. ,
+\end{equation}
+% 
+em que $(\omega, a , b , c_r) = (1,0 \,;\,\, 0,15 \,;\,\, 0,2 \,;\,\, 10)$, sendo que $\omega$ assumirá outros valores nos testes.
+
+O mapeamento $\boldsymbol{\Phi}_r(\vec{x}) : \vec{x} \mapsto \vec{z}$ para coordenadas cilíndricas $\vec{z} := [\theta\,\,\rho\,\, z]^T \in Z \subseteq \{\mathbb{S}^1,\mathbb{R}^2\}$ é:
+% 
+\begin{equation}\label{eq:rossler_Phi}
+ \vec{z} = \boldsymbol{\Phi}_r(\vec{x}) := \left[
+  \begin{array}{c}
+    \tan^{-1}\left(\frac{y}{x} \right) \\
+    \sqrt{x^2+y^2} \\
+    z
+  \end{array} \right] ,
+\end{equation}
+% 
+cujo mapeamento inverso é:
+% 
+\begin{equation}\label{eq:rossler_ihP}
+ \vec{x} = \boldsymbol{\Phi}_r^{-1}(\vec{z}) = \left[
+  \begin{array}{c}
+    \rho \cos(\theta) \\
+    \rho \sin(\theta) \\
+    z
+  \end{array} \right] ,
+\end{equation}
+% 
+válido para todo $(x,y) \neq (0\,\,\, 0)$. Aplicando esse mapeamento tem-se:
+% 
+\begin{equation}\label{eq:rossler_cyl}
+ \mathcal{S}_{r}^{\Phi}: \left\{
+  \begin{array}{ll}
+    \dot{\theta} &= \omega + a \sin(\theta)\cos(\theta) + \frac{1}{\rho} z \sin(\theta) \\
+    \dot{\rho} &= a \rho \sin^2(\theta) - z \cos(\theta) \\
+    \dot{z} &= b - c_r z + \rho z \cos(\theta)
+  \end{array}
+ \right. .
+\end{equation}
+% 
+
+
+% ----------------------------------------------------------------------
+\subsubsection{Metodologia}
+
+Tomou-se dois sistemas idênticos (ex.: dois sistema de Poincaré: $\mathcal{S}_{1,2} \equiv \mathcal{S}_{p}$), acoplados por uma variável (ex. pela variável $y$, fazendo $G \equiv G_b$, Eq.~\ref{eq:Gb_infoFase}), conforme Eq.~\ref{eq:dx12_fx12_infoFase}. Para o sistema e acoplamento escolhido, estimou-se\footnote{Foi realizado procedimento de integração numérica usando a função \texttt{ode} do software Matlab.} as regiões de sincronismo (e.g. língua de Arnold) para variações no parâmetro $\omega_2 = \left\{ \omega_2 \,\,\, | \,\,\, 0,85 \leq \varepsilon \leq 1,15\right\}$, com $\omega_1 = 1$ e forças de acoplamento de acordo com o sistema, sendo $\varepsilon = \left\{ \varepsilon \,\,\, | \,\,\, 0,0 \leq \varepsilon \leq 0,4\right\}$ para os sistemas de Poincaré ($\mathcal{S}_p$ e $\mathcal{S}_p^{\Phi}$), $\varepsilon = \left\{ \varepsilon \,\,\, | \,\,\, 0,0 \leq \varepsilon \leq 1,0\right\}$ para os sistemas de Van der Pol ($\mathcal{S}_v$ e $\mathcal{S}_v^{\Phi}$) e $\varepsilon = \left\{ \varepsilon \,\,\, | \,\,\, 0,0 \leq \varepsilon \leq 0,2\right\}$ para os sistemas de Rössler ($\mathcal{S}_r$ e $\mathcal{S}_r^{\Phi}$). Para cada caso, as simulações foram realizadas com $51$ valores distintos de $\varepsilon$ e $61$ valores de $\omega_2$, ambos distribuídos uniformemente nos intervalos especificados, totalizando $3111$ combinações.
+
+Todas as simulações foram realizadas a partir de condições iniciais aleatórias próximas ao atrator, com tempo de simulação de $3000$s, sendo os primeiros $2000$s descartados das análises. Considerou-se que os sistemas estão em regime de \emph{sincronismo de fase} quando $| \theta_1(t) - \theta_2(t) | < 2\pi \,\,\, \forall t > 2000$s. Calculou-se, para as $3111$ combinações, o percentual $\alpha$ de ocorrência de sincronismo nos testes.
+
+Para cada sistema, individualmente, com $\omega = 1$ e $\varepsilon = 0$, foi calculado o índice médio de \emph{informação} de fase (Eq.~\ref{eq:iota_int_infoFase}), considerando a Definição~\ref{def:fase}, para cada forma de acoplamento (i.e. $G_a$ e $G_b$). O intuito é comparar o índice com as regiões de sincronismo obtidas ($\alpha$) e verificar se existe alguma relação. Reitera-se que nos casos analisados o índice de \emph{influência} de fase (Def.~\ref{def:indice_influFase}) é equivalente ao de \emph{informação} de fase, conforme Teorema~\ref{thm:InfoFase_dissipativo}. Apenas para registro, foi calculado também o índice médio de \emph{representação} de fase $\bar{\zeta}$ para cada situação.
+
+% ----------------------------------------------------------------------
+\subsubsection{Resultados e discussão}
+
+Antes de iniciar as análises dos resultados, é feito aqui uma observação sobre a diferença prática no resultado dos índices $\bar{\zeta}$ e $\bar{\iota}$, em que é possível observar o que foi ilustrado no Exemplo~\ref{ex:indice_infoFase}. Considere o sistema de Poincaré com acoplamento em $x$. Os índices de \emph{informação} de fase $\bar{\iota}$ e de \emph{representação} de fase $\bar{\zeta}$ são apresentados na linha $1$ da Tabela~\ref{tab:resultados_infoFase}. Observa-se que, enquanto $\bar{\zeta}$ é nulo, tem-se $\bar{\iota} \gg 0$ (i.e. mais próximo de $1$ do que de $0$). A interpretação desses valores é que a evolução de $x(t)$ no sistema de Poincaré traz consigo alguma informação sobre a evolução da fase do sistema ($\bar{\iota} \gg 0$), mas essa informação se relaciona com $x(t)$ em diferentes sentidos na trajetória ($\bar{\zeta} = 0$), i.e. hora a fase evolui com o crescimento de $x(t)$, hora ela evolui com seu decrescimento (vide Exemplo~\ref{ex:indice_infoFase}).
+
+A Tabela~\ref{tab:resultados_infoFase} mostra os resultados obtidos. Uma consideração a ser feita é quanto à \emph{representação do sistema} antes e após o mapeamento $\boldsymbol{\Phi}$. O sistema de Poincaré (Tabela~\ref{tab:resultados_infoFase}, linhas $1-4$), por exemplo, representado por $\mathcal{S}_{p}$ nota-se um certo balanceamento entre as variáveis quanto à informação de fase $\bar{\iota}$. O mesmo sistema, representado nas coordenadas $\mathcal{S}_{p}^\Phi$, parece deslocar a informação de fase para a variável $\theta$. O mesmo efeito é observado nos demais casos, em menor grau.
+
+Verifica-se também na Tabela~\ref{tab:resultados_infoFase} que as variáveis $\rho$, que representam amplitude, para os sistemas de Rössler e Poincaré tem os menores índices de informação de fase. Isso se deve à direção de maior crescimento de $\rho$ ser majoritariamente ortogonal às trajetória nos atratores desses sistemas. Para o sistema de Van der Pol, que tem a órbita do ciclo limite menos circular, a variável $\rho$ apresenta um valor mais elevado de $\bar{\iota}$. Em contrapartida, $\theta$ possui valor menor em relação aos demais sistemas.
+
+O principal resultado apresentado na Tabela~\ref{tab:resultados_infoFase} é que, para um mesmo sistema, o índice de \emph{informação} de fase permite uma ordenação semelhante à quantificada empiricamente pelo cálculo do percentual de ocorrência de sincronismo $\alpha$. Em outras palavras, o cálculo de $\bar{\iota}$, feito antes do acoplamento, permitiu, nos casos apresentados, determinar quais as melhores variáveis para o acoplamento dissipativo. Porém, relacionar as diferenças nos valores de $\bar{\iota}$ e $\alpha$ para cada sistema é mais complicado, em que não parece haver uma relação quantitativa clara. As Figuras~\ref{fig:arnold_Poin_Poin},~\ref{fig:arnold_VDPol_VDPol}~e~\ref{fig:arnold_Ross_Ross} mostram as regiões de sincronismo obtidas nos testes empíricos, em que algumas escalas foram ajustadas para visualização de detalhes.
+
+\begin{table}
+  \caption[Índice de informação de fase para acoplamento dissipativo.]{Resultados do cálculo dos índices de \emph{informação} de fase $\bar{\iota}$, de \emph{representação} de fase $\bar{\zeta}$ e percentual de pontos em que se obteve o sincronismo $\alpha$, para diferentes sistemas e representações com diferentes variáveis de acoplamento.}
+  \label{tab:resultados_infoFase}
+  \centering
+  \begin{tabular}{c*{7}{c}}
+  \hline \hline
+  \# & \multicolumn{2}{c}{Sistema [$\mathcal{S}_{1,2}$]} & Acoplamento [$G$] & Variável & $\bar{\iota}$ & $\bar{\zeta}$ & $\alpha$ \\
+  \hline
+  1 & Poincaré	& $\mathcal{S}_{p}$ 	   & $G_a$ & $x$	& $0,64$	& $0,00$	& $86 \%$ \\
+  2 & Poincaré	& $\mathcal{S}_{p}$	   & $G_b$ & $y$	& $0,64$	& $0,00$	& $86 \%$ \\
+  3 & Poincaré	& $\mathcal{S}_{p}^\Phi$   & $G_a$ & $\theta$	& $\bf 1,00$	& $\bf 1,00$	& $\bf 98 \%$ \\
+  4 & Poincaré	& $\mathcal{S}_{p}^\Phi$   & $G_b$ & $\rho$	& $0,00$	& $0,00$	& $8 \%$ \\
+  5 & Van der Pol & $\mathcal{S}_{v}$ 	   & $G_a$ & $x$	& $0,63$	& $-0,01$	& $70 \%$ \\
+  6 & Van der Pol & $\mathcal{S}_{v}$	   & $G_b$ & $y$	& $0,68$	& $0,01$	& $82 \%$ \\
+  7 & Van der Pol & $\mathcal{S}_{v}^\Phi$ & $G_a$ & $\theta$	& $\bf 0,76$	& $\bf 0,76$	& $\bf 98 \%$ \\
+  8 & Van der Pol & $\mathcal{S}_{v}^\Phi$ & $G_b$ & $\rho$	& $0,55$	& $-0,23$	& $57 \%$ \\
+  9 & Rössler	& $\mathcal{S}_{r}$ 	   & $G_a$ & $x$	& $0,63$	& $0,02$	& $42 \%$ \\
+  10 & Rössler	& $\mathcal{S}_{r}$	   & $G_b$ & $y$	& $0,59$	& $-0,07$	& $41 \%$ \\
+  11 & Rössler	& $\mathcal{S}_{r}^\Phi$   & $G_a$ & $\theta$	& $\bf 0,95$	& $\bf 0,95$	& $\bf 98 \%$ \\
+  12 & Rössler	& $\mathcal{S}_{r}^\Phi$   & $G_b$ & $\rho$	& $0,09$	& $0,05$	& $8 \%$ \\
+  \hline \hline
+  \end{tabular}
+\end{table}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_Poin_PoinCart_kX1X2_021_2pi.pdf}
+        \caption{$\mathcal{S}_{p}$: acoplamento em $x$ ($\bar{\iota} = 0,64$).}
+        \label{fig:arnold_Poin_PoinCart_kX1X2_021_2pi}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_Poin_PoinCart_kY1Y2_022_2pi.pdf}
+        \caption{$\mathcal{S}_{p}$: acoplamento em $y$ ($\bar{\iota} = 0,64$).}
+        \label{fig:arnold_Poin_PoinCart_kY1Y2_022_2pi}
+    \end{subfigure} \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_Poin_PoinCyl_kPhi1Phi2_023_2pi.pdf}
+        \caption{$\mathcal{S}_{p}^\Phi$: acoplamento em $\phi$ ($\bar{\iota} = 1,00$).}
+        \label{fig:arnold_Poin_PoinCyl_kPhi1Phi2_023_2pi}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_Poin_PoinCyl_kRho1Rho2_024_2pi.pdf}
+        \caption{$\mathcal{S}_{p}^\Phi$: acoplamento em $\rho$ ($\bar{\iota} = 0,00$).}
+        \label{fig:arnold_Poin_PoinCyl_kRho1Rho2_024_2pi}
+    \end{subfigure}
+    \caption[Regiões de sincronismo para o sistema de Poincaré.]{Regiões de sincronismo para sistemas de Poincaré representados por $\mathcal{S}_{p}$ e $\mathcal{S}_{p}^\Phi$ com acoplamento unidirecional dissipativo (Eq.~\ref{eq:dx12_fx12_infoFase}) nas variáveis (a) $x$, (b) $y$, (c) $\phi$, (d) $\rho$.}\label{fig:arnold_Poin_Poin}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_VDPol_VDPolCart_kX1X2_024_2pi.pdf}
+        \caption{$\mathcal{S}_{v}$: acoplamento em $x$ ($\bar{\iota} = 0,63$).}
+        \label{fig:arnold_VDPol_VDPolCart_kX1X2_024_2pi}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_VDPol_VDPolCart_kY1Y2_026_2pi.pdf}
+        \caption{$\mathcal{S}_{v}$: acoplamento em $y$ ($\bar{\iota} = 0,68$).}
+        \label{fig:arnold_VDPol_VDPolCart_kY1Y2_026_2pi}
+    \end{subfigure} \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_VDPol_VDPolCyl_kPhi1Phi2_027_2pi.pdf}
+        \caption{$\mathcal{S}_{v}^\Phi$: acoplamento em $\phi$ ($\bar{\iota} = 0,76$).}
+        \label{fig:arnold_VDPol_VDPolCyl_kPhi1Phi2_027_2pi}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_VDPol_VDPolCyl_kRho1Rho2_028_2pi.pdf}
+        \caption{$\mathcal{S}_{v}^\Phi$: acoplamento em $\rho$ ($\bar{\iota} = 0,55$).}
+        \label{fig:arnold_VDPol_VDPolCyl_kRho1Rho2_028_2pi}
+    \end{subfigure}
+    \caption[Regiões de sincronismo para o sistema de Van der Pol.]{Regiões de sincronismo para sistemas de Van der Pol representados por $\mathcal{S}_{v}$ e $\mathcal{S}_{v}^\Phi$ com acoplamento unidirecional dissipativo (Eq.~\ref{eq:dx12_fx12_infoFase}) nas variáveis (a) $x$, (b) $y$, (c) $\phi$, (d) $\rho$.}\label{fig:arnold_VDPol_VDPol}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_Ross_RossCyl_kX1X2_009_2pi.pdf}
+        \caption{$\mathcal{S}_{r}$: acoplamento em $x$ ($\bar{\iota} = 0,64$).}
+        \label{fig:arnold_Ross_RossCyl_kX1X2_009_2pi}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_Ross_RossCyl_kY1Y2_010_2pi.pdf}
+        \caption{$\mathcal{S}_{r}$: acoplamento em $y$ ($\bar{\iota} = 0,59$).}
+        \label{fig:arnold_Ross_RossCyl_kY1Y2_010_2pi}
+    \end{subfigure} \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_Ross_RossCyl_kPhiPhi2_011_2pi.pdf}
+        \caption{$\mathcal{S}_{r}^\Phi$: acoplamento em $\phi$ ($\bar{\iota} = 0,95$).}
+        \label{fig:arnold_Ross_RossCyl_kPhiPhi2_011_2pi}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/arnold_Ross_RossCyl_kRhoRho2_012_2pi.pdf}
+        \caption{$\mathcal{S}_{r}^\Phi$: acoplamento em $\rho$ ($\bar{\iota} = 0,09$).}
+        \label{fig:arnold_Ross_RossCyl_kRhoRho2_012_2pi}
+    \end{subfigure}
+    \caption[Regiões de sincronismo para o sistema de Rössler.]{Regiões de sincronismo para sistemas de Rössler representados por $\mathcal{S}_{r}$ e $\mathcal{S}_{r}^\Phi$ com acoplamento unidirecional dissipativo (Eq.~\ref{eq:dx12_fx12_infoFase}) nas variáveis (a) $x$, (b) $y$, (c) $\phi$, (d) $\rho$.}\label{fig:arnold_Ross_Ross}
+\end{figure}
+
+
+% ----------------------------------------------------------------------
+\subsection{Determinação de uma Variável Descritora de Fase}
+
+Seja um oscilador descrito conforme Eq.~\ref{eq:dx=fx_y=hx_infoFase} em que se deseja determinar a função de saída $h(\vec{x})$ para que a saída represente uma variável descritora de fase (\emph{phase-like variable}). Para algumas funções $h(\vec{x})$ escolhidas, foi calculado o \emph{índice de representação de fase} (Definição~\ref{def:indice_repFase}). Apenas para comparação, foi calculado também o \emph{índice de informação de fase} (Definição~\ref{def:indice_infoFase}). Os sistemas e funções analisadas são especificados a seguir.
+
+% ----------------------------------------------------------------------
+\subsubsection{Sistema de Lorenz}
+
+O sistema de Lorenz \citep{lorenz1963} é descrito por:
+% 
+\begin{equation}\label{eq:lorenz}
+ \mathcal{S}_{l}: \left\{
+  \begin{array}{ll}
+    \dot{x} &= -\sigma ( x - y ) \\
+    \dot{y} &= ( r - z )x - y \\
+    \dot{z} &= -b z + x y 
+  \end{array}
+ \right. ,
+\end{equation}
+% 
+em que $(\sigma, b , r) = (10 \,;\,\, 8/3 \,;\,\, 28 )$. Como variáveis descritoras de fase foram consideradas algumas transformações de coordenadas ou projeções utilizadas em outros trabalhos \citep{miranda1993,pikovsky1997b,letellier2000,aguirre2011}. Usando a transformação de coordenadas $(x',y',z') = (x^2-y^2,2xy,z)$, é possível fazer com que as trajetórias no atrator gire em torno de um centro no plano $(y',z')$:
+% 
+\begin{equation}\label{eq:lorenz_hl1}
+ h_{l1}(\vec{x}) \coloneqq \tan^{-1}\left(\frac{z-27}{\sqrt{x^2+y^2}-12}\right) .
+\end{equation}
+%
+Outra transformação comum é considerar o plano $(\sqrt{x^2+y^2},z)$:
+% 
+\begin{equation}\label{eq:lorenz_hl2}
+ h_{l2}(\vec{x}) \coloneqq \tan^{-1}\left(\frac{z-27}{2xy-150}\right) .
+\end{equation}
+%
+
+
+% ----------------------------------------------------------------------
+\subsubsection{Sistema de Chua}
+
+O sistema de Chua \citep{madan1993} é descrito por:
+% 
+\begin{equation}\label{eq:chua}
+ \mathcal{S}_{ch}: \left\{
+  \begin{array}{ll}
+    \dot{x} &= \displaystyle \frac{1}{C_1}\left( \frac{y-x}{R} - g(x) \right) \\
+    \dot{y} &= \displaystyle \frac{1}{C_2}\left( \frac{x-y}{R} + z \right) \\
+    \dot{z} &= \displaystyle - \frac{1}{L} y
+  \end{array}
+ \right. ,
+\end{equation}
+% 
+em que $ g(x) = m_0 x + 0,5(m_1-m_0) |x+B_p| + 0,5(m_0-m_1) |x-Bp| $ e $(m_0, m_1 , C_1 , C_2 , L , R , B_p) = (-0,37 \,;\,\, -0,68 \,;\,\, 10 \,;\,\, 100 \,;\,\, 18 \,;\,\, 1,795 \,;\,\, 1)$. Para esse sistema foram utilizadas funções obtidas de forma empírica. A primeira considera o plano $(y,z)$ (Fig~\ref{fig:chua_protofase1}) de rotação:
+% 
+\begin{equation}\label{eq:chua_hch1}
+ h_{ch1}(\vec{x}) \coloneqq -\tan^{-1}\left(\frac{z}{y}\right) .
+\end{equation}
+%
+A outra função considera o giro em torno da reta $\left(z = 0,5689 x\,;\,\, y=0\right)$:
+% 
+\begin{equation}\label{eq:chua_hch2}
+ h_{ch2}(\vec{x}) \coloneqq -\tan^{-1}\left(\frac{z+0,5689x}{y}\right) .
+\end{equation}
+%
+A Figura~\ref{fig:chua_infoFase} mostra vistas do atrator com a reta $\left(z = 0,5689 x\,;\,\, y=0\right)$, considerada centro de rotação. Verifica-se que a reta não toca o atrator (Fig~\ref{fig:chua_protofase4}).
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/chua_protofase1.pdf}
+        \caption{Vista do plano $(y,z)$.}
+        \label{fig:chua_protofase1}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/chua_protofase2.pdf}
+        \caption{}
+        \label{fig:chua_protofase2}
+    \end{subfigure} \\
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/chua_protofase3.pdf}
+        \caption{}
+        \label{fig:chua_protofase3}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/chua_protofase4.pdf}
+        \caption{A reta é vista (como um ponto) ao centro.}
+        \label{fig:chua_protofase4}
+    \end{subfigure}
+    \caption[Atrator de Chua: variável descritora de fase.]{Atrator de Chua (Eq.~\ref{eq:chua}): (a) plano $(y,z)$; (b,c,d) vistas do atrator e reta (em vermelho) dada por $\left(z = 0,5689 x\,;\,\, y=0\right)$, considerada centro de rotação.}\label{fig:chua_infoFase}
+\end{figure}
+
+
+
+% ----------------------------------------------------------------------
+\subsubsection{Sistema de Corda}
+
+O sistema Corda \citep{aguirre2011}, obtido por uma modificação do sistema de Lorenz'84 \citep{lorenz1984}, é dado por:
+% 
+\begin{equation}\label{eq:cord}
+ \mathcal{S}_{co}: \left\{
+  \begin{array}{ll}
+    \dot{x} &= -y -z -a x + a F \\
+    \dot{y} &= x y - b x z - y + G \\
+    \dot{z} &= b x y + x z - z
+  \end{array}
+ \right. ,
+\end{equation}
+% 
+em que $(a , b , F , G) = (0,258 \,;\,\, 4,033 \,;\,\, 8,0 \,;\,\, 1,0 )$. Para esse sistema também foram utilizadas funções obtidas de forma empírica. A projeção do atrator no plano $(y,z)$ aparenta um ciclo de rotação (Fig~\ref{fig:cord_protofase1}). No entanto, essa rotação se dá em sentidos opostos, de acordo com o valor de $x$ (Fig~\ref{fig:cord_infoFase}). Assim, propõe-se:
+% 
+\begin{equation}\label{eq:cord_hco1}
+ h_{co1}(\vec{x}) \coloneqq -x \tan^{-1}\left(\frac{z}{y}\right) .
+\end{equation}
+%
+Considerando uma rotação, maior e mais lenta, no plano $(x,z)$, propõe-se:
+% 
+\begin{equation}\label{eq:cord_hco2}
+ h_{co2}(\vec{x}) \coloneqq \tan^{-1}\left(\frac{z-10}{x}\right) + x \tan^{-1}\left(\frac{z}{y}\right) .
+\end{equation}
+%
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/cord_protofase1.pdf}
+        \caption{Plano $(y,z)$.}
+        \label{fig:cord_protofase1}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/cord_protofase2.pdf}
+        \caption{Plano $(x,z)$.}
+        \label{fig:cord_protofase2}
+    \end{subfigure}
+    \caption[Atrator Corda: planos $(y,z)$ e $(x,z)$.]{Atrator Corda (Eq.~\ref{eq:cord}): (a) plano $(y,z)$; (b) plano $(x,z)$. O sistema rotaciona no plano $(y,z)$, mas em sentidos de rotação opostos de acordo com o valor de $x$.}\label{fig:cord_infoFase}
+\end{figure}
+
+% ----------------------------------------------------------------------
+\subsubsection{Exemplo com sistema de Van der Pol modificado} \label{sec:vanDerPol_modificado}
+
+Antes de mostrar os resultados para os osciladores caóticos, será apresentado um exemplo da aplicação do \emph{índice de representação de fase} $\zeta$ no sistema de Van der Pol (Eq.~\ref{eq:vanDerPol_cart}) para a função de saída $h(\vec{x}) \coloneqq \tan^{-1} (y/x)$. Esse índice proposto quantifica, principalmente, a dinâmica da variável descritora de fase. Se $\dot{\phi}$ evolui junto com $dh/dt$ o índice resulta em valor elevado. A variável fase apresentada pela Definição~\ref{def:fase} tem, por construção, índice $\zeta_{\tilde{\phi}} = 1$. Desta forma, para o sistema de Van der Pol, o cálculo da fase proposta no Capítulo~\ref{cap:03_proposta} é comparado com $h(\vec{x})$, principalmente em termos de dinâmica.
+
+Para isso, além do sistema de Van der Pol original $\mathcal{S}_v$ (Eq.~\ref{eq:vanDerPol_cart}) será utilizado também um sistema de Van der Pol modificado $\mathcal{S}_{v2}$, que se diferencia do original por ter $\| \boldsymbol{f}(\vec{x}) \|$ constante\footnote{Para obtenção do sistema modificado $\boldsymbol{f}_m(\vec{x})$, fez-se $\boldsymbol{f}_m(\vec{x}) \coloneqq \displaystyle \frac{\ell}{T} \frac{\boldsymbol{f}(\vec{x}) }{ \| \boldsymbol{f}(\vec{x}) \|}$, em que $\ell$ é o perímetro do atrator e $T$ o período de oscilação.}. Ambos sistemas têm o mesmo período de oscilação e mesmo conjunto $\omega$-limite. O que os diferencia é apenas a dinâmica, comportamento temporal, em que $\mathcal{S}_v$ possui regiões de acelerações e desacelerações no espaço de estados, enquanto $\mathcal{S}_{v2}$ evolui com velocidade constante. A Figura~\ref{fig:vanDerPol_infoFase_campVet} mostra parte dos campos vetoriais desses sistemas, em que é possível verificar essas diferenças.
+
+Foram considerados ainda dois valores de parâmetros $\mu \in \{ 1 \, ; \, 4\}$, em que o valor maior representa não linearidade mais acentuada. A Figura~\ref{fig:vanDerPol_infoFase_velociadades} mostra a evolução no atrator dos sistemas $\mathcal{S}_{v}$ e $\mathcal{S}_{v2}$ para os dois valores de parâmetros. Números iguais, no mesmo gráfico, indicam intervalos de tempos iguais. É possível verificar a regularidade na evolução do sistema modificado em relação ao sistema original, principalmente para $\mu=4$.
+
+A Figura~\ref{fig:vanDerPol_infoFase_faseEvoTemporal} mostra a evolução temporal das fases $\tilde{\phi}$ (Def.~\ref{def:fase}) e $h(\vec{x})$, para o sistema original e modificado. Para o sistema original $\mathcal{S}_{v}$, verifica-se que $\tilde{\phi}(t) \approx h(t)$ a menos de algumas pequenas flutuações. No entanto os valores $\zeta_h$ e $\zeta_{\tilde{\phi}}=1$ são diferentes, especialmente para $\mu = 4$. O que essa diferença representa? Olhando para o resultado do sistema modificado é possível ver o que indica essa diferença de valores de $\zeta$. Como não há acelerações na evolução do sistema, a evolução temporal de $\tilde{\phi}(t)$ é uma reta de inclinação constante. Por outro lado, a variável $h(\vec{x})$ definida apresenta variações de inclinação. Isso remete a uma questão filosófica sobre a dinâmica da fase de osciladores. Enquanto $\tilde{\phi}(t)$ representa bem a dinâmica de acelerações e desacelerações sobre o perímetro ao longo da órbita do atrator (correspondente ao expoente nulo de Lyapunov), a evolução irregular de $h(t)$ representa o quão diferente é o atrator de um círculo -- devido ao cálculo do arcotangente. Como o atrator de Van der Pol não descreve uma órbita completamente circular no espaço de estados, variações na inclinação da evolução de $h(t)$ são observadas, não por evoluir mais rápido ou lentamente no atrator. O índice $\zeta$ proposto quantifica esse tipo de diferença na representatividade de $h(t)$ com a dinâmica de evolução dos estados ao longo da trajetória. A seguir são apresentados alguns cálculos para outros sistemas e variáveis descritoras de fase.
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_infoFase_campVet1_det_mu1.pdf}
+        \caption{$\mathcal{S}_v$.}
+        \label{fig:vanDerPol_infoFase_campVet1_det_mu1}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_infoFase_campVet2_det_mu1.pdf}
+        \caption{$\mathcal{S}_{v2}$.}
+        \label{fig:vanDerPol_infoFase_campVet2_det_mu1}
+    \end{subfigure}
+    \caption[Campos vetoriais do sistema de Van der Pol original e modificado.]{Campos vetoriais de dois osciladores topologicamente equivalentes. (a) $\mathcal{S}_v$: Van der Pol original; (b) $\mathcal{S}_{v2}$: Van der Pol modificado. Enquanto $\mathcal{S}_v$ possui regiões de acelerações e desacelerações, $\mathcal{S}_{v2}$ evolui com velocidade constante em todo o atrator.}\label{fig:vanDerPol_infoFase_campVet}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_infoFase_velociadades_mu1.pdf}
+        \caption{$\mu = 1$.}
+        \label{fig:vanDerPol_infoFase_velociadades_mu1}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_infoFase_velociadades_mu4.pdf}
+        \caption{$\mu = 4$.}
+        \label{fig:vanDerPol_infoFase_velociadades_mu4}
+    \end{subfigure}
+    \caption[Sistema de Van der Pol com dois valores de parâmetros distintos.]{Oscilador de Van der Pol. No mesmo atrator, pontos com números iguais representam instantes de tempos iguais, em que o sistema original $\mathcal{S}_v$ é represetado pelos losangos e o sistema modificado $\mathcal{S}_{v2}$ pelos círculos. Nota-se que o sistema modificado apresenta os intervalos regularmente espaçados no atrator, enquanto o original tem regiões de aceleração e desaceleração. É apresentado para o parâmetro (a) $\mu = 1$ e (b) $\mu = 4$, sendo este último com evolução menos regular.}\label{fig:vanDerPol_infoFase_velociadades}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_infoFase_faseEvoTemporal_mu1.pdf}
+        \caption{$\mu = 1$, $\zeta_h = 0,76$, $\zeta_{h2} = 0,75$.}
+        \label{fig:vanDerPol_infoFase_faseEvoTemporal_mu1}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_infoFase_faseEvoTemporal_mu4.pdf}
+        \caption{$\mu = 4$, $\zeta_h = 0,36$, $\zeta_{h2} = 0,37$.}
+        \label{fig:vanDerPol_infoFase_faseEvoTemporal_mu4}
+    \end{subfigure}
+    \caption[Evolução temporal da fase do sistema de Van der Pol original e modificado.]{Evolução temporal da fase do oscilador de Van der Pol original $\mathcal{S}_v$ e modificado $\mathcal{S}_{v2}$, para dois valores de parâmetros distintos. A linha espessa representa a evolução de $h(t)$ e a linha fina representa a evolução de $\tilde{\phi}(t)$ (Def.~\ref{def:fase}). Os índices de representação de fase são mostrados, em que $\zeta_h$ foi calculado para $\mathcal{S}_v$ e $\zeta_{h2}$ para $\mathcal{S}_{v2}$.} \label{fig:vanDerPol_infoFase_faseEvoTemporal}
+\end{figure}
+
+
+
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsubsection{Resultados e discussão}
+
+Para os sistemas considerados, foram calculados os índices médios de \emph{informação} $\bar{\iota}$ e \emph{representação} $\bar{\zeta}$ de fase considerando, primeiro, as variáveis de estado como saída: $\bar{\iota}_x$ e $\bar{\zeta}_x$ para $h(\vec{x}) = x$; $\bar{\iota}_y$ e $\bar{\zeta}_y$ para $h(\vec{x}) = y$; $\bar{\iota}_z$ e $\bar{\zeta}_z$ para $h(\vec{x}) = z$. Esses índices são mostrados na Tabela~\ref{tab:resultados_infoEstados}. A Tabela~\ref{tab:resultados_varDescFase} mostra os índices para as funções de saída propostas para cada sistema.
+
+A Tabela~\ref{tab:resultados_infoEstados} mostra os índices calculados para cada variável de estado. Um índice $\bar{\iota}$ elevado para determinada variável de estado indica que o sistema evolui majoritariamente na direção desse eixo. É o caso, por exemplo, de $y$ ($\approx z$) para o sistema Corda e $z$ para os sistemas de Lorenz e Chua.
+
+A Tabela~\ref{tab:resultados_infoEstados} mostra a diferença prática entre $\bar{\iota}$ e $\bar{\zeta}$. Para o sistema de Chua, por exemplo, enquanto $\bar{\iota}_z \approx 0,67$, $\bar{\zeta}_z$ é quase nulo. Essa diferença indica que há informação sobre a fase do atrator em $z$ ($\bar{\iota}_z > 0$), mas a variável não cresce monotonicamente com a evolução do sistema e, portanto não cresce monotonicamente com o tempo. Por outro ladro, para $h_{ch2}(\vec{x})$ (Eq.~\ref{eq:chua_hch2}), tem-se $\bar{\iota} \approx \bar{\zeta}$ (linha 4 da Tabela~\ref{tab:resultados_varDescFase}). Isso indica que essa função de saída tem alguma informação de fase e, ainda, é majoritariamente crescente com a evolução do sistema, ou seja, $\boldsymbol{f}(\vec{x})$ aponta para uma direção de crescimento da variável de saída.
+
+Como o índice $\bar{\zeta}$ avalia o sentido de maior crescimento da variável de saída $dh/d\vec{x}$, seu valor quantifica o comportamento \emph{dinâmico} da variável descritora de fase. Ao comparar, por exemplo, $\bar{\zeta}_x$ com $\bar{\zeta}_y$ está se verificando se $\dot{x}$ representa melhor a evolução de $\dot{\phi}$ do que $\dot{y}$ (considerando a Definição~\ref{def:fase}). Para o oscilador de Lorenz, por exemplo, ambas definições de fase propostas representam bem a dinâmica de evolução do sistema $\bar{\zeta}_h \approx 0,90$ (Tab.~\ref{tab:resultados_varDescFase}), enquanto que nos osciladores Chua e Corda as segundas definições representam melhor a dinâmica de evolução do sistema. Isso pode ter implicações no projeto de \emph{controladores} para sincronismo de fase, por exemplo, em que todo o projeto do controlador é realizado a partir de uma variável descritora de fase (\emph{variável controlada}) preestabelecida. Se a dinâmica da \emph{variável controlada} é mais simples do que o real corre-se o risco do controle ser falho e, no caso oposto (i.e. variável com dinâmica mais complexa do que o real) o controlador pode se tornar muito agressivo e pouco eficiente.
+
+% O sistema de Lorenz, por exemplo, apresenta melhores resultados quando acoplado pela variável $x$ \citep{kerfourn2012}, porém, na Tabela~\ref{tab:resultados_infoEstados} é mostrado que essa é a variável com o menor índice de informação de fase.
+
+\begin{table}
+  \caption[Índice de representação e informação de fase para variáveis de estados.]{Resultados do cálculo dos índices de \emph{informação} $\bar{\iota}$ (Def.~\ref{def:indice_infoFase}) e \emph{representação} $\bar{\zeta}$ (Def.~\ref{def:indice_repFase}) de fase para variáveis de estado dos sistemas de Lorenz, Chua e Corda.}
+  \label{tab:resultados_infoEstados}
+  \centering
+  \begin{tabular}{clcccccc}
+  \hline \hline
+  \# & Sistema	& $\bar{\iota}_x$ & $\bar{\iota}_y$ & $\bar{\iota}_z$ & $\bar{\zeta}_x$ &  $\bar{\zeta}_y$ & $\bar{\zeta}_z$ \\ \hline
+  1 & Lorenz	& $0,3586$ & $0,4688$ & $\bf 0,6687$ & $-0,0006$ & $-0,0051$ & $\bf -0,2464$ \\
+  2 & Chua 	& $0,5527$ & $0,2963$ & $\bf 0,6690$ & $\bf -0,0045$ & $-0,0006$ & $0,0038$ \\
+  3 & Corda	& $0,3046$ & $\bf 0,5747$ & $0,5561$ & $\bf 0,2641$ & $-0,0154$ & $0,0377$ \\
+  \hline \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}
+  \caption[Índice de representação e informação de fase para variáveis descritoras de fase.]{Resultados do cálculo dos índices de \emph{informação} $\bar{\iota}$ (Def.~\ref{def:indice_infoFase}) e \emph{representação} $\bar{\zeta}$ (Def.~\ref{def:indice_repFase}) de fase para algumas variáveis descritoras de fase dos sistemas de Lorenz, Chua e Corda.}
+  \label{tab:resultados_varDescFase}
+  \centering %\def\arraystretch{1.5}
+  \begin{tabular}{cllcc}
+  \hline \hline
+  \# & Sistema	& $h(\vec{x})$ & $\bar{\iota}_{h}$ & $\bar{\zeta}_{h}$ \\ \hline\noalign{\smallskip}
+  1 &\multirow{2}{*}{Lorenz}	& $\tan^{-1}\left(\frac{z-27}{\sqrt{x^2+y^2}-12}\right)$ & $0,8968$ & $0,8968$ \\[.5cm]
+  2 & 				& $\tan^{-1}\left(\frac{z-27}{2xy-150}\right)$ & $\bf 0,8999$ & $\bf 0,8999$ \\[.5cm] \hline\noalign{\smallskip}
+  3 & \multirow{2}{*}{Chua} 	& $-\tan^{-1}\left(\frac{z}{y}\right)$ & $0,4066$ & $0,3290$ \\[.5cm]
+  4 &				& $-\tan^{-1}\left(\frac{z+0,5689x}{y}\right)$ & $\bf 0,5225$ & $\bf 0,5223$ \\[.5cm] \hline\noalign{\smallskip}
+  5 & \multirow{2}{*}{Corda}	& $-x \tan^{-1}\left(\frac{z}{y}\right)$ & $0,6571$ & $0,5686$ \\[.5cm]
+  6 &				& $\tan^{-1}\left(\frac{z-10}{x}\right) + x \tan^{-1}\left(\frac{z}{y}\right)$ & $\bf 0,6662$ & $\bf 0,6341$ \\
+  \hline \hline
+  \end{tabular}
+\end{table}
+
+
+
+
+% ======================================================================
+\section{Conclusões do Capítulo}
+
+O problema de \emph{sincronismo de osciladores} foi segregado em três fatores: i) \emph{medição} de fase; ii) \emph{atuação} na dinâmica da fase; e iii) \emph{forma} de acoplamento. Nesse capítulo foram abordados os problemas de (i) \emph{medição} de fase e (ii) \emph{atuação} na dinâmica da fase. Sobre \emph{medição}, foram apresentadas propostas para quantificar a \emph{informação} sobre a fase do oscilador que uma variável pode ter: \emph{índice de informação de fase} $\iota$ (Def.~\ref{def:indice_infoFase}); e a \emph{representatividade} da evolução da fase de uma saída do sistema: \emph{índice de representação de fase} $\zeta$ (Def.~\ref{def:indice_repFase}). Sobre o problema de \emph{atuação}, foi proposto uma métrica para quantificar a influência que uma entrada pode exercer na dinâmica da fase do oscilador: \emph{índice de influência de fase} $\chi$ (Def.~\ref{def:indice_influFase}).
+
+A concepção dos índices basearam-se nas definições e proposições do Capítulo~\ref{cap:03_proposta}, mas podem ser aplicados usando outras definições de fase $\phi$. Porém, ao adotar a Definição~\ref{def:fase_geral}, o cálculo dos índices pode ser efetuado usando as próprias equações de estado do sistema. Foram apresentados resultados ilustrativos sobre a aplicação dos índices propostos.
+
+Os índices de \emph{informação} e de \emph{influência} de fase foram aplicados no acoplamento dissipativo entre osciladores. Observou-se, para os casos analisados, alguma concordância entre a métrica proposta e o tamanho da região de sincronismo de fase, calculada experimentalmente para diferentes valores de força de acoplamento e diferença de frequência. O índice permitiu obter a mesma ordenação sobre quais variáveis de acoplamento proporcionam maior ocorrência de sincronismo de fase, testada empiricamente. Porém, ao comparar valores absolutos dos índices, não há uma relação direta com os resultados experimentais. Acredita-se que o índice pode ajudar a quantificar informações sobre a fase, sobretudo a respeito da sua \emph{dinâmica}, mas determinar o sincronismo (\emph{sincronizabilidade}) requer um cuidado maior.
+
+O índice de \emph{representação} de fase foi utilizado para avaliar algumas definições de fase comumente utilizadas, em que foram ilustradas algumas características da métrica. O índice proposto quantifica mais a \emph{dinâmica} de evolução da variável, se está ou não de acordo com a evolução do sistema na direção do campo vetorial. Porém, comprovar a eficácia do índice traz uma dificuldade prática: como estabelecer uma referência de comparação se não há consenso entre a comunidade científica sobre a fase -- quiçá sobre sua dinâmica. Outros experimentos devem ser concebidos para verificar a eficácia desse índice. Um caminho seria relacionar com as direções correspondentes ao expoentes nulos de Lyapunov dos sistemas, calculados numericamente. Outra possibilidade é tomar um oscilador bem conhecido (ex. sistema de Poincaré), que possui dinâmica mais simples, e realizar transformações de coordenadas, pressupondo que a dinâmica da fase pode ser avaliada nas coordenadas convencionais, e avaliar os índices nas novas coordenadas.
+
+Os índices propostos podem ajudar a caracterizar um acoplamento, mas como comentado anteriormente, a questão sobre \emph{sincronizabilidade} entre dois sistemas é uma discussão maior, em que se deve levar em consideração mais fatores. As propostas apresentadas nesse capítulo não têm o objetivo de fornecer uma solução para essa questão, mas pode ajudar a esclarecer as partes que a compõe.
+
+A terceira peça deste problema -- e talvez a mais crucial e complexa, diz respeito à \emph{forma} de efetuar o sincronismo. Essa questão é discutida no Capítulo~\ref{cap:06_cont}, com uma tentativa de chegar a uma abordagem em termos de \emph{controle de sistemas dinâmicos}. Essa abordagem pode permitir estabelecer leis ou sinais de controle que promovem o sincronismo, mas determinar previamente se o sincronismo será alcançado a partir de acoplamentos preestabelecidos ainda é um desafio que merece investigação mais profunda. As discussões que seguem visam esclarecer esse tipo de problema.
+

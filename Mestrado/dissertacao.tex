@@ -1,0 +1,265 @@
+%Declara a classe do documento
+\documentclass[a4paper,12pt,twoside]{report}
+
+%Inclui os pacotes utilizados neste documento
+\usepackage[latin1]{inputenc} %permite o uso de caracteres latinos (acentuação e outras coisas)
+\usepackage[brazil]{babel} %faz a localização dos pacotes
+\usepackage[T1]{fontenc} %define fonte vetorial
+\usepackage{graphicx} %para o uso de figuras
+\usepackage{subfigure} %permite o uso do ambiente subfigure
+\usepackage{tikz,pgfplots} %permite o uso do pgfplots
+\usepackage{acronym} %para a gerências de siglas durante o texto
+\usepackage{dsfont} %permite o uso de certos caracteres especiais
+\usepackage{amsmath} %permite o uso de certos caracteres especiais e do ambiente align
+\usepackage[style=authoryear-comp,dashed=false]{biblatex} %modifica a utilização do arquivo de referências
+\usepackage{setspace} %para o controle do espaçamento entre linhas
+\usepackage[inner=3cm,outer=2cm,top=3cm,bottom=2cm]{geometry} %para facilitar o controle das margens do papel
+\usepackage{amsthm} %permite a criação de ambientes de teorema, definição e permite o uso do ambiente proof
+\usepackage{import} %permite o uso do comando import (para as figuras geradas com o inkscape)
+\usepackage{pdflscape} %permite o uso do ambiente landscape (para colocar certas páginas em paisagem)
+\usepackage{pdfpages} %permite o uso do comando \includepdf para inserir uma página pdf no documento (folha de aprovação)
+\usepackage{hyperref} %cria hyperlinks dentro do texto
+
+%Inclui arquivo de referências
+\bibliography{dissertacao}
+
+%Configuração do pgfplots
+\pgfplotsset{compat=newest}
+
+%Configurações do hyperref
+\hypersetup{
+    pdftitle={Projeto de Controladores Takagi-Sugeno baseados em Modelos de Referência},
+    pdfauthor={Víctor Costa da Silva Campos},
+    pdfsubject={Dissertação de Mestrado - PPGEE - UFMG},
+    pdfkeywords={Controle Fuzzy Takagi-Sugeno, Sincronização de Osciladores Caóticos, Controle de aeronaves, LMI},
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+%Define comando para uso de epígrafes
+\newcommand{\epigrafe}[1]{
+    \begin{minipage}{.5\textwidth}
+        \hspace{1cm}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+        \vspace{1cm}{\raggedright\par\sffamily\slshape #1\par}
+    \end{minipage}
+}
+
+%Define comando para uso de epígrafes no começo de um capítulo
+\newcommand{\epigrafec}[1]{
+    \vspace{-1.8cm}
+    \begin{minipage}{.5\textwidth}
+        \hspace{1cm}
+    \end{minipage}
+    \begin{minipage}{.5\textwidth}
+        \vspace{1cm}{\raggedright\par\sffamily\slshape #1\par}
+    \end{minipage}
+    \\[1.5cm]
+}
+
+%Comando para pequeno texto de introdução ao capítulo - normalmente utilizado logo no início do capítulo
+\newcommand{\intro}[1]{
+\singlespacing
+\noindent\emph{#1} \\
+\onehalfspacing
+}
+
+%Cria ambientes para teoremas e definições e os configura
+\theoremstyle{plain}
+\newtheorem{thm}{Teorema}[chapter]
+\newtheorem{met}{Metodologia}[chapter]
+\newtheorem{lem}{Lema}[chapter]
+\theoremstyle{definition}
+\newtheorem{defi}{Definição}[chapter]
+\newtheorem{prop}{Propriedade}[chapter]
+\newtheorem{exem}{Exemplo}[chapter]
+
+%redefine o comando sin de modo que ele escreva sen ao invés de sin
+\renewcommand{\sin}{\operatorname{sen}}
+
+%define comando de plotSurf
+\newcommand{\plotSurf}[2][]
+    {
+    \begin{tikzpicture}
+        \begin{axis}[#1]
+            \addplot3[surf] file {#2};
+        \end{axis}
+    \end{tikzpicture}
+    }
+
+%Muda o heading do biblatex para que a bibliografia seja adicionada ao toc
+\defbibheading{bibliography}[\bibname]{
+\chapter*{#1}
+\addcontentsline{toc}{chapter}{Bibliografia}
+\markboth{#1}{#1}}
+
+\begin{document}
+%--------------------------------------------------------------------------------------------------------------------------------------------
+%Insere a capa do documento
+\pagestyle{empty}
+\include{capa}
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Insere a folha de rosto
+\pagenumbering{roman}
+\include{rosto}
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Insere a folha de aprovação
+\includepdf{folha_aprovacao.pdf}
+\cleardoublepage
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Muda o espaçamento do texto para 1.5 entre linhas a partir desse ponto
+\onehalfspacing
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Agradecimentos
+\chapter*{Agradecimentos}
+\thispagestyle{empty}
+    Agradeço a Deus pela oportunidade. Ao Léo por ter me apresentado ao controle de aeronaves e motivado meus estudos. Ao Reinaldo pelas discussões e por ter me apresentado às LMIs e ao controle fuzzy. Ao prof. Paulo Iscold pela oportunidade de trabalhar no projeto de assistência à pilotagem. Ao Conselho Nacional de Desenvolvimento Científico e Tecnológico (CNPq) pela bolsa de mestrado de tal projeto.
+
+    Agradeço à minha família pelo apoio e carinho. À Ana pela motivação, carinho e inspiração nesses últimos meses. Aos amigos por estarem sempre lá. Aos amigos de laboratório e do mestrado, em especial ao Tales, Cristina, Grazi, Dimas, Tiago, Vitinho, Gonçalo e Rogério pela companhia e apoio durante esse período da minha vida.
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Epígrafe
+\cleardoublepage
+\chapter*{}
+    \thispagestyle{empty}
+    \vfill
+    \epigrafe{``A lesson without pain is meaningless.
+                That's because no one can gain without sacrificing something.
+                But by enduring that pain and overcoming it... \\
+                ...he shall obtain a powerful, unmatched heart. \\
+                A fullmetal heart.''\\ Edward Elric, \emph{FullMetal Achemist Brotherhood}}
+    \vfill
+    \epigrafe{``Mozzie: May you live in interesting times. \\
+                Neal: You know that's the first of two curses. \\
+                Mozzie: What's the other one? \\
+                Neal: May you find what you're looking for.'' \\ \emph{White Collar}, primeira temporada, episódio 12}
+\cleardoublepage
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Resumo
+\chapter*{Resumo}
+\pagestyle{plain}
+    As técnicas de controle fuzzy \acl*{TS} (\acs*{TS}) permitem que a síntese de controladores não lineares seja realizada por meio de problemas de otimização sujeitos a Desigualdades Matriciais Lineares e exigem, para isso, um modelo fuzzy \acs*{TS} do sistema a ser controlado.
+
+    Neste trabalho, uma função de Lyapunov fuzzy candidata e condições de síntese propostas em trabalhos recentes da literatura são usados para projetar controladores fuzzy \acs*{TS} baseados em modelos de referência. Além disso, algumas modificações em relação a uma técnica numérica de obtenção de modelos fuzzy são sugeridas, de modo a torná-la mais geral.
+
+    As condições de síntese supramencionadas são aplicadas ao problema de sincronismo de dois osciladores caóticos acoplados unidirecionalmente por um canal de transmissão e ao problema de controle do movimento longitudinal de uma aeronave de asa fixa.
+
+    Em relação ao problema de sincronismo de dois osciladores caóticos, a contribuição deste trabalho está na proposição de uma estratégia de sincronismo em que se estuda formalmente o efeito da distorção introduzida pelo canal de transmissão com banda limitada.
+
+    Em relação ao problema de controle do movimento longitudinal de uma aeronave de asa fixa, a lei de controle utilizada pode ser pensada como um controlador de ganho escalonado, sintonizado de forma sistemática graças a representação \acl*{TS} (\acs*{TS}) do mesmo. Além disso, o uso de um modelo de referência permite especificar de forma simples o desempenho associado ao problema de Assistência à Pilotagem - um dos temas motivadores deste trabalho.
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Abstract
+\chapter*{Abstract}
+    \acl*{TS} fuzzy control techniques allow the synthesis of nonlinear controllers based on Linear Matrix Inequalities, as long as a fuzzy \acl*{TS} model of the system is available.
+
+    In this work, a fuzzy candidate Lyapunov function and recently proposed synthesis conditions serve as basis to design model reference based fuzzy \acl*{TS} controllers. In addition, some modifications are proposed generalizing a numerical technique used to obtain the fuzzy models.
+
+    Such synthesis conditions are applied to the problem of synchronizing two chaotic oscillators coupled unidirectionally by a transmission channel, and to the problem of controlling the longitudinal dynamics of a fixed wing aircraft.
+
+    Regarding the chaotic oscillators synchronization problem, one of the contributions is the proposition of a synchronization strategy that formally incorporates the transmitted signal distortion introduced by a band-limited transmission channel.
+
+    On the problem of fixed wing aircraft longitudinal  control, the final control law can be seen as a gain scheduled controller, whose scheduling strategy is automatically accomplished relying on the \acs*{TS} representation of the controller. In addition, the use of a closed loop reference model simplify the performance requirements specification related to the design of piloting assistance systems - a motivating problem to the present work.
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Sumário
+\tableofcontents
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Lista de Figuras
+\listoffigures
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Lista de Tabelas
+\listoftables
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Lista de Símbolos - Notação
+\chapter*{Notação}
+\begin{tabular}{ll}
+    $a$                                     & Escalar \\
+    $\mathbf{a}$                            & Vetor \\
+    $A$                                     & Matriz \\
+    $\mathcal{A}$                           & Tensor \\
+    $\mathbf{a}_i$                          & Vetor coluna $i$ da matriz $A$ \\
+    $a_{ij}$                                & Elemento da linha $i$, coluna $j$ da matriz $A$ \\
+    $a_{i_1 i_2 \dots i_N}$                 & Elemento da posição $(i_1,i_2,\dots,i_N)$ do tensor $\mathcal{A}$ \\
+    $\mathcal{A}_{(n)}$                     & Matriz de modo n do tensor $\mathcal{A}$ \\
+    $\langle\cdot,\cdot\rangle$             & Operador de produto escalar \\
+    $\times_n$                              & Operador de produto modo-n entre um tensor e uma matriz \\
+    $\|\cdot\|$                             & Operador de norma \\
+    $\mathcal{S} \overset{N}{\underset{n=1}{\otimes}} U^{(n)}$
+                                            & Notação curta para $\mathcal{S} \times_1 U^{(1)} \times_2 U^{(2)} \dots \times_N U^{(N)}$ \\
+    $\mathbf{1}$                            & Vetor cujos componentes são todos iguais a um \\
+    $A^T$                                   & Matriz transposta da matriz A \\
+    $*$                                     & Elementos transpostos em uma matriz simétrica \\
+    $\textrm{diag}(.)$                      & Matriz bloco diagonal \\
+    $\partial f/\partial \mathbf{x}$
+                                            & Gradiente de $f$ (vetor coluna), ou matriz Jacobiana de $f$ (se $f$ for multivariável) \\
+    $P \succ 0$                             & Indica que a matriz $P$ é definida positiva \\
+    $P \succeq 0$                           & Indica que a matriz $P$ é semi-definida positiva \\
+    $P \prec 0$                             & Indica que a matriz $P$ é definida negativa \\
+    $P \preceq 0 $                          & Indica que a matriz $P$ é semi-definida negativa \\
+\end{tabular}
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Lista de Siglas
+\chapter*{Lista de Siglas}
+%Define as siglas utilizadas nesta dissertação
+\begin{acronym}[HOSVD]
+    \acro{CNO}{Próxima a Normalizada\acroextra{ - \emph{Close to Normalized}}}
+    \acro{CNPq}{Conselho Nacional de Desenvolvimento Científico e Tecnológico}
+    \acro{HOSVD}{Decomposição de Valores Singulares de Alta Ordem\acroextra{ - \emph{Higher Order Singular Value Decomposition}}}
+    \acro{INO}{Normalizada Inversa\acroextra{ - \emph{Inverted Normalized}}}
+    \acro{LMI}{Desigualdade Matricial Linear\acroextra{ - \emph{Linear Matrix Inequality}}}
+    \acrodefplural{LMI}{Desigualdades Matriciais Lineares}
+    \acro{LPV}{Linear com Parâmetros Variantes\acroextra{ - \emph{Linear Parameter Varying}}}
+    \acro{NN}{Não Negativa\acroextra{ - \emph{Non Negative}}}
+    \acro{NO}{Normalizada\acroextra{ - \emph{Normalized}}}
+    \acro{PDC}{\emph{Parallel Distributed Compensation}}
+    \acro{PDVA}{Grupo de Pesquisa e Desenvolvimento de Veículos Autônomos}
+    \acro{qLPV}{quase-LPV\acroextra{ - \emph{quasi-Linear Parameter Varying}}}
+    \acro{RNO}{Normalizada Relaxada\acroextra{ - \emph{Relaxed Normalized}}}
+    \acro{SN}{Normalizada em Soma\acroextra{ - \emph{Sum Normalized}}}
+    \acro{TS}{Takagi-Sugeno}
+\end{acronym}
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+% Início do texto da dissertação
+\pagenumbering{arabic}
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%\chapter{Introdução}
+\include{introducao}
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%\chapter{Metodologia}
+    \include{metodologia}
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%\chapter{Sincronismo de Osciladores Caóticos Utilizando Modelo de Referência}
+    \include{chua}
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%\chapter{Controle do Movimento Longitudinal de Uma Aeronave Utilizando Modelo de Referência}
+    \include{aircraft}
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%\chapter{Conclusões e Trabalhos Futuros}
+    \include{conclusao}
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Referências Bibliográficas
+\printbibliography
+
+%-------------------------------------------------------------------------------------------------------------------------------------------
+%Apêndices
+\appendix
+
+%\chapter{Transformação do Produto Tensorial}
+  \include{TP_trans}
+
+\end{document}

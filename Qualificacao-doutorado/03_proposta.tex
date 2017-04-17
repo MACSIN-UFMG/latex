@@ -1,0 +1,769 @@
+\chapter{Fase de Osciladores}
+\label{cap:03_proposta}
+
+Conforme apresentado no capítulo anterior, a definição de uma grandeza denominada \emph{fase} para um oscilador periódico, como o sistema de Landau-Stuart, é bem aceita na comunidade científica. Porém, a generalização dessa definição para osciladores não periódicos está longe de um consenso. Neste capítulo serão discutidos os principais trabalhos que propõem tal definição e, na Seção~\ref{sec:proposta_fase}, uma proposta será apresentada. Possíveis aplicações dessa nova proposta no contexto de sincronismo de osciladores são discutidas.
+
+
+
+
+
+
+
+% ======================================================================
+\section{Definição de fase}
+
+Como discutido anteriormente, a fase de osciladores caóticos não possui uma definição válida para qualquer atrator. Entretanto, parece haver consenso com relação a alguns aspectos que uma suposta variável \emph{fase} deve ter. Vários autores se referem a \emph{fase} como (i) \emph{uma variável que cresce monotonicamente ao longo do tempo} \citep{pikovsky1997b,boccaletti2002,osipov2003,rosenblum2003,pereira2007,follmann2009,bonnin2010,schwabedal2010a,schwabedal2012,zou2012,follmann2013,clemson2014}. Outra referência comum é relacionar a definição de fase do sistema como (ii) \emph{uma variável que corresponde ao expoente nulo de Lyapunov} \citep{pikovsky1997,pikovsky1997b,blasius2000,rosenblum2003,osipov2003,anishchenko2007,pereira2007,suprunenko2014,hramov2015}. Apesar da definição ainda não ser consenso, espera-se que uma definição de \emph{fase} exista para um atrator genérico, devido à existência de um expoente de Lyapunov nulo \citep{haken1983}, mas seu cálculo explícito pode ser impossível \citep{pereira2007}. Quando a definição se refere a órbitas periódicas, o valor da \emph{fase} pode fornecer a posição geométrica exata no ciclo limite \citep{anishchenko2007}. Nesse caso também é comum definir a fase como (iii) \emph{uma variável que aumenta de 2$\pi$ a cada ciclo de oscilação}. Essas três características principais de uma variável que descreve a fase de um sistema balizará as discussões sobre as diferentes definições. Antes de apresentar as definições, apresenta-se o problema de \emph{definição de uma variável descritora da fase de um oscilador}.
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Colocação do problema}
+
+Seja um oscilador descrito na forma da Eq.~\ref{eq:dx=fx}, em que, dada uma condição inicial $\vec{x}(0)$, o estado do sistema é levado a um conjunto não unitário, $\boldsymbol{f}$-involutivo $\Gamma_0 \subset \mathbb{R}^n$. Deseja-se definir uma variável que descreva a \emph{fase} (\emph{phase-like variable}) do sistema:
+%
+\begin{equation} \label{eq:phit=hx}
+  \tilde{\phi} := h(\vec{x}),
+\end{equation}
+%
+em que $\vec{x} \in X \subseteq \mathbb{R}^n$ e $h: X \mapsto S(X) \subseteq \mathbb{R}$.
+
+Para que a evolução temporal de $\tilde{\phi}$ seja monotonicamente crescente (i), a seguinte desigualdade deve ser verificada:
+%
+\begin{equation} \label{eq:Lfh>0}
+  \mathcal{L}_{\boldsymbol{f}} h(\vec{x}) > 0  \,\,\, \forall \vec{x} \in X,
+\end{equation}
+%
+em que $\mathcal{L}_{\boldsymbol{f}} h(\vec{x})$ denota a derivada de Lie do campo escalar $h(\vec{x})$ na direção do campo vetorial $\boldsymbol{f}(\vec{x})$.
+
+Como $\Gamma_0$ é um conjunto não unitário, não contém pontos fixos. Qualquer trajetória infinita, limitada, que não converge para um ponto fixo é caracterizada pela existência de pelo menos um expoente de Lyapunov nulo, que corresponde a uma perturbação do estado \emph{ao longo de sua trajetória} \citep{haken1983}. Espera-se que exista alguma correspondência de $\tilde{\phi}$ com essa direção (ii). É desejável também que a variável $\tilde{\phi}$ incremente $2\pi$ a cada revolução em $\Gamma_0$ (iii).
+
+A seguir serão discutidas as principais definições de \emph{fase} abordadas na literatura e uma proposta de definição é apresentada na sequência.
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Tempo de retorno a uma seção de Poincaré}
+\label{sec:secaoPoincare}
+
+Quando o atrator $\Gamma_0$ possui um centro de revolução bem definido é possível estabelecer uma seção de Poincaré $\Gamma_{\mathcal{P}}$ e a fase pode ser determinada a partir do cruzamento da trajetória com $\Gamma_{\mathcal{P}}$ \citep{rosenblum1996}. Para tal, considera-se que há um incremento de $2\pi$ a cada encontro com a seção e calcula-se:
+%
+\begin{equation} \label{eq:fase_poincare}
+  \tilde{\phi}_1(t) \coloneqq 2\pi \frac{t-t_k}{t_{k+1}-t_k} + 2\pi k, \,\,\, t_k \leq t < t_{k+1} ,
+\end{equation}
+%
+em que os sub-índices $k \in \mathbb{N}$ denotam o $k$-ésimo ponto de cruzamento com $\Gamma_{\mathcal{P}}$ e $t_k$ os respectivos valores de tempo. Verifica-se que quando $t \neq t_k \,\,\, \forall k$ é realizada uma interpolação linear entre um cruzamento e outro com a seção, gerando pontos não diferenciáveis. Outra característica intrínseca à definição é que considera-se que todos os pontos $\vec{x} \in \Gamma_{\mathcal{P}}$ possuem o mesmo valor de fase (\emph{isophase}).
+
+Essa definição é bastante utilizada e pode produzir bons resultados na detecção de sincronismo de fase (e.g. detecção de escorregamentos de fase, \emph{phase-slips}) e estimação de um período médio de oscilação. No entanto, a própria definição de uma seção de Poincaré pode ser um  obstáculo importante, em que nem sempre é trivial encontrar uma superfície adequada \citep{letellier2009}. O trabalho de \citet{schwabedal2012}, por exemplo, dedicou-se a encontrar condições para melhor definição de uma superfície de Poincaré, de modo a minimizar a variância do tempo de retorno à seção. Verifica-se também que $\tilde{\phi}_1(t)$ é definido após completar a $(k+1)$-ésima revolução, em que a determinação do valor da fase não é instantânea. Isso pode dificultar possíveis aplicações de \emph{controle de sincronismo}.
+
+Outra crítica importante a essa definição é que o mapa de Poincaré definido não contém nenhuma informação sobre a temporalidade da fase associada ao fluxo \citep{yalcnkaya1997}. Isso significa que para intervalos menores que um período de oscilação a dinâmica da fase é simplesmente desprezada nesse tipo de abordagem, assumindo que $\tilde{\phi}_1(t)$ tenha crescimento uniforme com o tempo em $t_k < t < t_{k+1}$. Em problemas de estabilização do erro de fase, por exemplo, a dinâmica de $\tilde{\phi}$ é de suma importância para projeto de controle de sincronismo ou mesmo sua análise em escalas de tempo inferiores ao período de rotação.
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Medida direta de ângulo no atrator}
+
+A medida direta de ângulo no atrator é uma das definições mais empregadas \citep{stone1992,pikovsky1997,pikovsky1997b,yalcnkaya1997,pikovsky2000,chen2001,pikovsky2003}, especialmente nos casos em que o atrator possui um centro e um sentido de rotação bem definidos num plano. Considerando a rotação projetada no plano $(x,y)$, define-se:
+%
+\begin{equation} \label{eq:fase_atan(y,x)}
+  \tilde{\phi}_2(t) \coloneqq \tan^{-1}\left(\frac{y-y_0}{x-x_0}\right),
+\end{equation}
+%
+em que $(x_0,y_0) \in \mathbb{R}^2$ é o centro de rotação e a função $\tan^{-1}$ é calculada com dois argumentos (e.g. \texttt{atan2(y,x)}) para identificação do ângulo nos quatro quadrantes $\tilde{\phi}_2(t) \in [-\pi,\pi]$. Em geral, exige-se que $(x_0,y_0) \notin \Gamma_0$ a fim de evitar singularidades.
+
+Para que essa definição seja apropriada, as trajetórias devem possuir um sentido bem definido (horário ou anti-horário) em todo atrator. Isso equivale a exigir que o produto vetorial entre o raio de rotação $\boldsymbol{\rho}(\vec{x}) = \| \vec{x} - \vec{x}_0 \| $ e a velocidade $\boldsymbol{f}(\vec{x})$ tenham o mesmo sinal em todo atrator, e.g. $\left(\boldsymbol{\rho}(\vec{x}) \times \boldsymbol{f}(\vec{x})\right) > 0 \,\,\, \forall \vec{x} \in \Gamma_0$, ou ainda exigir que $d \tilde{\phi}_2(\vec{x}) / dt > 0 \,\,\, \forall \vec{x} \in \Gamma_0$. A Figura~\ref{fig:angulo_exemplo} ilustra situações em que essa condição é atendida e quando não é. Encontrar modos de rotação que atendam a essas condições em alguns atratores caóticos foi um dos assuntos tratados por \citet{yalcnkaya1997}.
+
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{fig/angulo_properRotationCenter.pdf}
+      \caption{Centro de rotação apropriado.}
+      \label{fig:angulo_properRotationCenter}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{fig/angulo_unproperRotationCenter.pdf}
+      \caption{Centro de rotação não apropriado.}
+      \label{fig:angulo_unproperRotationCenter}
+  \end{subfigure}
+  \caption[Exemplos de centro de rotação apropriado e não apropriado para definição de fase.]{Exemplos ilustrativos de centro de rotação (a) escolhido apropriadamente, em que a fase pode ser definida a partir do centro escolhido; e (b) centro de rotação não escolhido apropriadamente, em que o sistema possui vários centros de rotação. Fonte: \citet{yalcnkaya1997}.}
+  \label{fig:angulo_exemplo}
+\end{figure}
+
+Os pontos frágeis dessa descrição de fase estão intrínsecos na própria definição: quando não é possível (ou trivial) encontrar um centro de rotação apropriado, ou quando a rotação não é bem definida no plano. Para atratores do tipo ciclo-limite definidos em $\mathbb{R}^2$ (e.g. sistemas de Poincaré e Van der Pol) essa definição é quase natural, enquanto que, em atratores caóticos, se restringe a alguns sistemas (e.g. Rössler em regime \emph{espiral}). Para os casos não triviais (e.g. sistema de Lorenz, Rössler em regime funil) alguns trabalhos propuseram mapeamentos para obter um centro de rotação apropriado \citep{pikovsky1997b,chen2001}. Para o sistema de Lorenz, \citet{pikovsky1997b} propôs:
+%
+\begin{equation} \label{eq:fase_atan(u,z)}
+  \tilde{\phi}_2(t) \coloneqq \tan^{-1}\left( \frac{u(t)-u_0}{z(t)-z_0} \right) ,
+\end{equation}
+%
+em que $u \coloneqq \sqrt{x^2 + y^2}$ e $(z_0=27,u_0=12)$ são as coordenadas do ponto de equilíbrio na projeção em $(u,z)$.
+
+Para o sistema de Rössler em regime funil, \citet{chen2001} propôs usar:
+%
+\begin{equation} \label{eq:fase_atan(dy,dx)}
+  \tilde{\phi}_2(t) \coloneqq \tan^{-1}\left( \frac{\dot{y}}{\dot{x}} \right) ,
+\end{equation}
+%
+que ajudou a definir melhor um centro de rotação nesse atrator. Contudo, quando $(\dot{x}=0) \in \Gamma_0$, $\tilde{\phi}_2$ não se define.
+
+Em geral, as propostas de descrição de fase baseadas em medidas diretas de ângulos no atrator (Eq.~\ref{eq:fase_atan(y,x)}) ou em projeções deste (Eqs.~\ref{eq:fase_atan(u,z)}~e~\ref{eq:fase_atan(dy,dx)}) são sensíveis a uma análise topológica apropriada do atrator e de suas projeções. Quando bem definido para $\vec{x} \in \Gamma_0$, os riscos da aplicação de $\tilde{\phi}_2(t)$ envolvem mudanças no atrator (e.g. devido ao sincronismo) que podem alterar a posição do centro previamente definido, as direções de rotação ou até a própria topologia do atrator (e.g. devido a bifurcações). Esse tipo de definição de fase é empregada assumindo-se que o sistema acoplado possui atrator próximo a $\Gamma_0$. A menos desses cuidados a variável $\tilde{\phi}_2(t)$ pode capturar bem a dinâmica de rotação com valores de fase e periodicidade bem definidas em todo atrator.
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Curvatura}
+
+As definições de fase $\tilde{\phi}_1$ e $\tilde{\phi}_2$ apresentadas funcionam bem para atratores relativamente simples, com centro de rotações específicos e frequência principal de rotação bem definida, e.g. atratores de \emph{fase coerente}\footnote{Vide \citet{zou2012} para uma discussão acerca da coerência de fase em atratores.}. No caso de atratores de fase não coerente, há a necessidade de uma definição de cunho mais geral, como a definição baseada em curvatura proposta por \citet{osipov2003}.
+
+Para uma curva bidimensional qualquer $\gamma_1 = (u,v)$ a velocidade angular em cada ponto é $\nu=(ds/dt)/R$, em que $ds/dt = \sqrt{\dot{u}^2+\dot{v}^2}$ é a velocidade ao longo da curva e $R = (\dot{u}^2+\dot{v}^2)^{3/2} / [\dot{v}\ddot{u}-\ddot{v}\dot{u}]$ o raio da curvatura. Se $R > 0$ em cada ponto, então $\nu = \frac{d \tilde{\phi}_3}{dt} = (\dot{v}\ddot{u}-\ddot{v}\dot{u})/(\dot{u}^2+\dot{v}^2)$ é sempre positivo e a fase é descrita como:
+%
+\begin{equation} \label{eq:fase_curvatura}
+  \tilde{\phi}_3(t) \coloneqq \int \nu dt = \tan^{-1} \left( \frac{\dot{v}}{\dot{u}} \right) .
+\end{equation}
+%
+Geometricamente, isso significa que a projeção $(\dot{u},\dot{v})$ é uma curva que gira monotonicamente ao redor de um certo ponto.
+
+Essa definição mais formal, de certa maneira, justifica melhor a Eq.~\ref{eq:fase_atan(dy,dx)} proposta por \citet{chen2001}, mas ainda se restringe a uma projeção no plano bidimensional.
+
+A aplicabilidade da medida baseada em curvatura inclui vários osciladores \citep{osipov2003,kurths2006}. Uma das dificuldades dessa definição é a exigência de que $R > 0$. Essa condição não permite pontos de inflexão da curvatura, i.e. que as trajetórias alternem o sentidos de rotação (horário, anti-horário) na projeção $(\dot{u},\dot{v})$.
+% A Figura~\ref{fig:curvatura_exemplo} ilustra trecho de trajetória que contém um ponto de inflexão na curvatura.
+A projeção no plano bidimensional também é um obstáculo, especialmente para atratores de dimensão mais elevada. O trabalho de \citet{pereira2007b} propôs o uso do mapa de Gauss, com mapeamento de uma curva para o espaço circular de raio unitário $\gamma \mapsto \mathbb{S}^1$. Essa definição, apesar de mais geral, traz consigo as mesmas características mencionadas quanto ao raio de curvatura da curva: em caso de inflexões na curvatura, a derivada da fase se torna negativa e a fase deixa de ser monotonicamente crescente com o tempo. Outra proposta na mesma linha é a do uso de um ângulo generalizado \citep{liu2009}, que permitiu a caracterização de sincronismo generalizado para sistemas de dimensões elevadas ($n > 2$).
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Outras definições}
+
+Outras formas de extrair uma algum tipo de informação sobre a fase de um oscilador é utilizando técnicas de análises de sinais temporais. Uma das técnicas mais utilizadas é a transformada de Hilbert, que foi empregada no trabalho de \citet{rosenblum1996} -- um dos primeiros a caracterizar sincronismo de fase entre dois sistemas caóticos, e em inúmeros outros trabalhos \citep[e.g.][]{yalcnkaya1997,LeVanQuyen2001,zou2012}. Análise espectral e transformada Wavelet \citep{LeVanQuyen2001,hramov2005,follmann2009,follmann2011,ferreira2014,ferreira2015,ferreira2016} também são utilizadas para extrair a fase de um sinal temporal.
+
+Essas técnicas trazem bons resultados em diferentes classes de problemas e aplicações, especialmente quando não se conhece as equações de estado que regem o sistema. Porém, quando se conhece $\boldsymbol{f}(\vec{x})$, naturalmente emerge uma questão: \emph{qual sinal usar para calcular a fase?} Geralmente escolhe-se uma das variáveis de estado que tem fase ``bem comportada''. Porém, os critérios para avaliação desse ``bom comportamento'' são análises posteriores à aplicação das técnicas de extração de fase ou são escolhidos sinais que se assemelham a uma senóide, por exemplo. Para sistemas bastante conhecidos (e.g. Rössler, Lorenz), cujo comportamento das variáveis de estado foram objeto de estudo em vários trabalhos de sincronismo, a escolha do sinal é considerada quase natural. Ao contrário dessa abordagem, a proposta de definição de fase presente neste capítulo pressupõe o conhecimento das equações de estado, buscando trabalhar a seguinte questão: \emph{o que é a fase para um oscilador caótico conhecido?} Essa pergunta pode levar ainda a um caminho para responder a questão anterior, sobre qual sinal escolher para extração da fase, que é um dos assuntos discutidos no Capítulo~\ref{cap:04_infoFase}.
+
+
+
+
+
+
+
+% ======================================================================
+\section{Proposta de Definição de fase}
+\label{sec:proposta_fase}
+
+Uma variável que (i) cresce monotonicamente ao longo do tempo com a evolução do sistema e (ii) está fortemente relacionada com a direção correspondente ao expoente nulo de Lyapunov é definida a seguir.
+
+\begin{defi}
+  \label{def:fase_geral}
+  A \emph{fase} de um oscilador pode ser descrita por uma variável cuja direção de maior crescimento se dá na direção do campo vetorial de evolução do sistema.
+  \qed
+\end{defi}
+
+A Definição~\ref{def:fase_geral} apresentada pode ser aplicada em qualquer classe de osciladores, em qualquer sistema de coordenadas utilizado. No entanto, um detalhamento maior da definição se faz necessário. Considerando um oscilador descrito pela Eq.~\ref{eq:dx=fx}, uma nova definição de fase, baseada na Definição~\ref{def:fase_geral}, é apresentada.
+
+\begin{defi}
+  \label{def:fase}
+  A \emph{fase} pode ser descrita por uma grandeza escalar, cujo vetor de derivadas parciais é dado por:
+  %
+  \begin{align} \label{eq:dphidx=cf}
+    \frac{d \tilde{\phi}(\vec{x})}{d \vec{x}} = c(\vec{x}) \, \boldsymbol{f}(\vec{x}) ,
+  \end{align}
+  %
+  sendo $\boldsymbol{f}: X \mapsto V(X) \subseteq \mathbb{R}^n$ o campo vetorial de evolução do sistema, $c(\vec{x})$ um campo escalar $c: X \mapsto S(X) \subseteq \mathbb{R}^{*+}$ que assume apenas valores positivos não nulos em $\vec{x} \in X$.
+  \qed
+\end{defi}
+
+Verifica-se que $\tilde{\phi}$ é definida por suas derivadas parciais\footnote{Neste texto evitou-se usar o termo \emph{gradiente} para referir-se ao vetor de derivadas parciais $d \tilde{\phi} / d \vec{x}$ por não haver garantia de que $\tilde{\phi}$ obedece ao Teorema do Gradiente (ou Teorema Fundamental do Cálculo para Integrais de Linha), que define que a integral de linha de uma curva depende apenas da avaliação da função ($\tilde{\phi}(\vec{x})$) nos pontos inicial e final. É fácil verificar que essa solução existe se $\boldsymbol{f}(\vec{x})$ é um \emph{campo vetorial conservativo} -- o que não é pressuposto na definição.} sendo que, dependendo do sistema, pode não haver solução analítica para $\tilde{\phi}(\vec{x})$. Mas atendida a definição verifica-se que a variável é monotonicamente crescente com o tempo, conforme mostra o teorema a seguir.
+
+\begin{thm}
+  \label{thm:fase_dphi_cf}
+  A \emph{fase} $\tilde{\phi}$ de um sistema dinâmico descrita por:
+  %
+  \begin{align} \label{eq:dhdx=f}
+    \left\{
+    \begin{array}{cl}
+      \displaystyle\frac{d h(\vec{x})}{d \vec{x}} &= c(\vec{x})\,\boldsymbol{f}(\vec{x}) \\
+      \displaystyle\tilde{\phi} &= h(\vec{x})
+    \end{array}
+    \right.
+  \end{align}
+  %
+  sendo $c(\vec{x})$ um campo escalar $c: X \mapsto S(X) \subseteq \mathbb{R}^{*+}$ e $d h(\vec{x}) / d \vec{x}$ o vetor de derivadas parciais de $h$ com relação aos estados $\vec{x}$, atende à condição da Eq.~\ref{eq:Lfh>0} (evolução temporal monotonicamente crescente) para todo $\vec{x} \in X$.
+\end{thm}
+
+\begin{proof}
+  Calcula-se derivada temporal de $\dot{\tilde{\phi}}(t)$:
+  %
+  \begin{align} \label{eq:Lfh_prova}
+    \begin{array}{ll}
+      \dot{\tilde{\phi}}(t) &= \displaystyle \frac{d \tilde{\phi}}{d t} \\
+      &= \displaystyle \frac{d \tilde{\phi}}{d \vec{x}}^T . \frac{d \vec{x}}{d t} \\
+      &= \displaystyle \mathcal{L}_{\boldsymbol{f}} h(\vec{x}) \\
+      &= \displaystyle \frac{d h(\vec{x})}{d \vec{x}}^T . \boldsymbol{f}(\vec{x})\\
+      &= \displaystyle \left[ c(\vec{x}) \, \boldsymbol{f}(\vec{x}) \right]^T .\boldsymbol{f}(\vec{x}) \\
+      &= \displaystyle c(\vec{x}) \, \| \boldsymbol{f}(\vec{x}) \|^2
+    \end{array} ,
+  \end{align}
+  %
+  em que $\|.\|$ denota a norma $L_2$. Como $c: X \mapsto \mathbb{R}^{*+}$ é por definição (ver Def.~\ref{def:fase}) sempre positivo e não nulo, tem-se $\mathcal{L}_{\boldsymbol{f}} h(\vec{x}) > 0 \,\,\, \forall \vec{x} \in X$, i.e. derivada temporal $\dot{\tilde{\phi}}(t)$ sempre positiva e evolução temporal monotonicamente crescente.
+\end{proof}
+
+Logo, por construção, a variável definida (Eq.~\ref{eq:dphidx=cf}) é monotonicamente crescente com o tempo (Teorema~\ref{thm:fase_dphi_cf}) e tem maior crescimento na direção correspondente ao expoente nulo de Lyapunov. Porém, um desafio intrínseco à proposta é a definição do campo escalar $c(\vec{x})$, que tem papel fundamental para que a variável $\tilde{\phi}$ incremente $2\pi$ a cada ciclo de evolução. Para o caso de um ciclo limite é possível encontrar tal função, mas torna-se um problema para osciladores não periódicos.
+
+Verificou-se que a Eq.~\ref{eq:dphidx=cf} trata-se de uma equação diferencial parcial e $\tilde{\phi}(\vec{x})$ pode não ter solução analítica.
+%Cauchy–Kowalevski theorem: para existência e unicidade (local) de solução
+Contudo, é possível fazer a integração numérica do valor da fase para uma trajetória $\gamma$:
+%
+\begin{align} \label{eq:phi=intLinha_cf}
+  \tilde{\phi} = \tilde{\phi}_0 + \int_{\gamma} c(\vec{x}) \, \boldsymbol{f}(\vec{x}) \,\,\, \mathrm{d}\vec{x} ,
+\end{align}
+%
+em que $\gamma \subset \Gamma_0$ é a trajetória e $\tilde{\phi}_0 \in \mathbb{R}$ um valor constante. Essa integral de linha, pode ser resolvida ao longo do tempo:
+%
+\begin{align} \label{eq:phi=int_cf}
+  \tilde{\phi}(t) &= \tilde{\phi}_0 + \int_{0}^{t} c(\vec{x}) \, \boldsymbol{f}^T(\vec{x}) . \boldsymbol{f}(\vec{x}) \,\,\, \mathrm{d} \tau \nonumber \\
+  \tilde{\phi}(t) &= \tilde{\phi}_0 + \int_{0}^{t} c(\vec{x}) \, \| \boldsymbol{f}(\vec{x})  \|^2 \,\,\, \mathrm{d} \tau .
+\end{align}
+%
+% em que foi utilizada a regra da cadeia $\displaystyle \frac{d \tilde{\phi}}{dt} = \frac{d \tilde{\phi} }{ d \vec{x} } \frac{d\vec{x}}{dt}$.
+
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Regiões de fase equivalente (\emph{isophases})}
+
+As regiões de fase equivalente (\emph{isophases}) podem ser obtidas a partir de $\tilde{\phi}$ proposto na Definição~\ref{def:fase}. Basicamente, essas regiões consistem nas curvas (superfícies, hipersuperfícies) de nível de $d \tilde{\phi}(\vec{x})/d \vec{x}$. Como os campos vetoriais $d \tilde{\phi}(\vec{x})/d \vec{x}$ e $\boldsymbol{f}(\vec{x})$ são colineares, é possível definir as regiões de fase equivalente a partir de $\boldsymbol{f}(\vec{x})$ apenas. Essas regiões são formadas pelo \emph{espaço ortogonal}\footnote{A expressão \emph{espaço ortogonal} é usada aqui com um certo abuso de nomenclatura, com definição semelhante à de \emph{espaço tangente}.} ao campo vetorial $\boldsymbol{f}(\vec{x})$, definido por $\mathcal{O}_{\vec{x}}\boldsymbol{f}$ conforme abaixo.
+
+\begin{defi}
+  \label{def:espaco_ort}
+  O \emph{espaço ortogonal} $\mathcal{O}_{\vec{x}}\boldsymbol{f}$ de um campo vetorial $\boldsymbol{f}(\vec{x}) \in V(X)$ no ponto $\vec{x} \in X$ é definido pelo conjunto $F^{\perp}(X) = \left\{ \boldsymbol{f}^{\perp}(\vec{x}) \in V(X) \,\,\, | \,\,\, \left<\boldsymbol{f}^{\perp}(\vec{x}),\boldsymbol{f}(\vec{x})\right> = 0 ,\,\,\, \forall \vec{x} \in X \right\}$, formado por todos os vetores \emph{ortogonais} a $\boldsymbol{f}(\vec{x})$ no ponto $\vec{x}$. Observa-se que $\mathcal{O}_{\vec{x}}\boldsymbol{f} \equiv \mathcal{T}_{\vec{x}} F^{\perp}$, sendo $\mathcal{T}_{\vec{x}} F^{\perp}$ o espaço tangente a $F^{\perp}$ em $\vec{x}$. \qed
+\end{defi}
+
+Desta forma, dada uma condição inicial arbitrária $\vec{x}(0)$, a \emph{fase} em relação a $\boldsymbol{f}(\vec{x})$ permanecerá constante quando $\vec{x}$ estiver sob a ação de um campo vetorial $\boldsymbol{f}^{\perp}(\vec{x}) \in F^{\perp}(X)$ qualquer. Essa questão é explorada no exemplo abaixo e também aplicada ao sistema de Poincaré na seção seguinte.
+
+
+\begin{exem}
+  \label{ex:isophases}
+  Considere um oscilador periódico no espaço de dimensão $n=2$, descrito pela Eq.~\ref{eq:dx=fx}.
+%   Considere que $\boldsymbol{f}(\vec{x}) := [f_1 \,\,\, f_2]^T$, em que $f_1, f_2 \in S(X) \subseteq \mathbb{R}$ são campos escalares em $X$ -- a dependência explícita de $\vec{x}$ será suprimida em $f_1$ e $f_2$.
+  Deseja-se encontrar um campo vetorial $\boldsymbol{f}^{\perp}(\vec{x}) \in F^{\perp}(X)$ a partir de $\boldsymbol{f}(\vec{x})$, de modo que ambos sejam ortogonais entre si, i.e. $\left<\boldsymbol{f}^{\perp}(\vec{x}),\boldsymbol{f}(\vec{x})\right> = 0$. Isso é possível por meio da transformação:
+  % 
+  \begin{equation}\label{eq:ex_f_perp}
+  \boldsymbol{f}^{\perp}(\vec{x}) = M_{\perp}(\vec{x}) . \boldsymbol{f}(\vec{x}) ,
+  \end{equation}
+  %
+  em que $M_{\perp}(\vec{x}) \in \mathbb{R}^{2\times 2}$ é uma matriz de rotação do campo vetorial, dada por:
+  % 
+  \begin{equation}\label{eq:ex_mat_rot}
+  M_{\perp}(\vec{x}) = \left[
+    \begin{array}{cc}
+    0  &  \alpha(\vec{x}) \\
+    -\alpha(\vec{x}) &  0 \\
+    \end{array}
+  \right] ,
+  \end{equation}
+  %
+  sendo $\alpha(\vec{x}) \in S(X) \subseteq \mathbb{R}$ um campo escalar qualquer.
+  
+  A Figura~\ref{fig:ex3_1_isophases_r2_ort} mostra o espaço ortogonal $\mathcal{O}_{\vec{x}}\boldsymbol{f}$, e vetores dos campos vetoriais $\boldsymbol{f}(\vec{x})$ e $\boldsymbol{f}^{\perp}(\vec{x})$ \emph{para um $\vec{x}$ específico}. A Figura~\ref{fig:ex3_1_isophases_r2_vec} mostra, para o mesmo sistema com atrator $\Gamma_0$, o campo vetorial $\boldsymbol{f}(\vec{x})$ e um campo $\boldsymbol{f}^{\perp}(\vec{x})$, rotacionado, mostrando direções de crescimento nulo da fase.
+\end{exem}
+
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.6\textwidth]{fig/ex3_1_isophases_r2_espacoOrtogonal.pdf}
+  \caption[Ilustração de um espaço ortogonal (exemplo~\ref{ex:isophases}).]{Ilustração representando o espaço ortogonal $\mathcal{O}_{\vec{x}}\boldsymbol{f}$ (linha tracejada) e dois vetores $\boldsymbol{f}(\vec{x})$ e $\boldsymbol{f}^{\perp}(\vec{x})$ \emph{para um $\vec{x}$ específico}. A linha escura contínua representa um trecho de trajetória no atrator $\Gamma_0$ (exemplo~\ref{ex:isophases}).}
+  \label{fig:ex3_1_isophases_r2_ort}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{fig/ex3_1_isophases_r2_campoVetorialFx.pdf}
+      \caption{Campo vetorial $\boldsymbol{f}(\vec{x})$.}
+      \label{fig:ex3_1_isophases_r2_fx}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.45\textwidth}
+      \includegraphics[width=\textwidth]{fig/ex3_1_isophases_r2_campoVetorialOrtogonal.pdf}
+      \caption{Campo vetorial $\boldsymbol{f}^{\perp}(\vec{x})$.}
+      \label{fig:ex3_1_isophases_r2_fort}
+  \end{subfigure}
+  \caption[Campos vetoriais $\boldsymbol{f}(\vec{x})$ e $\boldsymbol{f}^{\perp}(\vec{x})$ (exemplo~\ref{ex:isophases})]{Campos vetoriais $\boldsymbol{f}(\vec{x})$ e $\boldsymbol{f}^{\perp}(\vec{x})$ de um mesmo sistema, com atrator $\Gamma_0$ representado pela linha escura contínua (exemplo~\ref{ex:isophases}).}
+  \label{fig:ex3_1_isophases_r2_vec}
+\end{figure}
+
+
+
+% ----------------------------------------------------------------------
+\subsection{O Sistema de Poincaré}
+\label{sec:isofase_poincare}
+
+O sistema de Poincaré pode ser descrito por:
+% 
+\begin{equation}\label{eq:sistema_poincare}
+ \mathcal{S}: \left\{
+  \begin{array}{ll}
+  \dot{x} &= - \omega y - \lambda(x^2 + y^2 - p^2) x \\
+  \dot{y} &= \omega x - \lambda(x^2 + y^2 - p^2) y \\
+  \end{array}
+ \right. .
+\end{equation}
+% 
+em que $\vec{x} := [x\,\,y]^T \in X \subseteq \mathbb{R}^2$ é o vetor de estados e $(\omega , p , \lambda ) \in \mathbb{R}^{*+}$ parâmetros do sistema. Em regime permanente ($t \to \infty$) os estados do sistema evoluem para um ciclo limite $\Gamma_0$ de raio $p$ e frequência angular $\omega$. Nesse caso, $\sqrt{x^2 + y^2}$ se iguala a $p$, anulando os termos que multiplicam $\lambda$ (segundo termo do lado direito das equações de estado, Eq.~\ref{eq:sistema_poincare}) e o sistema evolui como um oscilador harmônico: $\dot{x} = - \omega y$ e $\dot{y} = \omega x$. A Figura~\ref{fig:poincare_planoDeFases_Fases} mostra o espaço de estados do sistema com quatro trajetórias a partir de condições iniciais distintas e a evolução temporal das variáveis de estado em regime permanente.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/poincare_planoDeFases.pdf}
+        \caption{Espaço de estados.}
+        \label{fig:poincare_planoDeFases}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/poincare_Fases.pdf}
+        \caption{Estados em regime permanente.}
+        \label{fig:poincare_Fases}
+    \end{subfigure}
+    \caption[Sistema de Poincaré.]{Sistema de Poincaré: (\ref{fig:poincare_planoDeFases}) espaço de estados mostrando quatro trajetórias ($\gamma_1$, $\gamma_2$, $\gamma_3$, $\gamma_4$) com condições iniciais distintas; (\ref{fig:poincare_Fases}) evolução temporal das variáveis de estado em regime permanente. Parâmetros utilizados $(\omega, \lambda, p) = (1,0\,;\,0,5\,;\,1,0)$.}
+    \label{fig:poincare_planoDeFases_Fases}
+\end{figure}
+
+O sistema de Poincaré (Eq.~\ref{eq:sistema_poincare}) pode ser mapeado para coordenadas polares $\vec{z} \coloneqq [\theta\,\,\rho]^T \in Z \subseteq \mathbb{R}^2$ por meio de $\boldsymbol{\Phi}(\vec{x}) : X \mapsto Z$:
+% 
+\begin{equation}\label{eq:poincare_Phi}
+ \vec{z} = \boldsymbol{\Phi}(\vec{x}) \coloneqq \left[
+  \begin{array}{c}
+    \tan^{-1}(\frac{y}{x}) \\
+    \sqrt{x^2+y^2}
+  \end{array} \right] ,
+\end{equation}
+% 
+cujo mapeamento inverso é dado por:
+% 
+\begin{equation}\label{eq:poincare_ihP}
+ \vec{x} = \boldsymbol{\Phi}^{-1}(\vec{z}) = \left[
+  \begin{array}{c}
+    \rho \cos(\theta) \\
+    \rho \sin(\theta)
+  \end{array} \right] .
+\end{equation}
+% 
+No contexto de sincronismo de osciladores, a variável \emph{fase}, em geral, é definida no conjunto $\omega$-limite $\Gamma_0$. Para o sistema de Poincaré, há um certo consenso em representá-la como a definição da variável $\theta$ acima, em que suas derivadas parciais são dadas por:
+% 
+\begin{align}\label{eq:poincare_dtheta}
+  \displaystyle \frac{d \theta(\vec{x})}{d \vec{x}} &= \displaystyle \frac{d \left(\tan^{-1}\left(\displaystyle\frac{y}{x}\right)\right)}{d \vec{x}} \nonumber \\
+    &= \displaystyle \left[
+    \begin{array}{c}
+      \displaystyle \frac{-y}{\left(x^2 + y^2\right)} \\
+      \displaystyle \frac{x}{\left(x^2 + y^2\right)}
+    \end{array} \right] ,
+\end{align}
+% 
+e sua derivada temporal com frequência fixa $\omega$:
+% 
+\begin{equation}\label{eq:sistema_poincare_polar}
+ \mathcal{S}_{\Phi}: \left\{
+  \begin{array}{ll}
+  \dot{\theta} &= \omega \\
+  \dot{\rho} &= \lambda \rho (p^2 - \rho^2 ) \\
+  \end{array}
+ \right. ,
+\end{equation}
+% 
+em que $\mathcal{S}_{\Phi}$ é o sistema $\mathcal{S}$ representado nas coordenadas polares $\vec{z}$.
+
+
+% Para que a variável $\tilde{\phi}$ incremente $2\pi$ a cada ciclo (iii), o campo escalar $c(\vec{x})$ deve ser escolhido adequadamente. Uma tentativa nesse sentido é fazer:
+% %
+% \begin{align} \label{eq:c=1_f.x}
+%   c(\vec{x}) := \frac{1}{\| \boldsymbol{f}(\vec{x}) \|.\| \vec{x} - \vec{x}_0 \| } ,
+% \end{align}
+% %
+% em que $\|.\|$ denota a norma $L_2$ e $\vec{x}_0$ um centro de referência do atrator $\Gamma_0$. A divisão por $\| \boldsymbol{f}(\vec{x}) \|$ normaliza o vetor para módulo unitário. A divisão pelo raio, $\| \vec{x} - \vec{x}_0 \|$, é realizada para que a grandeza de $\tilde{\phi}$ seja dada em radianos. Logo a proposta de definição de fase é apresentada a seguir.
+
+
+Para aplicação da Definição~\ref{def:fase}, faz-se necessário especificar adequadamente o campo escalar $c(\vec{x})$. Para o sistema de Poincaré uma possível proposta é dada por:
+%
+\begin{align} \label{eq:c=1_f.x}
+  c(\vec{x}) := \frac{1}{\| \boldsymbol{f}(\vec{x}) \|\,\| \vec{x} - \vec{x}_0 \| } ,
+\end{align}
+%
+em que $\vec{x}_0$ é o centro de referência $(x=0,y=0)$ do atrator $\Gamma_0$. Como o sistema de Poincaré descreve uma trajetória perfeitamente circular no atrator, $\dot{\tilde{\phi}}$ pode ser descrito como frequência angular num círculo, dada pela razão entre a velocidade linear e o raio, i.e. $\dot{\tilde{\phi}} = \boldsymbol{f}(\vec{x}) / \| \vec{x} - \vec{x}_0 \|$. O campo escalar $c(\vec{x})$ proposto na Eq.~\ref{eq:c=1_f.x} foi concebido para proporcionar essa relação (vide Eq.~\ref{eq:Lfh_prova}), fazendo com que $\tilde{\phi}$ possua periodicidade de $2\pi$. 
+
+Desta forma, usando a Definição~\ref{def:fase} e a Equação~\ref{eq:c=1_f.x}, as derivadas parciais de $\tilde{\phi}$ podem ser expressas como:
+% 
+\begin{equation}\label{eq:poincare_dphi}
+  \begin{array}{ll}
+    \displaystyle\frac{d \tilde{\phi}(\vec{x})}{d \vec{x}} &=
+      \left[
+      \begin{array}{c}
+	\displaystyle-\frac{\omega\, y + \lambda\, x\, \left( {x}^2 + {y}^2 - {p}^2 \right)}{\sqrt{{\left(\omega\, y + \lambda\, x\, \left( {x}^2 + {y}^2 - {p}^2 \right)\right)}^2 + {\left(\omega\, x - \lambda\, y\, \left( {x}^2 + {y}^2 - {p}^2 \right)\right)}^2} \, \sqrt{{x}^2 + {y}^2} }\\ \\
+	\displaystyle\frac{\omega\, x - \lambda\, y\, \left( {x}^2 + {y}^2 - {p}^2 \right)}{\sqrt{{\left(\omega\, y + \lambda\, x\, \left( {x}^2 + {y}^2 - {p}^2 \right)\right)}^2 + {\left(\omega\, x - \lambda\, y\, \left( {x}^2 + {y}^2 - {p}^2 \right)\right)}^2}\,\sqrt{{x}^2 + {y}^2}} 
+      \end{array}\right]
+  \end{array} .
+\end{equation}
+% 
+
+Verifica-se claramente que $\displaystyle\frac{d \tilde{\phi}(\vec{x})}{d \vec{x}} \neq \displaystyle\frac{d \theta(\vec{x})}{d \vec{x}}$. No entanto, em regime permanente ($\vec{x} \in \Gamma_0$), tem-se $p = \sqrt{x^2 + y^2}$ e todos os termos que multiplicam $\lambda$ se tornam nulos, fazendo com que:
+% 
+\begin{equation}\label{eq:poincare_dphi_dtheta}
+  \begin{array}{lr}
+    \displaystyle\frac{d \tilde{\phi}(\vec{x})}{d \vec{x}} \equiv \displaystyle\frac{d \theta(\vec{x})}{d \vec{x}} , &\forall \vec{x} \in \Gamma_0.
+  \end{array}
+\end{equation}
+% 
+
+Para o sistema de Poincaré, a fase proposta na Definição~\ref{def:fase} coincide com a definição da variável $\theta(t)$, largamente utilizada como \emph{fase} do sistema, quando os estados do sistema estão sobre o ciclo-limite $\Gamma_0$.
+
+Fora do atrator ($\vec{x} \in \left\{X - \Gamma_0\right\}$), as variáveis $\tilde{\phi}$ e $\theta$ possuem definições distintas. Enquanto $\theta(\vec{x})$ é uma medida do ângulo a partir da origem (Eq.~\ref{eq:poincare_Phi}) e possui valores idênticos para retas de mesma inclinação a partir do centro do atrator, a variável $\tilde{\phi}(\vec{x})$ tem regiões de mesma fase definidas pelo espaço ortogonal $\mathcal{O}_{\vec{x}}\boldsymbol{f}$ (Definição~\ref{def:espaco_ort}), que podem ser encontradas pela transformação apresentada no Exemplo~\ref{ex:isophases}\footnote{Para a presente análise do sistema de Poincaré, a matriz de transformação $M$ (Exemplo~\ref{ex:isophases}) foi utilizada com $\alpha(\vec{x}) \coloneqq 1$.}. A Figura~\ref{fig:poincare_isoFases} mostra algumas regiões de fase constante para ambas variáveis $\tilde{\phi}$ e $\theta$ para o sistema de Poincaré. Observa-se que as regiões de fase equivalente para $\theta(t)$ e $\tilde{\phi}(t)$ se tangenciam apenas no atrator $\Gamma_0$.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=.6\textwidth]{fig/poincare_isoFases.pdf}
+  \caption[Sistema de Poincaré: regiões de fase equivalente.]{Regiões correspondentes a $\theta$ constante (linha tracejada) e $\tilde{\phi}$ constante (linha contínua). O atrator $\Gamma_0$ é mostrado ao centro (linha contínua espessa). Note que as regiões de fase equivalente para $\theta$ e $\tilde{\phi}$ se tangenciam apenas no atrator $\Gamma_0$. Sistema de Poincaré utilizado com valores de parâmetros $(\omega, \lambda, p) = (1,0\,;\,0,5\,;\,1,0)$.}
+  \label{fig:poincare_isoFases}
+\end{figure}
+
+Além da análise no espaço de estados, explorar a evolução temporal dessas variáveis também se faz importante. Como $\tilde{\phi}$ pode não ter solução analítica (Definição~\ref{def:fase}), essa evolução foi calculada numericamente, dada uma condição inicial, conforme Eq.~\ref{eq:phi=int_cf}. Por outro lado, a evolução de $\theta(t)$ é uma rampa, para qualquer condição inicial, dada por $\theta(t)=\omega t$. A Figura~\ref{fig:poincare_fasesEvoTemp} mostra as trajetórias no espaço de estados e a evolução temporal das variáveis. Verifica-se que $\tilde{\phi}$ e $\theta(t)$ são monotonicamente crescentes e, em estado estacionário, evoluem com mesma inclinação $\omega$.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/poincare_atratorFaseEvoTemporal.pdf}
+        \caption{Espaço de estados.}
+        \label{fig:poincare_atratorFaseEvoTemporal}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/poincare_faseEvoTemporal.pdf}
+        \caption{Evolução de $\tilde{\phi}(t)$ e $\theta(t)$.}
+        \label{fig:poincare_faseEvoTemporal}
+    \end{subfigure}
+    \caption[Sistema de Poincaré: variável fase.]{Evolução da variáveis descritoras de fase do Sistema de Poincaré: (a) espaço de estados do mostrando quatro trajetórias ($\gamma_1$, $\gamma_2$, $\gamma_3$, $\gamma_4$) com condições iniciais distintas; (b) evolução temporal de $\tilde{\phi}(t)$ para as quatro trajetórias (traços finos) e evolução temporal de $\theta(t)$ (linha espessa). Parâmetros utilizados $(\omega, \lambda, p) = (1,0\,;\,0,5\,;\,1,0)$.}
+    \label{fig:poincare_fasesEvoTemp}
+\end{figure}
+
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Atratores Periódicos}\label{sec:fase_periodico}
+
+Seja um sistema descrito pela Eq.~\ref{eq:dx=fx} e atrator tipo ciclo limite $\Gamma_0$ com período $T$. O perímetro do atrator no espaço de estados pode ser definido pelo comprimento do arco do atrator em uma revolução \citep[e.g.][p. 312]{spivak1999}:
+% 
+\begin{equation}\label{eq:perimetro}
+  \ell = \int_0^T \| \boldsymbol{f}(\vec{x}) \| \,\,\, \mathrm{d}t \,\,\,\,\,\, \forall \vec{x} \in \Gamma_0.
+\end{equation}
+% 
+O teorema a seguir mostra uma possível escolha de $c(\vec{x})$ (vide Definção~\ref{def:fase}) para essa classe de osciladores, de modo que $\tilde{\phi}$ incremente $2\pi$ a cada ciclo de oscilação.
+
+\begin{thm}
+  \label{thm:cx_sistPeriodicos}
+  Seja um oscilador periódico descrito pela Eq.~\ref{eq:dx=fx}, com período $T$, atrator ciclo limite $\Gamma_0$. A fase é descrita pela variável $\tilde{\phi}$, conforme Definição~\ref{def:fase}, com:
+  %
+  \begin{equation}\label{eq:c_sistPeriodicos}
+    c(\vec{x}) = \frac{2\pi}{\ell \, \| \boldsymbol{f}(\vec{x}) \|} ,
+  \end{equation}
+  %
+  sendo $\ell \in \mathbb{R}^{+*}$ um valor não nulo constante determinado pela Eq.~\ref{eq:perimetro}, incrementa $2\pi$ a cada ciclo de oscilação no atrator.
+\end{thm}
+
+\begin{proof}
+  Fazendo $c(\vec{x})$ conforme Eq.~\ref{eq:c_sistPeriodicos}, é possível calcular o valor de incremento $\tilde{\phi}(t)$ num ciclo de oscilação (Eq.~\ref{eq:phi=int_cf}):
+  %
+  \begin{align} \label{eq:intPhiX_periodico}
+    \left. \tilde{\phi}(t) \right|_0^T &= \int_{0}^{T} c(\vec{x}) \, \| \boldsymbol{f}(\vec{x}) \|^2 \,\,\, \mathrm{d} t \nonumber \\
+      &= \int_{0}^{T} \frac{2\pi}{\ell \| \boldsymbol{f}(\vec{x}) \|} \, \| \boldsymbol{f}(\vec{x}) \|^2 \,\,\, \mathrm{d} t \nonumber \\
+      &= \frac{2\pi}{\ell} \int_{0}^{T}  \| \boldsymbol{f}(\vec{x}) \| \,\,\, \mathrm{d} t \nonumber \\
+      &= \frac{2\pi}{\ell} \ell \nonumber \\
+      &= 2\pi .
+  \end{align}
+  %
+\end{proof}
+
+É fácil verificar que a proposta de $c(\vec{x})$ na Eq.~\ref{eq:c_sistPeriodicos} e a utilizada para o sistema de Poincaré (Eq.~\ref{eq:c=1_f.x}) são equivalentes, uma vez que, nesse caso, o perímetro do atrator é dado por $\ell = 2\pi \| \vec{x} - \vec{x}_0 \|$.
+
+% ----------------------------------------------------------------------
+\subsubsection{Sistema de Van der Pol}
+
+O sistema de Van der Pol \citep{vanDerPol1927} é representado por:
+% 
+\begin{equation}\label{eq:vanDerPol}
+ \mathcal{S}: \left\{
+  \begin{array}{ll}
+  \dot{x} &= y \\
+  \dot{y} &= 2 \mu y (1 - \beta x^2) - \omega^2 x \\
+  \end{array}
+ \right. ,
+\end{equation}
+% 
+em que $(\omega, \mu , \beta) \in \mathbb{R}^{+*}$ são parâmetros do sistema. A Figura~\ref{fig:vanDerPol_planoDeFases_Fases} mostra o atrator $\Gamma_0$, algumas trajetórias a partir de condições iniciais distintas e a evolução temporal das variáveis de estado em regime permanente para valores de parâmetros $(\omega, \mu , \beta) = (1,0\,;\,1,0\,;\,1,0)$.
+
+Para esse atrator, o período foi calculado por meio de simulação numérica e usando função de autocorrelação nos estados para obter o valor $T \approx 7,63$s. Com o valor de período obtido, calculou-se o perímetro $\ell \approx 18,26$, usando a Eq.~\ref{eq:perimetro}. Foi aplicada a definição de fase proposta (Def.~\ref{def:fase}), usando o $c(\vec{x})$ proposto no Teorema~\ref{thm:cx_sistPeriodicos}, e a evolução de $\tilde{\phi}(t)$ no ciclo limite foi calculada por integração numérica da Eq.~\ref{eq:phi=int_cf}. A Figura~\ref{fig:vanDerPol_faseTemp_isoFases} mostra a evolução temporal da fase proposta junto com algumas regiões de fase equivalente do atrator, conforme Definição~\ref{def:espaco_ort}. Verifica-se que a evolução temporal de $\tilde{\phi}(t)$ tem frequência (inclinação) média igual à calculada pelo tempo de retorno a uma seção de Poincaré adequada (Sec.~\ref{sec:secaoPoincare}), dada por $\bar{\omega} = 1 / (2\pi T)$, mostrada em linha tracejada na Figura~\ref{fig:vanDerPol_faseEvoTemporal}. As variações na inclinação de $\tilde{\phi}(t)$ se devem às acelerações e desacelerações na evolução dos estados.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_planoDeFases.pdf}
+        \caption{Espaço de estados.}
+        \label{fig:vanDerPol_planoDeFases}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_Fases.pdf}
+        \caption{Estados em regime permanente.}
+        \label{fig:vanDerPol_Fases}
+    \end{subfigure}
+    \caption[Sistema de Van der Pol.]{Sistema de Van der Pol: (a) espaço de estados do mostrando quatro trajetórias ($\gamma_1$, $\gamma_2$, $\gamma_3$, $\gamma_4$) com condições iniciais distintas; (b) evolução temporal das variáveis de estados em regime permanente. Parâmetros utilizados $(\omega, \mu , \beta) = (1,0\,;\,1,0\,;\,1,0)$.}
+    \label{fig:vanDerPol_planoDeFases_Fases}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_isoFases.pdf}
+        \caption{Espaço de estados.}
+        \label{fig:vanDerPol_isoFases}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{fig/vanDerPol_faseEvoTemporal.pdf}
+        \caption{Estados em regime permanente.}
+        \label{fig:vanDerPol_faseEvoTemporal}
+    \end{subfigure}
+    \caption[Sistema de Van der Pol: variável fase.]{Sistema de Van der Pol: (a) regiões de fase equivalente calculadas conforme Definição~\ref{def:espaco_ort}; (b) evolução temporal da variável $\tilde{\phi}(t)$ no atrator $\Gamma_0$ conforme proposta usada no Teorema~\ref{thm:cx_sistPeriodicos} (traço contínuo) e evolução de $t / (2\pi T)$ (linha tracejada), em que $T$ é o período de oscilação. Parâmetros utilizados $(\omega, \mu , \beta) = (1,0\,;\,1,0\,;\,1,0)$.}
+    \label{fig:vanDerPol_faseTemp_isoFases}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+% ----------------------------------------------------------------------
+\subsection{Atratores caóticos}
+
+A aplicação da proposta de Definição~\ref{def:fase} de fase para osciladores caóticos tem uma dificuldade quanto à definição do campo escalar $c(\vec{x})$. Uma alternativa é aproximar o atrator caótico por um ciclo limite e proceder a análise, como feito na Seção~\ref{sec:fase_periodico}, utilizando um perímetro médio $\bar{\ell}$. Nesse caso, talvez seja interessante utilizar alguma(s) UPO(s) (órbita periódica instável, do inglês \emph{unstable periodic orbit}) como referência, já que as UPOs são consideradas o ``esqueleto'' do atrator caótico \citep{pikovsky1997}.
+
+No caso em que o perímetro (i.e. comprimento do arco em uma revolução) do atrator varia muito conforme a trajetória no atrator, uma solução possível seria buscar uma tansformação de coordenadas que comprimam as trajetórias no espaço, de modo a reduzir a variabilidade do seu perímetro. Para isso seria necessário uma análise cuidadosa da topologia do atrator e possíveis transformações. Note que, para a definição proposta, acelerações abruptas na evolução dos estados não interferem na definição de $c(\vec{x})$, uma vez que esse tipo de informação já está contido em $\boldsymbol{f}(\vec{x})$, que é parte da definição, dando um pouco mais de liberdade para a escolha da transformação de coordenadas. Para outras definições de fase que possuem um vínculo estreito com a evolução temporal (e.g. \emph{tempo} de retorno a uma seção de Poincaré), acelerações bruscas na evolução dos estados pode prejudicar muito a estimação da fase e detecção de sincronismo.
+
+Por outro lado, aproximando o oscilador caótico como um ciclo limite, a aplicação da definição proposta pode ficar restrita a atratores ``bem comportados'' (e.g. de fase coerente). Uma alternativa viável seria estimar $\hat{c}(\vec{x})$ de tal maneira a atender a condição de incremento de $2\pi$ em $\tilde{\phi}$ a cada revolução no atrator. Como referência para essa estimação, o uso da definição de fase pela seção de Poincaré pode ser interessante, especialmente se essa seção for definida como uma variedade do espaço ortogonal (Def.~\ref{def:espaco_ort}) do campo vetorial do oscilador.
+
+Outra abordagem possível é definir fase de forma híbrida, com o uso da seção de Poincaré e da Definição~\ref{def:fase}. Desta forma, a seção de Poincaré detecta bem possíveis escorregamentos de fase e a definição proposta captura bem a dinâmica de evolução em escalas de tempo inferiores a um período de oscilação. A ideia é usar uma técnica como complemento da outra.
+
+Envolver a definição de fase por curvatura no espaço ou ângulo generalizado também seria uma alternativa. Nesse caso vale uma análise mais criteriosa acerca do crescimento monotônico com o tempo da variável fase nos casos de inflexões na curvatura da trajetória.
+
+Apenas para fins de ilustração, as Figuras~\ref{fig:rossler_fase},~\ref{fig:atratores_fase}~e~\ref{fig:atratores_fase2} mostram a evolução temporal da variável $\tilde{\phi}(t)$ para alguns atratores. A evolução temporal foi calculada por integração numérica da Eq.~\ref{eq:phi=int_cf} com $c(\vec{x}) \coloneqq 1/\| \boldsymbol{f}(\vec{x}) \|$, escolhido de forma arbitrária. Nesse caso não se espera incremento de $2\pi$ a cada revolução no atrator, mas é possível verificar a dinâmica de evolução da variável para diferentes sistemas.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/rossler_faseAtrator.pdf}
+        \caption{Atrator Rössler espiral.}
+        \label{fig:rossler_faseAtrator}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/rosslerFunil_faseAtrator.pdf}
+        \caption{Atrator Rössler funil.}
+        \label{fig:rosslerFunil_faseAtrator}
+    \end{subfigure} \\
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/rossler_faseEvoTemporal.pdf}
+        \caption{Evolução da fase (espiral).}
+        \label{fig:rossler_faseEvoTemporal}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/rosslerFunil_faseEvoTemporal.pdf}
+        \caption{Evolução da fase (funil).}
+        \label{fig:rosslerFunil_faseEvoTemporal}
+    \end{subfigure} \\
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/rossler_faseEvoTempDetalhe.pdf}
+        \caption{Detalhe evolução da fase (espiral).}
+        \label{fig:rossler_faseEvoTempDetalhe}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/rosslerFunil_faseEvoTempDetalhe.pdf}
+        \caption{Detalhe evolução da fase (funil).}
+        \label{fig:rosslerFunil_faseEvoTempDetalhe}
+    \end{subfigure}
+    \caption[Sistema de Rössler: variável fase.]{Sistema de Rössler: (a, b) atrator com alguns trechos de trajetória destacados; (c, d) evolução temporal da fase; (e, f) detalhe da evolução da fase. Parâmetros utilizados $(\omega, a , b , c) = (1,0\,;\,0.15\,;\,0.2\,;\,10)$ para regime espiral e $(\omega, a , b , c) = (1,0\,;\,0,2925\,;\,0,1\,;\,8.5)$ para regime funil.}
+    \label{fig:rossler_fase}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/lorenz_faseAtrator.pdf}
+        \caption{Atrator de Lorenz.}
+        \label{fig:lorenz_faseAtrator}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/lorenz_faseEvoTemporal.pdf}
+        \caption{Lorenz: evolução temporal da fase.}
+        \label{fig:lorenz_faseEvoTemporal}
+    \end{subfigure} \\
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/chua_faseAtrator.pdf}
+        \caption{Atrator de Chua.}
+        \label{fig:chua_faseAtrator}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/chua_faseEvoTemporal.pdf}
+        \caption{Chua: evolução temporal da fase.}
+        \label{fig:chua_faseEvoTemporal}
+    \end{subfigure}
+    \caption[Atratores caóticos de Lorenz e Chua: variável fase.]{Sistemas de Lorenz e Chua: (a, c) atratores caóticos e (b, d) as respectivas evoluções temporais da variável fase.}
+    \label{fig:atratores_fase}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/cord_faseAtrator.pdf}
+        \caption{Atrator Corda.}
+        \label{fig:cord_faseAtrator}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/cord_faseEvoTemporal.pdf}
+        \caption{Corda: evolução temporal da fase.}
+        \label{fig:cord_faseEvoTemporal}
+    \end{subfigure} \\
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/li_faseAtrator.pdf}
+        \caption{Atrator de Li.}
+        \label{fig:li_faseAtrator}
+    \end{subfigure} \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{fig/li_faseEvoTemporal.pdf}
+        \caption{Li: evolução temporal da fase.}
+        \label{fig:li_faseEvoTemporal}
+    \end{subfigure}
+    \caption[Atratores Corda e Li: variável fase.]{Sistemas Corda e de Li: (a, c) atratores e (b, d) as respectivas evoluções temporais da variável fase.}
+    \label{fig:atratores_fase2}
+\end{figure}
+
+
+% % ----------------------------------------------------------------------
+% \subsection{Análise do caso caótico: sistema de Rössler}
+% 
+% O sistema de Rössler \citep{rossler1976} pode ser descrito por:
+% % 
+% \begin{equation}\label{eq:sistema_rossler}
+%  \mathcal{S}: \left\{
+%   \begin{array}{ll}
+%     \dot{x} &= - \omega y - z \\
+%     \dot{y} &= \omega x + a y \\
+%     \dot{z} &= b + z(x - c)
+%   \end{array}
+%  \right. ,
+% \end{equation}
+% % 
+% em que $\vec{x} := [x\,\,y\,\,z]^T \in X \subseteq \mathbb{R}^3$ é o vetor de estados; $(\omega , a , b, c ) \in \mathbb{R}$ são parâmetros do sistema. Em regime permanente os estados do sistema podem evoluir de diferentes maneiras, de acordo com os valores dos parâmetros. Aqui será considerado o regime caótico do sistema, quando os estados são levados a um atrator estranho $\Gamma_0$ quando $t \to \infty$. É comum na literatura científica a distinção de dois regimes caóticos do atrator de Rössler: i) \emph{espiral} e ii) \emph{funil}. No contexto de sincronismo, o regime espiral (i) é caracterizado, principalmente, pela \emph{coerência de fase}, enquanto no regime funil (ii) o atrator evolui com \emph{fase não coerente}.
+
+
+
+
+
+
+
+
+
+
+
+% ======================================================================
+\section{Detecção de Sincronismo}
+
+O problema de detecção de sincronismo em sistemas dinâmicos consiste na identificação da existência de regime síncrono entre dois osciladores e sua classificação, e.g. em \emph{sincronismo completo}, \emph{sincronismo de fase}, \emph{sincronismo generalizado}, sem sincronismo, etc. Vários trabalhos se propuseram a resolver tal problema de formas diversas e em diferentes contextos. Este trabalho se atém à detecção do \emph{sincronismo de fase} entre osciladores descritos no espaço de estados (Eq.~\ref{eq:dx=fx}), conforme definição do problema a seguir.
+
+Considere dois osciladores acoplados, descritos por:
+%
+\begin{align} \label{eq:dx12=fx12gx12_varphi}
+  \mathcal{S}_{1,2}: \left\{
+  \begin{array}{ll}
+    \dot{\vec{x}}_{1,2} &= \boldsymbol{f}_{1,2}(\vec{x}_{1,2}) + \varepsilon_{1,2} \, \boldsymbol{g}_{1,2}(\vec{x}_{1,2},\vec{x}_{2,1}) \\
+    \varphi_{1,2} &= H_{1,2}(\boldsymbol{f}_{1,2},\vec{x}_{1,2})
+  \end{array} \right. ,
+\end{align}
+%
+em que $\vec{x}_{1,2} \in X \subseteq \mathbb{R}^n$ são os estados dos sistemas, $\boldsymbol{f}_{1,2} \in V(X)$ os campos vetoriais dos osciladores não acoplados, $\varepsilon_{1,2} \in \mathbb{R}$ a força de acoplamento, $\boldsymbol{g}_{1,2} \in V(X)$ o campo vetorial de acoplamento, $H_{1,2} : V(X) \mapsto S \subseteq \mathbb{R}$ um funcional\footnote{Aqui foi considerado como funcional, mas em alguns casos consiste em apenas uma função $H_{1,2}(\boldsymbol{f_{1,2}},\vec{x}_{1,2}) := h(\vec{x})$.} que define a saída $\varphi_{1,2}$ de cada sistema. Os subíndices denotam cada um dos osciladores $\mathcal{S}_1$ e $\mathcal{S}_2$.
+
+Para o caso de detecção de \emph{sincronismo de fase} a abordagem mais utilizada é tentar determinar $H_{1,2}$ de modo que $\varphi(t)$ descreva a evolução da fase no tempo e seja possível verificar diretamente se $| k\,\varphi_1(t) - l\,\varphi_2(t) | < 2\pi , \,\,\,\forall t > t_0$ e $(k,l)\in \mathbb{N}^{*}$.
+
+Algumas abordagens consideram os estados $\vec{x}_{1,2}$ e os campos vetoriais $\boldsymbol{f}_{1,2}$ e $\boldsymbol{g}_{1,2}$ desconhecidos e tentam descrever formas de obter a \emph{fase do sistema} a partir de uma única série temporal $h(\vec{x},t)$. Nesse caso as técnicas mais utilizadas são as transformadas de Hilbert \citep{rosenblum1996,yalcnkaya1997,LeVanQuyen2001,quiroga2002,romano2005,zheng2014}, Wavelet \citep{quiroga2002,koronovski2005,hramov2005,ferreira2014,ferreira2015,ferreira2016} e métodos baseados na estimação de frequência \citep{quiroga2002,bruns2004,hramov2005,follmann2009,follmann2011,follmann2013}, em que um possível ruído no sinal medido $h(\vec{x},t)$ eleva o grau de dificuldade de estimação. Em vários trabalhos em que se emprega tais métodos é comum escolher de forma empírica (vide Capítulo~\ref{cap:04_infoFase} para uma discussão detalhada) uma das variáveis de estados e utilizá-la como medição.
+
+Considerando que $\vec{x}_{1,2}$, $\boldsymbol{f}_{1,2}$ e $\boldsymbol{g}_{1,2}$ são conhecidos, resta tentar responder à pergunta: \emph{como calcular a fase de um atrator?} Ou: \emph{Como determinar o funcional $H_{1,2}(\boldsymbol{f}_{1,2},\vec{x}_{1,2})$?} Os métodos mencionados no parágrafo anterior se mostraram eficazes na estimação da fase de um \emph{sinal}, porém, num oscilador caótico, por exemplo, existem, no mínimo, três variáveis que podem ser medidas e estimadas a \emph{fase} de cada uma delas.
+%Voltar aqui: COLOCAR REFERÊNCIA DO CAPÍTULO 4 NESSE PARÁGRAFO
+É nesse contexto que a Definição~\ref{def:fase} pode auxiliar na detecção de sincronismo de fase.
+
+Dentre os métodos mais utilizados para determinação de $H_{1,2}(\boldsymbol{f}_{1,2},\vec{x}_{1,2})$ estão a medida direta de um ângulo a partir de um centro de rotação \citep{stone1992,pikovsky1997,pikovsky1997b,chen2001,pikovsky2003} e o tempo de retorno a uma seção de Poincaré \citep{rosenblum1996,pikovsky1997,pikovsky1997b,park1999,schwabedal2012}. Esses métodos podem se tornar ineficazes ou inaplicáveis para atratores de fase \emph{não coerente} \citep{zou2012}, sendo que, em alguns casos, é difícil até definir uma seção de Poincaré adequada \citep{romano2005}.
+
+Definições de $H_{1,2}(\boldsymbol{f}_{1,2},\vec{x}_{1,2})$ que têm bom desempenho para atratores de \emph{fase não coerente} foram propostas, tal como uma medida baseada na ideia geral de curvatura \citep{osipov2003,kurths2006}, mas se restringe a sistemas de baixa dimensão \citep{romano2005,marwan2007}. Outras abordagens incluem gráficos de recorrência \citep{romano2005,kurths2006} e conjuntos localizados \citep{pereira2007}, que, apesar de abranger uma classe maior de sistemas, não geram uma expressão contínua no tempo para a fase do oscilador.
+
+Por outro lado, a variável \emph{fase} proposta na Definição~\ref{def:fase} pode aplicar-se a osciladores caóticos de diferentes classes, desde que definido adequadamente o campo escalar $c(\vec{x})$ -- obstáculo importante a ser transposto. Espera-se que tal definição ajude no problema de detecção de sincronismo de fase entre osciladores. Testes numéricos preliminares, não descritos aqui, verificaram a aplicabilidade para osciladores periódicos.
+
+
+
+
+
+
+
+
+
+
+
+
+% ======================================================================
+\section{Conclusões do Capítulo}
+
+Neste capítulo foi apresentada uma proposta de definição de fase (Def.~\ref{def:fase_geral}) para o contexto de sincronismo de osciladores. Mostrou-se que a proposta permite o cálculo de uma variável descritora de fase para qualquer sistema periódico, utilizando o perímetro do atrator (Teorema~\ref{thm:cx_sistPeriodicos}). Para o atrator (perfeitamente circular) de Poincaré, mostrou-se que a proposta coincide com a definição de fase calculada por arcotangente. Para atratores não periódicos há um desafio -- ainda não superado, na aplicação da definição, mas que pode gerar ganhos em termos de representação da dinâmica da fase em intervalos de tempo inferiores a um ciclo de oscilação.
+
+Este capítulo apresentou uma análise sobre o conceito de \emph{fase} para um oscilador. O capítulo seguinte, baseado nas discussões aqui apresentadas, trabalha sobre formas de \emph{atuar} e \emph{medir} essa fase, com vistas ao sincronismo de fase.
+
+
+
+
+
+
+
+
+
+
+
+
+
+% 
+% % ----------------------------------------------------------------------
+% \section{Algumas Citações}
+% 
+% 
+% 
+% A grosso modo, \citet{pikovsky1997b} mostrou algumas tentativas de definição fase como uma variável que corresponde ao expoente nulo de Lyapunov de um sistema dinâmico contínuo com comportamento caótico.
+% 
+% \citet{pikovsky1997b}: Roughly speaking, we want to define phase as a variable that corresponds to the zero Lyapunov exponent of a continuous-time dynamical system which chaotic behavior. In the following we consider three approaches to phase defin
+% 
+% \citet{anishchenko2007}: The phase gives the geometrical position on the limit cycle. Contrary to the linear driven oscillator with fixed phase as considered above, the phase variable of self-sustained oscillators possesses a zero Lyapunov exponent along the limit cycle.
+% 
+% \citet{pereira2007}: Even though the phase is expected to exist to a general attractor, due to the existence of the zero Lyapunov exponent, its explicit calculation may be impossible.
+% 
+% \citet{schwabedal2010a}. Indeed, phase is often understood as a strictly monotonic variable, in some sense a ``replacement'' for a time variable.
+% 
+% \citet{clemson2014}: The main condition for any protophase is that it grows monotonically, gaining 2$\pi$ with every cycle of the oscillator. In phase space this condition implies a transformation where all trajectories of the system orbit the fixed point in the same direction.
+% 
+
+
+
+
+
+
+
+
+
+
